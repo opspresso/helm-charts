@@ -5,10 +5,13 @@ GIT_PUSH=${GIT_PUSH:-false}
 
 SHELL_DIR=$(dirname $0)
 
+USERNAME=${CIRCLE_PROJECT_USERNAME:-opspresso}
+REPONAME=${CIRCLE_PROJECT_REPONAME:-helm-charts}
+
 rm -rf ${SHELL_DIR}/build
 
 if [ "${GIT_PUSH}" == "true" ]; then
-  git clone -b gh-pages git@github.com:opspresso/helm-charts.git ${SHELL_DIR}/build
+  git clone -b gh-pages git@github.com:${USERNAME}/${REPONAME}.git ${SHELL_DIR}/build
 else
   mkdir ${SHELL_DIR}/build
 fi
@@ -37,7 +40,7 @@ helm repo index .
 if [ "${GIT_PUSH}" == "true" ]; then
     git add
     git commit -m "Publish charts"
-    git push git@github.com:opspresso/helm-charts.git gh-pages
+    git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git gh-pages
 fi
 
 popd
