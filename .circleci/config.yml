@@ -1,0 +1,20 @@
+#
+# CircleCI 2.0
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: opspresso/builder:v0.7.76-kube
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: |
+            bash ./build.sh
+
+workflows:
+  version: 2
+  apply:
+    jobs:
+      - build

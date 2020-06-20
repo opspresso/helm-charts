@@ -1,21 +1,19 @@
 #!/bin/bash
 set -eux
 
-SRCROOT="$(cd "$(dirname "$0")/.." && pwd)"
 GIT_PUSH=${GIT_PUSH:-false}
 
-rm -rf $SRCROOT/build
+SHELL_DIR=$(dirname $0)
 
-if [ "$GIT_PUSH" == "true" ]; then
-  git clone -b gh-pages git@github.com:opspresso/helm-charts.git $SRCROOT/build
+rm -rf ${SHELL_DIR}/build
+
+if [ "${GIT_PUSH}" == "true" ]; then
+  git clone -b gh-pages git@github.com:opspresso/helm-charts.git ${SHELL_DIR}/build
 else
-  mkdir $SRCROOT/build
+  mkdir ${SHELL_DIR}/build
 fi
 
-helm repo add stable https://kubernetes-charts.storage.googleapis.com
-helm repo add opspresso https://opspresso.github.io/helm-charts
-
-for dir in $(find $SRCROOT/charts -mindepth 1 -maxdepth 1 -type d);
+for dir in $(find ${SHELL_DIR}/charts -mindepth 1 -maxdepth 1 -type d);
 do
     rm -rf $dir/charts
 
@@ -30,14 +28,13 @@ do
     helm --debug package $dir
 done
 
-cp *.tgz $SRCROOT/build/
+mv -f *.tgz ${SHELL_DIR}/build/
 
-pushd $SRCROOT/build
+pushd ${SHELL_DIR}/build
 
 helm repo index .
-git status
 
-if [ "$GIT_PUSH" == "true" ]; then
+if [ "${GIT_PUSH}" == "true" ]; then
     git add
     git commit -m "Publish charts"
     git push git@github.com:opspresso/helm-charts.git gh-pages
