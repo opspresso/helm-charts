@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eux
 
-GIT_PUSH=${GIT_PUSH:-false}
+GITHUB_PUSH=${GITHUB_PUSH:-false}
 
 SHELL_DIR=$(dirname $0)
 
@@ -10,7 +10,7 @@ REPONAME=${CIRCLE_PROJECT_REPONAME:-helm-charts}
 
 rm -rf ${SHELL_DIR}/build
 
-if [ "${GIT_PUSH}" == "true" ]; then
+if [ "${GITHUB_PUSH}" == "true" ]; then
   git clone -b gh-pages git@github.com:${USERNAME}/${REPONAME}.git ${SHELL_DIR}/build
 else
   mkdir ${SHELL_DIR}/build
@@ -37,7 +37,7 @@ pushd ${SHELL_DIR}/build
 
 helm repo index .
 
-if [ "${GIT_PUSH}" == "true" ]; then
+if [ "${GITHUB_PUSH}" == "true" ]; then
     git add
     git commit -m "Publish charts"
     git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git gh-pages
