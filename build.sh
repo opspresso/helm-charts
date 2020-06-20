@@ -12,10 +12,11 @@ GIT_USERNAME="bot"
 GIT_USEREMAIL="bot@nalbam.com"
 
 rm -rf ${SHELL_DIR}/build
-mkdir ${SHELL_DIR}/build
 
 if [ "${GITHUB_PUSH}" == "true" ]; then
-  git clone -b gh-pages git@github.com:${USERNAME}/${REPONAME}.git ${SHELL_DIR}/build/${REPONAME}
+  git clone -b gh-pages git@github.com:${USERNAME}/${REPONAME}.git ${SHELL_DIR}/build
+else
+  mkdir ${SHELL_DIR}/build
 fi
 
 for dir in $(find ${SHELL_DIR}/charts -mindepth 1 -maxdepth 1 -type d);
@@ -37,14 +38,9 @@ mv -f *.tgz ${SHELL_DIR}/build/
 
 pushd ${SHELL_DIR}/build
 
-helm repo index ./${REPONAME}
-# cp -rf index.yaml ./${REPONAME}/index.yaml
-
-popd
+helm repo index .
 
 if [ "${GITHUB_PUSH}" == "true" ]; then
-    pushd ${SHELL_DIR}/build/${REPONAME}
-
     git config --global user.name "${GIT_USERNAME}"
     git config --global user.email "${GIT_USEREMAIL}"
 
@@ -52,6 +48,6 @@ if [ "${GITHUB_PUSH}" == "true" ]; then
     git commit -m "Publish charts"
 
     git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git gh-pages
-
-    popd
 fi
+
+popd
