@@ -3,7 +3,7 @@ entries:
   sample:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-06-20T17:32:48.263256215Z"
+    created: "2020-06-20T17:43:31.367751806Z"
     description: A Helm chart for Kubernetes
     digest: 4212b0189b7727da4c1d11886145318b8dce8f2fc856fcf45dc250b85c695a48
     name: sample
@@ -11,4 +11,4 @@ entries:
     urls:
     - sample-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-20T17:32:48.262161501Z"
+generated: "2020-06-20T17:43:31.367128249Z"
