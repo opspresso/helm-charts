@@ -38,7 +38,7 @@ mv -f *.tgz ${SHELL_DIR}/build/
 pushd ${SHELL_DIR}/build
 
 helm repo index ./${REPONAME}
-cp -rf index.yaml ./${REPONAME}/index.yaml
+# cp -rf index.yaml ./${REPONAME}/index.yaml
 
 popd
 
