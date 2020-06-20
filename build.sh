@@ -8,6 +8,9 @@ SHELL_DIR=$(dirname $0)
 USERNAME=${CIRCLE_PROJECT_USERNAME:-opspresso}
 REPONAME=${CIRCLE_PROJECT_REPONAME:-helm-charts}
 
+GIT_USERNAME="bot"
+GIT_USEREMAIL="bot@nalbam.com"
+
 rm -rf ${SHELL_DIR}/build
 
 if [ "${GITHUB_PUSH}" == "true" ]; then
@@ -38,8 +41,12 @@ pushd ${SHELL_DIR}/build
 helm repo index .
 
 if [ "${GITHUB_PUSH}" == "true" ]; then
-    git add
+    git config --global user.name "${GIT_USERNAME}"
+    git config --global user.email "${GIT_USEREMAIL}"
+
+    git add .
     git commit -m "Publish charts"
+
     git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git gh-pages
 fi
 
