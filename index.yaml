@@ -3,7 +3,17 @@ entries:
   fluentd-logzio:
   - apiVersion: v2
     appVersion: 1.1.3
-    created: "2020-07-21T09:20:42.816646419Z"
+    created: "2020-07-21T09:46:06.707767289Z"
+    description: A Helm chart for Kubernetes
+    digest: bef276776d3aabd4c8af371f505c3221a9811a7be68198b242bc3acc5e927da9
+    name: fluentd-logzio
+    type: application
+    urls:
+    - fluentd-logzio-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.1.3
+    created: "2020-07-21T09:46:06.707149735Z"
     description: A Helm chart for Kubernetes
     digest: 47d68b66c4a4710f7f1f8b992ff31004a38af03b1a4e5981cae6e56a215e831b
     name: fluentd-logzio
@@ -14,9 +24,9 @@ entries:
   sample:
   - apiVersion: v2
     appVersion: 1.16.1
-    created: "2020-07-21T09:20:42.818421351Z"
+    created: "2020-07-21T09:46:06.709960706Z"
     description: A Helm chart for Kubernetes
-    digest: 61c7a265080ef2af930245016707ffcf973bf9cb837ef39e7d9c4d39cda02b22
+    digest: a3690a77e49325d97291323b29ac1e313a818d15bdada4b9fbb9e54854a87c27
     name: sample
     type: application
     urls:
@@ -24,7 +34,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-07-21T09:20:42.817095445Z"
+    created: "2020-07-21T09:46:06.708748378Z"
     description: A Helm chart for Kubernetes
     digest: 4212b0189b7727da4c1d11886145318b8dce8f2fc856fcf45dc250b85c695a48
     name: sample
@@ -32,4 +42,4 @@ entries:
     urls:
     - sample-0.1.0.tgz
     version: 0.1.0
-generated: "2020-07-21T09:20:42.816182586Z"
+generated: "2020-07-21T09:46:06.706295979Z"
