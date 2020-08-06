@@ -40,6 +40,29 @@ service:
   type: ClusterIP
   port: 80
 
+ports:
+  - name: http
+    containerPort: 80
+    protocol: TCP
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
 ingress:
   enabled: false
   annotations: {}
@@ -53,24 +76,20 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
 autoscaling:
   enabled: false
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
+  metrics: []
+    # - type: Pods
+    #   pods:
+    #     metricName: container_network_receive_bytes
+    #     targetAverageValue: 30k
 
 nodeSelector: {}
 
