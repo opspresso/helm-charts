@@ -7,23 +7,30 @@ metadata:
     {{- include "sample.labels" . | nindent 4 }}
 spec:
   scaleTargetRef:
-    apiVersion: {{ .Values.autoscaling.scaleTargetRef.apiVersion }}
-    kind: {{ .Values.autoscaling.scaleTargetRef.kind }}
+    {{- if eq .Values.controller.kind "Rollout" }}
+    apiVersion: argoproj.io/v1alpha1
+    kind: Rollout
+    {{- else }}
+    apiVersion: apps/v1
+    kind: Deployment
+    {{- end }}
     name: {{ include "sample.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
   metrics:
-  {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
         targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
-  {{- end }}
-  {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
         targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
-  {{- end }}
-    {{- include "sample.autoscaling.metrics" . | nindent 4 }}
+    {{- end }}
+    {{- with .Values.autoscaling.metrics }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 {{- end }}

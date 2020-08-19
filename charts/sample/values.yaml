@@ -4,15 +4,27 @@
 
 replicaCount: 1
 
+controller:
+  kind: Deployment # Deployment or Rollout
+
+strategy:
+  rollingUpdate:
+    maxSurge: 25%
+    maxUnavailable: 25%
+  type: RollingUpdate
+  # blueGreen:
+  #   activeService: sample
+  #   autoPromotionEnabled: true
+  #   autoPromotionSeconds: 30
+  #   previewService: sample-preview
+
 image:
   repository: nginx
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  # Overrides the image tag whose default is the chart version.
+  tag: latest
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -38,52 +50,52 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
-
-ports:
-  - name: http
-    containerPort: 80
-    protocol: TCP
-
-livenessProbe:
-  httpGet:
-    path: /
-    port: http
-
-readinessProbe:
-  httpGet:
-    path: /
-    port: http
-
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+  port: 8080
 
 ingress:
   enabled: false
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
+    # cert-manager.io/cluster-issuer: "letsencrypt-issuer"
+    # kubernetes.io/ingress.class: "nginx"
+    # kubernetes.io/ssl-redirect: "true"
+  hosts: []
+    # - host: sample.domain.com
+    #   paths:
+    #     - /
   tls: []
-  #  - secretName: chart-example-tls
+  #  - secretName: sample-tls
   #    hosts:
-  #      - chart-example.local
+  #      - sample.domain.com
+
+livenessProbe: {}
+  # httpGet:
+  #   path: /
+  #   port: 8080
+  # initialDelaySeconds: 3
+  # periodSeconds: 10
+  # failureThreshold: 3
+
+readinessProbe: {}
+  # httpGet:
+  #   path: /
+  #   port: 8080
+  # initialDelaySeconds: 3
+  # periodSeconds: 10
+  # failureThreshold: 3
+
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
 
 autoscaling:
   enabled: false
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
   minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
+  maxReplicas: 10
+  # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
   metrics: []
     # - type: Pods
@@ -91,8 +103,32 @@ autoscaling:
     #     metricName: container_network_receive_bytes
     #     targetAverageValue: 30k
 
+# hostNetwork: true
+
+# dnsPolicy: Default
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
+
+datadog:
+  enabled: false
+  env: alpha
+  service: sample
+  version: latest
+
+env: []
+  # - name: MESSAGE
+  #   value: "hello world"
+
+configmap:
+  enabled: false
+  data: {}
+    # MESSAGE: "hello world"
+
+secret:
+  enabled: false
+  data: {}
+    # SECRET_MESSAGE: "c2VjcmV0IHdvcmxkCg=="
