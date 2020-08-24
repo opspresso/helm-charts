@@ -3,15 +3,12 @@
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
+revisionHistoryLimit: 5
 
 controller:
   kind: Deployment # Deployment or Rollout
 
-strategy:
-  rollingUpdate:
-    maxSurge: 25%
-    maxUnavailable: 25%
-  type: RollingUpdate
+strategy: {}
   # blueGreen:
   #   activeService: sample
   #   autoPromotionEnabled: true
@@ -53,6 +50,21 @@ service:
   port: 8080
 
 ingress:
+  enabled: false
+  annotations: {}
+    # cert-manager.io/cluster-issuer: "letsencrypt-issuer"
+    # kubernetes.io/ingress.class: "nginx"
+    # kubernetes.io/ssl-redirect: "true"
+  hosts: []
+    # - host: sample.domain.com
+    #   paths:
+    #     - /
+  tls: []
+  #  - secretName: sample-tls
+  #    hosts:
+  #      - sample.domain.com
+
+preview:
   enabled: false
   annotations: {}
     # cert-manager.io/cluster-issuer: "letsencrypt-issuer"
