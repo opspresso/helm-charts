@@ -3,9 +3,9 @@ entries:
   argo-events:
   - apiVersion: v1
     appVersion: 0.17.0
-    created: "2020-08-24T02:39:29.325733899Z"
+    created: "2020-08-24T02:43:20.801395554Z"
     description: A Helm chart to install Argo-Events in k8s Cluster
-    digest: 25d9bfbcfab600c5271eae62817afda671b0a8d31ac93b3183853cf130bc9a9b
+    digest: dd981d3ae00af2d9d42c32875afb58fad83b8bced94fe61206b788f1bed57251
     home: https://github.com/argoproj/argo-helm
     icon: https://raw.githubusercontent.com/argoproj/argo/master/docs/assets/argo.png
     keywords:
@@ -25,9 +25,9 @@ entries:
   argo-rollouts:
   - apiVersion: v1
     appVersion: 0.8.3
-    created: "2020-08-24T02:39:29.32835788Z"
+    created: "2020-08-24T02:43:20.803574311Z"
     description: A Helm chart for Argo Rollouts
-    digest: 25d74f4d02fccbc2d90fdfce9d0d9e1532c8f3791d773e09b33589511bb19668
+    digest: 7013a07b68ea0ef92c33f04b042dddc97ea185c82ed9c0915e5550641563ddfd
     home: https://github.com/argoproj/argo-helm
     icon: https://raw.githubusercontent.com/argoproj/argo/master/argo.png
     maintainers:
@@ -41,9 +41,9 @@ entries:
   fluentd-logzio:
   - apiVersion: v2
     appVersion: 1.1.3
-    created: "2020-08-24T02:39:29.329049846Z"
+    created: "2020-08-24T02:43:20.804281649Z"
     description: A Helm chart for Kubernetes
-    digest: bb33f80a0869d4e363139826e472461550d3a0ecbc891a8353edcff60374b834
+    digest: 98887bf7012e8c2969d62d1a735e0ac4d946bfc15cbc359cbd249c2e496bc02f
     name: fluentd-logzio
     type: application
     urls:
@@ -51,7 +51,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 1.1.3
-    created: "2020-08-24T02:39:29.328709375Z"
+    created: "2020-08-24T02:43:20.803928104Z"
     description: A Helm chart for Kubernetes
     digest: 47d68b66c4a4710f7f1f8b992ff31004a38af03b1a4e5981cae6e56a215e831b
     name: fluentd-logzio
@@ -61,8 +61,18 @@ entries:
     version: 0.1.1
   sample:
   - apiVersion: v2
+    appVersion: v0.1.4
+    created: "2020-08-24T02:43:20.807501061Z"
+    description: A Helm chart for Kubernetes
+    digest: e2aa4621bbd1fd59f5edcf71d2d1057d3add985913b17c9dff674a713066ba08
+    icon: https://avatars0.githubusercontent.com/u/39108256
+    name: sample
+    urls:
+    - sample-v0.1.4.tgz
+    version: v0.1.4
+  - apiVersion: v2
     appVersion: v0.1.3
-    created: "2020-08-24T02:39:29.330998119Z"
+    created: "2020-08-24T02:43:20.806934456Z"
     description: A Helm chart for Kubernetes
     digest: 85c753b5d6238cc24a94d77a574e6bf1c99ead37321620b42e0a94b0fa56aac7
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -72,7 +82,7 @@ entries:
     version: v0.1.3
   - apiVersion: v2
     appVersion: 1.16.1
-    created: "2020-08-24T02:39:29.330455554Z"
+    created: "2020-08-24T02:43:20.806372652Z"
     description: A Helm chart for Kubernetes
     digest: aef9df95eada25d1abe9c6fc098f4020075e87d72a7c37da9e9e2de422046bef
     name: sample
@@ -82,7 +92,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 1.16.1
-    created: "2020-08-24T02:39:29.329967611Z"
+    created: "2020-08-24T02:43:20.805186846Z"
     description: A Helm chart for Kubernetes
     digest: f51c558e61647a18362b86c2aa8112c87e8eddd77aece9973098add8fe8b724b
     name: sample
@@ -92,7 +102,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-08-24T02:39:29.329527138Z"
+    created: "2020-08-24T02:43:20.804733574Z"
     description: A Helm chart for Kubernetes
     digest: 4212b0189b7727da4c1d11886145318b8dce8f2fc856fcf45dc250b85c695a48
     name: sample
@@ -100,4 +110,4 @@ entries:
     urls:
     - sample-0.1.0.tgz
     version: 0.1.0
-generated: "2020-08-24T02:39:29.325055688Z"
+generated: "2020-08-24T02:43:20.800382903Z"
