@@ -70,10 +70,10 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.hostNetwork }}
+          {{- if .Values.hostNetwork }}
           hostNetwork: {{ .Values.hostNetwork }}
           {{ end }}
-          {{- with .Values.dnsPolicy }}
+          {{- if .Values.dnsPolicy }}
           dnsPolicy: {{ .Values.dnsPolicy }}
           {{ end }}
           env:
