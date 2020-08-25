@@ -73,12 +73,8 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- if .Values.hostNetwork }}
           hostNetwork: {{ .Values.hostNetwork }}
-          {{ end }}
-          {{- if .Values.dnsPolicy }}
           dnsPolicy: {{ .Values.dnsPolicy }}
-          {{ end }}
           env:
             {{- if .Values.datadog.enabled }}
             - name: DD_ENV

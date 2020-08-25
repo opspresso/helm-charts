@@ -115,9 +115,9 @@ autoscaling:
     #     metricName: container_network_receive_bytes
     #     targetAverageValue: 30k
 
-# hostNetwork: true
+hostNetwork: true
 
-# dnsPolicy: Default
+dnsPolicy: Default
 
 nodeSelector: {}
 
