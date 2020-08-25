@@ -14,6 +14,21 @@ strategy: {}
   #   autoPromotionEnabled: true
   #   autoPromotionSeconds: 30
   #   previewService: sample-preview
+  # canary:
+  #   canaryService: sample-preview
+  #   steps:
+  #     - setWeight: 25
+  #     - analysis:
+  #         args:
+  #           - name: url
+  #             value: http://sample-preview:3000/success/98
+  #         templateName: http-benchmark
+  #     - setWeight: 50
+  #     - pause:
+  #         duration: 10
+  #     - setWeight: 75
+  #     - pause:
+  #         duration: 10
 
 image:
   repository: nginx
@@ -144,3 +159,22 @@ secret:
   enabled: false
   data: {}
     # SECRET_MESSAGE: "c2VjcmV0IHdvcmxkCg=="
+
+sidekicks: []
+  # - name: sample-redis
+  #   replicaCount: 1
+  #   revisionHistoryLimit: 5
+  #   image:
+  #     repository: redis
+  #     tag: latest
+  #   service:
+  #     name: redis
+  #     port: 6379
+  #   livenessProbe: {}
+  #   readinessProbe: {}
+  #   resources: {}
+  #   env: []
+  #   envFrom: []
+  #   nodeSelector: {}
+  #   affinity: {}
+  #   tolerations: {}
