@@ -10,6 +10,10 @@ clusterScoped: true
 rbac:
   create: true
 
+# If set to false, skip installing the CRDs.
+# Requires user to have them installed prior to helm chart installation.
+installCRDs: true
+
 # timezone is the timezone where controller-manager, chaos-daemon and dashboard uses.
 # For example: "UTC" or "Asia/Shanghai"
 # This value will be set on controller-manager and dashboard container's
