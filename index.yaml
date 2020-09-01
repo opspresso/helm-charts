@@ -3,9 +3,9 @@ entries:
   argo-events:
   - apiVersion: v1
     appVersion: 0.17.0
-    created: "2020-09-01T02:27:11.835823468Z"
+    created: "2020-09-01T02:40:07.845617736Z"
     description: A Helm chart to install Argo-Events in k8s Cluster
-    digest: 0ac78ea2afbdbce7b422733854de5a5a0716645ebd3c323af189b3c5111cc7a5
+    digest: f61bf9cb7ce236f70d346c153a31b743cedc45258a19681877cb0a4b2815851f
     home: https://github.com/argoproj/argo-helm
     icon: https://raw.githubusercontent.com/argoproj/argo/master/docs/assets/argo.png
     keywords:
@@ -25,9 +25,9 @@ entries:
   argo-rollouts:
   - apiVersion: v1
     appVersion: 0.8.3
-    created: "2020-09-01T02:27:11.838351714Z"
+    created: "2020-09-01T02:40:07.848489026Z"
     description: A Helm chart for Argo Rollouts
-    digest: effc00471e3aa3adeee2a3eb50afa76d8babf30bf94f203ca0dc1f915ae1ff98
+    digest: 701e3396f9a68464ff7b5bb032c126787ce07232d0584379cdd63ed3dcccacaa
     home: https://github.com/argoproj/argo-helm
     icon: https://raw.githubusercontent.com/argoproj/argo/master/argo.png
     maintainers:
@@ -41,10 +41,10 @@ entries:
   chaos-mesh:
   - apiVersion: v1
     appVersion: v1.0.0
-    created: "2020-09-01T02:27:11.841484927Z"
+    created: "2020-09-01T02:40:07.851343835Z"
     description: Chaos Mesh® is a cloud-native Chaos Engineering platform that orchestrates
       chaos on Kubernetes environments.
-    digest: 05343d2e6f1a1760fd6004ab1fa44ae86952e30888e6436b2bcc94a394b7eec7
+    digest: bd9ffb67e7aa406bce03969b47d3863cb95baf13f51173bc9d44784eafc3048d
     home: https://chaos-mesh.org
     icon: https://raw.githubusercontent.com/pingcap/chaos-mesh/master/static/logo.svg
     keywords:
@@ -61,7 +61,7 @@ entries:
     version: v0.1.2
   - apiVersion: v1
     appVersion: v1.0.0
-    created: "2020-09-01T02:27:11.839451868Z"
+    created: "2020-09-01T02:40:07.849591392Z"
     description: Chaos Mesh® is a cloud-native Chaos Engineering platform that orchestrates
       chaos on Kubernetes environments.
     digest: dcf6ddeadc23bf320c9f3d378ba318711534923d4c84f9c5454137477f3c7c04
@@ -82,9 +82,9 @@ entries:
   fluentd-logzio:
   - apiVersion: v2
     appVersion: 1.1.3
-    created: "2020-09-01T02:27:11.842221909Z"
+    created: "2020-09-01T02:40:07.852119653Z"
     description: A Helm chart for Kubernetes
-    digest: 88511827157230845379913a8e43c406f08c93729afec2a5bd33fccdacc72936
+    digest: 56e2faba540e6f06ea7d208f467fd500d26bf691d300db6bcce6ce7d55cd84ab
     name: fluentd-logzio
     type: application
     urls:
@@ -92,7 +92,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 1.1.3
-    created: "2020-09-01T02:27:11.841847953Z"
+    created: "2020-09-01T02:40:07.851773918Z"
     description: A Helm chart for Kubernetes
     digest: 47d68b66c4a4710f7f1f8b992ff31004a38af03b1a4e5981cae6e56a215e831b
     name: fluentd-logzio
@@ -103,9 +103,9 @@ entries:
   sample:
   - apiVersion: v2
     appVersion: v0.1.5
-    created: "2020-09-01T02:27:11.846196272Z"
+    created: "2020-09-01T02:40:07.8553653Z"
     description: A Helm chart for Kubernetes
-    digest: 6cdc980b48056b43be7808b9f9d8e08cf48ca0aca0784c9c3abff2a0c47f7609
+    digest: 9e438e4039370a4cd473ff363bf8d8c503911352f87e7d56190c2de8463c07e1
     icon: https://avatars0.githubusercontent.com/u/39108256
     name: sample
     urls:
@@ -113,7 +113,7 @@ entries:
     version: v0.1.5
   - apiVersion: v2
     appVersion: v0.1.4
-    created: "2020-09-01T02:27:11.845551997Z"
+    created: "2020-09-01T02:40:07.854700819Z"
     description: A Helm chart for Kubernetes
     digest: 2d48724f8989028738b581d897fa2bafa3bcf031facef28110e8035a0414df13
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -123,7 +123,7 @@ entries:
     version: v0.1.4
   - apiVersion: v2
     appVersion: v0.1.3
-    created: "2020-09-01T02:27:11.845021391Z"
+    created: "2020-09-01T02:40:07.854072157Z"
     description: A Helm chart for Kubernetes
     digest: 85c753b5d6238cc24a94d77a574e6bf1c99ead37321620b42e0a94b0fa56aac7
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -133,7 +133,7 @@ entries:
     version: v0.1.3
   - apiVersion: v2
     appVersion: 1.16.1
-    created: "2020-09-01T02:27:11.844489146Z"
+    created: "2020-09-01T02:40:07.853511603Z"
     description: A Helm chart for Kubernetes
     digest: aef9df95eada25d1abe9c6fc098f4020075e87d72a7c37da9e9e2de422046bef
     name: sample
@@ -143,7 +143,7 @@ entries:
     version: 0.1.2
   - apiVersion: v2
     appVersion: 1.16.1
-    created: "2020-09-01T02:27:11.84396118Z"
+    created: "2020-09-01T02:40:07.853005975Z"
     description: A Helm chart for Kubernetes
     digest: f51c558e61647a18362b86c2aa8112c87e8eddd77aece9973098add8fe8b724b
     name: sample
@@ -153,7 +153,7 @@ entries:
     version: 0.1.1
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-09-01T02:27:11.842731777Z"
+    created: "2020-09-01T02:40:07.852559882Z"
     description: A Helm chart for Kubernetes
     digest: 4212b0189b7727da4c1d11886145318b8dce8f2fc856fcf45dc250b85c695a48
     name: sample
@@ -161,4 +161,4 @@ entries:
     urls:
     - sample-0.1.0.tgz
     version: 0.1.0
-generated: "2020-09-01T02:27:11.835105785Z"
+generated: "2020-09-01T02:40:07.844546213Z"
