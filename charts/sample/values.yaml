@@ -128,7 +128,7 @@ autoscaling:
     # - type: Pods
     #   pods:
     #     metricName: container_network_receive_bytes
-    #     targetAverageValue: 30k
+    #     targetAverageValue: 500k
 
 hostNetwork: true
 
@@ -177,4 +177,4 @@ sidekicks: []
   #   envFrom: []
   #   nodeSelector: {}
   #   affinity: {}
-  #   tolerations: {}
+  #   tolerations: []
