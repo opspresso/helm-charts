@@ -70,7 +70,6 @@ chaosDaemon:
   grpcPort: 31767
   httpPort: 31766
   env: {}
-  hostNetwork: false
 
   podAnnotations: {}
 

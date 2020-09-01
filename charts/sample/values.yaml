@@ -130,8 +130,6 @@ autoscaling:
     #     metricName: container_network_receive_bytes
     #     targetAverageValue: 500k
 
-hostNetwork: true
-
 dnsPolicy: ClusterFirst # ClusterFirst Default
 
 nodeSelector: {}
