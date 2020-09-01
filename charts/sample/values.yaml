@@ -132,7 +132,7 @@ autoscaling:
 
 hostNetwork: true
 
-dnsPolicy: Default
+dnsPolicy: ClusterFirst # ClusterFirst Default
 
 nodeSelector: {}
 
