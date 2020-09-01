@@ -128,7 +128,7 @@ autoscaling:
     # - type: Pods
     #   pods:
     #     metricName: container_network_receive_bytes
-    #     targetAverageValue: 500k
+    #     targetAverageValue: 10k
 
 dnsPolicy: ClusterFirst # ClusterFirst Default
 
