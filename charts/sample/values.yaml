@@ -141,8 +141,6 @@ affinity: {}
 datadog:
   enabled: false
   env: alpha
-  service: sample
-  version: latest
 
 env: []
   # - name: MESSAGE
