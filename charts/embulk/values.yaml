@@ -4,10 +4,12 @@ image:
 
 restart: Never
 
-backoffLimit: 3
+backoffLimit: 0
 
 command: []
-  # - preview /data/config.yml
+  # - /entrypoint.sh
+  # - preview
+  # - /data/config.yml
 
 env: []
   # - name: PLUGINS
