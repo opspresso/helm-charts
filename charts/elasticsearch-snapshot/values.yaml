@@ -6,10 +6,16 @@ schedule: "0 0 * * *"
 
 restart: Never
 
-env: {}
+env: []
+  # - name: MESSAGE
+  #   value: "hello world"
 
 configmap:
   enabled: false
+  data: {}
+    # MESSAGE: "hello world"
 
 secret:
   enabled: false
+  data: {}
+    # SECRET_MESSAGE: "c2VjcmV0IHdvcmxkCg=="
