@@ -15,21 +15,21 @@ spec:
       template:
         spec:
           containers:
-          - name: {{ .Chart.Name }}
-            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+            - name: {{ .Chart.Name }}
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
 {{- with .Values.env }}
-            env:
-{{ toYaml . | indent 14 }}
+              env:
+{{ toYaml . | indent 16 }}
 {{- end }}
 {{ if or .Values.configmap.enabled .Values.secret.enabled }}
-            envFrom:
+              envFrom:
 {{ end }}
 {{ if .Values.configmap.enabled }}
-              - configMapRef:
-                  name: {{ include "fullname" . }}
+                - configMapRef:
+                    name: {{ include "fullname" . }}
 {{ end }}
 {{ if .Values.secret.enabled }}
-              - secretRef:
-                  name: {{ include "fullname" . }}
+                - secretRef:
+                    name: {{ include "fullname" . }}
 {{ end }}
           restartPolicy: {{ .Values.restart }}
