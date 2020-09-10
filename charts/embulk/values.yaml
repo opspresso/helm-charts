@@ -1,19 +1,16 @@
 image:
   repository: opspresso/embulk
-  tag: 0.10.14
+  tag: 0.10.14-1
 
 restart: Never
 
 backoffLimit: 0
 
-command: []
-  # - /entrypoint.sh
-  # - preview
-  # - /data/config.yml
-
 env: []
   # - name: PLUGINS
   #   value: "embulk-input-mysql embulk-output-mysql"
+  # - name: COMMAND
+  #   value: "preview /data/config.yml"
 
 config:
   enabled: false
