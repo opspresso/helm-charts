@@ -2,7 +2,7 @@ image:
   repository: opspresso/elasticsearch-snapshot
   tag: latest
 
-schedule: "0 0 * * *"
+schedule: "0 5 * * *"
 
 restart: Never
 
@@ -13,9 +13,18 @@ env: []
 configmap:
   enabled: false
   data: {}
-    # MESSAGE: "hello world"
+    # AWS_REGION: ap-northeast-2
+    # AWS_BUCKET: elasticsearch-snapshot
+    # ES_HOST: http://elasticsearch.domain.com/
+    # SNAPSHOT_ENABLE: "true"
+    # SNAPSHOT_PREFIX: "snapshot"
+    # REMOVE_INDICES_ENABLE: "false"
+    # REMOVE_INDICES_DELTA: "40"
+    # REMOVE_SNAPSHOT_ENABLE: "false"
+    # REMOVE_SNAPSHOT_DELTA: "365"
+    # SLACK_CHANNAL: "#sandbox"
 
 secret:
   enabled: false
   data: {}
-    # SECRET_MESSAGE: "c2VjcmV0IHdvcmxkCg=="
+    # SLACK_TOKEN: "c2VjcmV0IHdvcmxkCg=="
