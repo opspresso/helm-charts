@@ -1,0 +1,24 @@
+image:
+  repository: opspresso/embulk
+  tag: latest
+
+restart: Never
+
+backoffLimit: 3
+
+command: []
+  # - bash
+
+env: []
+  # - name: MESSAGE
+  #   value: "hello world"
+
+configmap:
+  enabled: false
+  data: {}
+    # MESSAGE: "hello world"
+
+secret:
+  enabled: false
+  data: {}
+    # SECRET_MESSAGE: "c2VjcmV0IHdvcmxkCg=="

@@ -1,0 +1,37 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "fullname" . }}
+  labels:
+    app: {{ include "fullname" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ include "fullname" . }}
+    helm.sh/chart: {{ include "chart" . }}
+spec:
+  backoffLimit: {{ .Values.backoffLimit }}
+  template:
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+{{- with .Values.command }}
+          command:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{- with .Values.env }}
+          env:
+{{ toYaml . | indent 12 }}
+{{- end }}
+{{ if or .Values.configmap.enabled .Values.secret.enabled }}
+          envFrom:
+{{ end }}
+{{ if .Values.configmap.enabled }}
+            - configMapRef:
+                name: {{ include "fullname" . }}
+{{ end }}
+{{ if .Values.secret.enabled }}
+            - secretRef:
+                name: {{ include "fullname" . }}
+{{ end }}
+          restartPolicy: {{ .Values.restart }}
