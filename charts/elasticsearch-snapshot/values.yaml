@@ -1,0 +1,15 @@
+image:
+  repository: opspresso/elasticsearch-snapshot
+  tag: latest
+
+schedule: "0 0 * * *"
+
+restart: Never
+
+env: {}
+
+configmap:
+  enabled: false
+
+secret:
+  enabled: false
