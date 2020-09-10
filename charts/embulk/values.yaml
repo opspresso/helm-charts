@@ -1,24 +1,18 @@
 image:
   repository: opspresso/embulk
-  tag: latest
+  tag: 0.10.14
 
 restart: Never
 
 backoffLimit: 3
 
 command: []
-  # - bash
+  # - preview config.yml
 
 env: []
-  # - name: MESSAGE
-  #   value: "hello world"
+  # - name: PLUGINS
+  #   value: "embulk-input-mysql embulk-output-mysql"
 
-configmap:
+config:
   enabled: false
-  data: {}
-    # MESSAGE: "hello world"
-
-secret:
-  enabled: false
-  data: {}
-    # SECRET_MESSAGE: "c2VjcmV0IHdvcmxkCg=="
+  data: ""
