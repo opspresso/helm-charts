@@ -23,7 +23,6 @@ spec:
           env:
 {{ toYaml . | indent 12 }}
 {{- end }}
-          restartPolicy: {{ .Values.restart }}
           volumeMounts:
             - name: {{ .Chart.Name }}
               mountPath: "/data"
@@ -32,3 +31,4 @@ spec:
         - name: {{ .Chart.Name }}
           secret:
             secretName: {{ include "fullname" . }}
+      restartPolicy: {{ .Values.restart }}
