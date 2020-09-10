@@ -7,7 +7,7 @@ restart: Never
 backoffLimit: 3
 
 command: []
-  # - preview config.yml
+  # - preview /data/config.yml
 
 env: []
   # - name: PLUGINS

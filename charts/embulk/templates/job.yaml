@@ -23,11 +23,12 @@ spec:
           env:
 {{ toYaml . | indent 12 }}
 {{- end }}
-          envFrom:
-            - secretRef:
-                name: {{ include "fullname" . }}
+          restartPolicy: {{ .Values.restart }}
           volumeMounts:
-            - name: {{ include "fullname" . }}
+            - name: {{ .Chart.Name }}
               mountPath: "/data"
               readOnly: true
-          restartPolicy: {{ .Values.restart }}
+      volumes:
+        - name: {{ .Chart.Name }}
+          secret:
+            secretName: {{ include "fullname" . }}
