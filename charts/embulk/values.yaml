@@ -1,6 +1,6 @@
 image:
   repository: opspresso/embulk
-  tag: 0.10.14-1
+  tag: 0.10.14-8
 
 restart: Never
 

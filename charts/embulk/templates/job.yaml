@@ -15,10 +15,6 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-{{- with .Values.command }}
-          command:
-{{ toYaml . | indent 12 }}
-{{- end }}
 {{- with .Values.env }}
           env:
 {{ toYaml . | indent 12 }}
