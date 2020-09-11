@@ -1,6 +1,6 @@
 {{- $imageRepo := .Values.image.repository -}}
 {{- $imageTag := .Values.image.tag -}}
-{{- $backoffLimit := .Values.repository -}}
+{{- $backoffLimit := .Values.backoffLimit -}}
 {{- $restartPolicy := .Values.restartPolicy -}}
 {{- $fullName := include "fullname" . -}}
 {{- range .Values.jobs }}

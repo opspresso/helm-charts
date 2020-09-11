@@ -3,7 +3,6 @@ image:
   tag: 0.10.15
 
 backoffLimit: 0
-
 restartPolicy: Never
 
 jobs: []
