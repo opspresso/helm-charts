@@ -4,6 +4,7 @@
 {{- $restartPolicy := .Values.restartPolicy -}}
 {{- $fullName := include "fullname" . -}}
 {{- range .Values.jobs }}
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
