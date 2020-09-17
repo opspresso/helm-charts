@@ -28,7 +28,7 @@ spec:
               readOnly: true
           envFrom:
             - secretRef:
-                name: {{ .name }}
+                name: {{ $fullName }}
       volumes:
         - name: {{ .name }}
           secret:
