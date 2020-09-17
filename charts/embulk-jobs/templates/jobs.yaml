@@ -26,6 +26,9 @@ spec:
             - name: {{ .name }}
               mountPath: "/data"
               readOnly: true
+          envFrom:
+            - secretRef:
+                name: {{ .name }}
       volumes:
         - name: {{ .name }}
           secret:
