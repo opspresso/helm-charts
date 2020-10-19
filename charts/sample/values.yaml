@@ -154,7 +154,7 @@ configmap:
 secret:
   enabled: false
   data: {}
-    # SECRET_MESSAGE: "c2VjcmV0IHdvcmxkCg=="
+    # SECRET_MESSAGE: "c2VjcmV0IG1lc3NhZ2U="
 
 sidekicks: []
   # - name: sample-redis

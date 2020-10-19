@@ -27,4 +27,4 @@ configmap:
 secret:
   enabled: false
   data: {}
-    # SLACK_TOKEN: "c2VjcmV0IHdvcmxkCg=="
+    # SLACK_TOKEN: "c2VjcmV0IG1lc3NhZ2U="
