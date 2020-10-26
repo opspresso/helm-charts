@@ -125,10 +125,14 @@ autoscaling:
   # targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
   metrics: []
-    # - type: Pods
-    #   pods:
+    # - pods:
     #     metricName: container_network_receive_bytes
-    #     targetAverageValue: 10k
+    #     targetAverageValue: 3k
+    #   type: Pods
+    # - resource:
+    #     name: cpu
+    #     targetAverageUtilization: 80
+    #   type: Resource
 
 dnsPolicy: ClusterFirst # ClusterFirst Default
 
