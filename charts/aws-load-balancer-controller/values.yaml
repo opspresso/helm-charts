@@ -4,6 +4,9 @@
 
 replicaCount: 1
 
+# If set to false, skip installing the CRDs. Requires user to have them installed prior to helm chart installation.
+installCRD: true
+
 image:
   repository: 602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon/aws-load-balancer-controller
   tag: v2.1.0
