@@ -10,6 +10,7 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}-preview
   labels:
+    app: {{ $fullName }}
     {{- include "sample.labels" . | nindent 4 }}
   {{- with .Values.preview.annotations }}
   annotations:
@@ -38,4 +39,4 @@ spec:
               servicePort: {{ $servicePort }}
           {{- end }}
     {{- end }}
-  {{- end }}
+{{- end }}

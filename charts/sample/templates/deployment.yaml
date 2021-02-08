@@ -8,6 +8,8 @@ kind: Deployment
 metadata:
   name: {{ include "sample.fullname" . }}
   labels:
+    app: {{ include "sample.fullname" . }}
+    version: {{ .Values.image.tag | default .Chart.AppVersion }}
     {{- include "sample.labels" . | nindent 4 }}
     {{- if .Values.datadog.enabled }}
     tags.datadoghq.com/env: {{ .Values.datadog.env }}
@@ -33,6 +35,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
+        app: {{ include "sample.fullname" . }}
+        version: {{ .Values.image.tag | default .Chart.AppVersion }}
         {{- include "sample.selectorLabels" . | nindent 8 }}
         {{- if .Values.datadog.enabled }}
         tags.datadoghq.com/env: {{ .Values.datadog.env }}

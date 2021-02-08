@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: {{ include "sample.fullname" . }}
   labels:
+    app: {{ include "sample.fullname" . }}
     {{- include "sample.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}

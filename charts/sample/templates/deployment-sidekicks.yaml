@@ -5,6 +5,7 @@ metadata:
   name: {{ .name }}
   labels:
     app: {{ .name }}
+    version: {{ .image.tag }}
 spec:
   replicas: {{ .replicaCount }}
   revisionHistoryLimit: {{ .revisionHistoryLimit }}
@@ -15,6 +16,7 @@ spec:
     metadata:
       labels:
         app: {{ .name }}
+        version: {{ .image.tag }}
     spec:
       containers:
         - name: {{ .name }}

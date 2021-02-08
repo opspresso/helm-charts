@@ -142,6 +142,15 @@ tolerations: []
 
 affinity: {}
 
+serviceMonitor:
+  enabled: false
+  selector:
+    release: prometheus-operator
+  endpoints:
+    - interval: 10s
+      path: /metrics
+      port: http
+
 datadog:
   enabled: false
   env: alpha
