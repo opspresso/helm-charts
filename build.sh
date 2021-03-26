@@ -34,6 +34,7 @@ do
     helm --debug package $dir
 done
 
+cp README.md ${SHELL_DIR}/build/
 mv -f *.tgz ${SHELL_DIR}/build/
 
 pushd ${SHELL_DIR}/build
