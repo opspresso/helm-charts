@@ -1,0 +1,23 @@
+#
+# CircleCI 2.0
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: opspresso/builder
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: |
+            echo gh-pages
+workflows:
+  version: 2
+  apply:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
