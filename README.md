@@ -1,11 +1,5 @@
 # helm-charts
 
-## create chart
-
-```bash
-
-```
-
 ## usage
 
 ```bash
