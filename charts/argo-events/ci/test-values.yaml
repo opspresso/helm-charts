@@ -1,6 +1,0 @@
-serviceAccount: argo-events-sa-test
-additionalSaNamespaces:
-  - nsone
-  - nstwo
-instanceID: test-argo-events
-singleNamespace: false
