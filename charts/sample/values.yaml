@@ -11,13 +11,18 @@ controller:
 analysis:
   enabled: false
 
-irsa:
-  enabled: false
-  statement: []
-    # - resource: "arn:aws:s3:::irsa-sample"
-    #   action:
-    #     - "s3:Get*"
-    #     - "s3:List*"
+imagePullSecrets: []
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart version.
+  tag: latest
+
+command: []
+  # - "aws"
+  # - "s3"
+  # - "ls"
 
 strategy: {}
   # blueGreen:
@@ -41,18 +46,13 @@ strategy: {}
   #     - pause:
   #         duration: 10
 
-imagePullSecrets: []
-
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart version.
-  tag: latest
-
-command: []
-  # - "aws"
-  # - "s3"
-  # - "ls"
+irsa:
+  enabled: false
+  statement: []
+    # - resource: "arn:aws:s3:::irsa-sample"
+    #   action:
+    #     - "s3:Get*"
+    #     - "s3:List*"
 
 serviceAccount:
   # Specifies whether a service account should be created
