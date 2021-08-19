@@ -1,0 +1,18 @@
+image:
+  repository: amazon/aws-cli
+  tag: latest
+
+backoffLimit: 0
+restartPolicy: Never
+
+jobs: []
+  # - name: job1
+  #   env:
+  #     - name: PLUGINS
+  #       value: "embulk-input-mysql embulk-output-mysql"
+  #     - name: COMMAND
+  #       value: "preview /data/config.yml"
+
+config:
+  enabled: false
+  data: ""
