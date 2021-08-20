@@ -10,6 +10,7 @@ controller:
 
 analysis:
   enabled: false
+  # url: "http://sample-preview:3000/success/98"
 
 imagePullSecrets: []
 
@@ -32,19 +33,24 @@ strategy: {}
   #   previewService: sample-preview
   # canary:
   #   canaryService: sample-preview
+  #   stableService: sample
   #   steps:
-  #     - setWeight: 25
-  #     - analysis:
-  #         args:
-  #           - name: url
-  #             value: http://sample-preview:3000/success/98
-  #         templateName: sample-http-benchmark
-  #     - setWeight: 50
-  #     - pause:
-  #         duration: 10
-  #     - setWeight: 75
-  #     - pause:
-  #         duration: 10
+  #   - setWeight: 25
+  #   - pause:
+  #       duration: 10
+  #   - analysis:
+  #       templates:
+  #       - templateName: http-benchmark
+  #         clusterScope: true
+  #       args:
+  #       - name: url
+  #         value: http://sample-preview:3000/success/98
+  #   - setWeight: 50
+  #   - pause:
+  #       duration: 10
+  #   - setWeight: 75
+  #   - pause:
+  #       duration: 10
 
 irsa:
   enabled: false
