@@ -3,20 +3,31 @@ entries:
   app:
   - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-08-20T00:23:07.619107714Z"
+    created: "2021-08-20T06:01:49.478251033Z"
     description: A Helm chart for Kubernetes
-    digest: 760fb21b4b2fc3aa4d8a18f61156338ef27c9790ca74352388b9961edf535b0b
+    digest: 196e8f6a2336a5952fca06b7b9f266b9eb15e21223daa7a992289e67a59ce80b
     icon: https://avatars0.githubusercontent.com/u/39108256
     name: app
     urls:
     - app-v0.1.0.tgz
     version: v0.1.0
+  elasticsearch-snapshot:
+  - apiVersion: v1
+    appVersion: latest
+    created: "2021-08-20T06:01:49.478589091Z"
+    description: A Helm chart for Kubernetes
+    digest: c52a5de5fc2139d3a7e89acc12cfe2ff3bc3687c08c854fef2a5f23ded606276
+    icon: https://avatars0.githubusercontent.com/u/38965494
+    name: elasticsearch-snapshot
+    urls:
+    - elasticsearch-snapshot-v0.2.1.tgz
+    version: v0.2.1
   embulk-jobs:
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-08-20T00:23:07.631256781Z"
+    created: "2021-08-20T06:01:49.479382408Z"
     description: A Helm chart for Kubernetes
-    digest: 2b6230cbdc7bbd34363b58125a8747a98275cc2ec907782accc06fa7f65ae81d
+    digest: e677a17a3950e368cc7e4cc76dcc7b7e822c67660cc9f7c17443cbd6e1a0258f
     icon: https://avatars0.githubusercontent.com/u/38965494
     name: embulk-jobs
     urls:
@@ -24,7 +35,7 @@ entries:
     version: v0.2.2
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-08-20T00:23:07.630993225Z"
+    created: "2021-08-20T06:01:49.479122151Z"
     description: A Helm chart for Kubernetes
     digest: c347cd98221abe0f63aa585a90f7d568f456f92e133e15df391acf83a72cea0b
     icon: https://avatars0.githubusercontent.com/u/38965494
@@ -34,7 +45,7 @@ entries:
     version: v0.2.1
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-08-20T00:23:07.63069846Z"
+    created: "2021-08-20T06:01:49.478852731Z"
     description: A Helm chart for Kubernetes
     digest: 392cba66b778197d776e4a2d735181cccb8673a2ea24e505cef16ce5cb02eaff
     icon: https://avatars0.githubusercontent.com/u/38965494
@@ -43,11 +54,11 @@ entries:
     - embulk-jobs-v0.2.0.tgz
     version: v0.2.0
   job:
-  - apiVersion: v1
+  - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-08-20T00:23:07.635857924Z"
+    created: "2021-08-20T06:01:49.47976811Z"
     description: A Helm chart for Kubernetes
-    digest: ea3c13c92d0e3461e6a0f2ed751afaa25a0471be416850c625ea10932a2de732
+    digest: c6b9a7e18592ccf08a18de00af41176c9025309b761098b73c1e0f629227c8c3
     icon: https://avatars0.githubusercontent.com/u/38965494
     name: job
     urls:
@@ -56,7 +67,7 @@ entries:
   sample:
   - apiVersion: v2
     appVersion: v0.3.2
-    created: "2021-08-20T00:23:07.648715581Z"
+    created: "2021-08-20T06:01:49.48230407Z"
     description: A Helm chart for Kubernetes
     digest: b4d839797eee7f8e50ee6f85032cbb45837f152dcdd0746fc36dad386476b7ba
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -66,7 +77,7 @@ entries:
     version: v0.3.2
   - apiVersion: v2
     appVersion: v0.3.1
-    created: "2021-08-20T00:23:07.647789319Z"
+    created: "2021-08-20T06:01:49.481324321Z"
     description: A Helm chart for Kubernetes
     digest: 3cb621e45582d33b3913f17d5af1441ef6368f94401c6adfe72ba2fe7b460740
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -76,7 +87,7 @@ entries:
     version: v0.3.1
   - apiVersion: v2
     appVersion: v0.3.0
-    created: "2021-08-20T00:23:07.646828365Z"
+    created: "2021-08-20T06:01:49.480549244Z"
     description: A Helm chart for Kubernetes
     digest: 21d2dc07824190c5480810599778b4dcda909519133f3487e369c6d21ece965f
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -84,4 +95,4 @@ entries:
     urls:
     - sample-v0.3.0.tgz
     version: v0.3.0
-generated: "2021-08-20T00:23:07.618076023Z"
+generated: "2021-08-20T06:01:49.476350701Z"
