@@ -2,8 +2,18 @@ apiVersion: v1
 entries:
   app:
   - apiVersion: v2
+    appVersion: v0.1.1
+    created: "2021-08-23T12:41:36.394086938Z"
+    description: A Helm chart for Kubernetes
+    digest: c6680b3613ff82835a757a4b88e769dab73043447b5282d0141bc98c5f438bde
+    icon: https://avatars0.githubusercontent.com/u/39108256
+    name: app
+    urls:
+    - app-v0.1.1.tgz
+    version: v0.1.1
+  - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-08-23T11:59:30.039354079Z"
+    created: "2021-08-23T12:41:36.393343434Z"
     description: A Helm chart for Kubernetes
     digest: 95210935c263c1a4b137e94a3e803fc1c9e02533e6a3c676d4525a56cb80fe33
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -14,9 +24,9 @@ entries:
   elasticsearch-snapshot:
   - apiVersion: v1
     appVersion: latest
-    created: "2021-08-23T11:59:30.039793825Z"
+    created: "2021-08-23T12:41:36.39433955Z"
     description: A Helm chart for Kubernetes
-    digest: 0ccce60fef3fc8b6ccaa8e6eac1b3693ffdd6625ad7dbdef9f9ac72eaa493ddc
+    digest: 28a346f9338e06064f889bd9bbf0622f906e42d7a2a1ba2104906daf3c579744
     icon: https://avatars0.githubusercontent.com/u/38965494
     name: elasticsearch-snapshot
     urls:
@@ -25,9 +35,9 @@ entries:
   embulk-jobs:
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-08-23T11:59:30.041660472Z"
+    created: "2021-08-23T12:41:36.395017701Z"
     description: A Helm chart for Kubernetes
-    digest: 809e70c10bf8b67f541bfb924d98d0e6bce2c1fedaea4955adf4f333b7f9a049
+    digest: 2aea8025344e4f44d09319549829db85cd80316254070ec360486d112362aac5
     icon: https://avatars0.githubusercontent.com/u/38965494
     name: embulk-jobs
     urls:
@@ -35,7 +45,7 @@ entries:
     version: v0.2.2
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-08-23T11:59:30.041379069Z"
+    created: "2021-08-23T12:41:36.394805606Z"
     description: A Helm chart for Kubernetes
     digest: c347cd98221abe0f63aa585a90f7d568f456f92e133e15df391acf83a72cea0b
     icon: https://avatars0.githubusercontent.com/u/38965494
@@ -45,7 +55,7 @@ entries:
     version: v0.2.1
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-08-23T11:59:30.040222197Z"
+    created: "2021-08-23T12:41:36.394586187Z"
     description: A Helm chart for Kubernetes
     digest: 392cba66b778197d776e4a2d735181cccb8673a2ea24e505cef16ce5cb02eaff
     icon: https://avatars0.githubusercontent.com/u/38965494
@@ -56,9 +66,9 @@ entries:
   job:
   - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-08-23T11:59:30.042140658Z"
+    created: "2021-08-23T12:41:36.395352158Z"
     description: A Helm chart for Kubernetes
-    digest: ae071d4d72c0f552095de4b2af2aeb2a9c968d6ab806c83713160c45bb032fdd
+    digest: e56a27e643f6824b8039ab629a36390b2e0bf571f52a2082ca4e44a520e413f3
     icon: https://avatars0.githubusercontent.com/u/38965494
     name: job
     urls:
@@ -67,7 +77,7 @@ entries:
   sample:
   - apiVersion: v2
     appVersion: v0.3.2
-    created: "2021-08-23T11:59:30.045192576Z"
+    created: "2021-08-23T12:41:36.397676693Z"
     description: A Helm chart for Kubernetes
     digest: b4d839797eee7f8e50ee6f85032cbb45837f152dcdd0746fc36dad386476b7ba
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -77,7 +87,7 @@ entries:
     version: v0.3.2
   - apiVersion: v2
     appVersion: v0.3.1
-    created: "2021-08-23T11:59:30.044045868Z"
+    created: "2021-08-23T12:41:36.396890197Z"
     description: A Helm chart for Kubernetes
     digest: 3cb621e45582d33b3913f17d5af1441ef6368f94401c6adfe72ba2fe7b460740
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -87,7 +97,7 @@ entries:
     version: v0.3.1
   - apiVersion: v2
     appVersion: v0.3.0
-    created: "2021-08-23T11:59:30.043100472Z"
+    created: "2021-08-23T12:41:36.396120056Z"
     description: A Helm chart for Kubernetes
     digest: 21d2dc07824190c5480810599778b4dcda909519133f3487e369c6d21ece965f
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -95,4 +105,4 @@ entries:
     urls:
     - sample-v0.3.0.tgz
     version: v0.3.0
-generated: "2021-08-23T11:59:30.037968784Z"
+generated: "2021-08-23T12:41:36.391917559Z"
