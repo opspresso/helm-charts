@@ -1,7 +1,7 @@
 {{- if .Values.istio.gateway.enabled }}
 {{- $serviceName := .Values.service.name -}}
 {{- $servicePort := .Values.service.port -}}
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: {{ include "app.fullname" . }}
