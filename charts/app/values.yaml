@@ -100,10 +100,10 @@ ingress:
     # cert-manager.io/cluster-issuer: "letsencrypt-issuer"
     # kubernetes.io/ingress.class: "nginx"
     # kubernetes.io/ssl-redirect: "true"
-  hosts: []
-    # - host: sample.domain.com
-    #   paths:
-    #     - /
+  hosts:
+    - host: chart-example.local
+  path: /
+  pathType: Prefix
   tls: []
   #  - secretName: sample-tls
   #    hosts:
@@ -115,10 +115,10 @@ preview:
     # cert-manager.io/cluster-issuer: "letsencrypt-issuer"
     # kubernetes.io/ingress.class: "nginx"
     # kubernetes.io/ssl-redirect: "true"
-  hosts: []
-    # - host: sample.domain.com
-    #   paths:
-    #     - /
+  hosts:
+    - host: chart-example.local
+  path: /
+  pathType: Prefix
   tls: []
   #  - secretName: sample-tls
   #    hosts:
