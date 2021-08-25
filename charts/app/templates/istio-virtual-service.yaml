@@ -20,7 +20,7 @@ spec:
             port:
               number: {{ .Values.service.port | default "80" }}
 ---
-{{- if .Values.preview.enabled -}}
+{{- if .Values.ingress.preview.enabled -}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -30,7 +30,7 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
 spec:
   hosts:
-    {{- range .Values.preview.hosts }}
+    {{- range .Values.ingress.preview.hosts }}
     - {{ .host | quote }}
     {{- end }}
   gateways:

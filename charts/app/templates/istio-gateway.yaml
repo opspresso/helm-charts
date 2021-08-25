@@ -14,7 +14,7 @@ spec:
         {{- range .Values.ingress.hosts }}
         - {{ .host | quote }}
         {{- end }}
-        {{- range .Values.preview.hosts }}
+        {{- range .Values.ingress.preview.hosts }}
         - {{ .host | quote }}
         {{- end }}
       port:
