@@ -1,4 +1,4 @@
-{{- if and .Values.ingress.enabled .Values.preview.enabled -}}
+{{- if .Values.ingress.preview.enabled -}}
 {{- $ingressApiIsStable := eq (include "app.ingress.isStable" .) "true" -}}
 {{- $ingressSupportsIngressClassName := eq (include "app.ingress.supportsIngressClassName" .) "true" -}}
 {{- $ingressSupportsPathType := eq (include "app.ingress.supportsPathType" .) "true" -}}
@@ -13,7 +13,7 @@ metadata:
   labels:
     app: {{ $fullName }}
     {{- include "app.labels" . | nindent 4 }}
-  {{- with .Values.preview.annotations }}
+  {{- with .Values.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
@@ -21,9 +21,9 @@ spec:
   {{- if and $ingressSupportsIngressClassName .Values.ingress.ingressClassName }}
   ingressClassName: {{ .Values.ingress.ingressClassName }}
   {{- end -}}
-  {{- if .Values.preview.tls }}
+  {{- if .Values.ingress.tls }}
   tls:
-    {{- range .Values.preview.tls }}
+    {{- range .Values.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -32,7 +32,7 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.preview.hosts }}
+    {{- range .Values.ingress.preview.hosts }}
     - host: {{ .host | quote }}
       http:
         paths:
