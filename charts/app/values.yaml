@@ -115,6 +115,8 @@ ingress:
   #      - sample.domain.com
 
 istio:
+  sidecar:
+    inject: false
   gateway:
     enabled: false
 
