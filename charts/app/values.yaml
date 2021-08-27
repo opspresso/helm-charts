@@ -5,12 +5,39 @@
 replicaCount: 1
 revisionHistoryLimit: 0
 
-controller:
-  kind: Deployment # Deployment or Rollout
-
 analysis:
   enabled: false
   # url: "http://sample-preview:3000/success/98"
+
+controller:
+  kind: Deployment # Deployment or Rollout
+
+  strategy: {}
+    # blueGreen:
+    #   activeService: sample
+    #   autoPromotionEnabled: true
+    #   autoPromotionSeconds: 30
+    #   previewService: sample-preview
+    # canary:
+    #   canaryService: sample-preview
+    #   stableService: sample
+    #   steps:
+    #   - setWeight: 25
+    #   - pause:
+    #       duration: 10
+    #   - analysis:
+    #       templates:
+    #       - templateName: http-benchmark
+    #         clusterScope: true
+    #       args:
+    #       - name: url
+    #         value: http://sample-preview:3000/success/98
+    #   - setWeight: 50
+    #   - pause:
+    #       duration: 10
+    #   - setWeight: 75
+    #   - pause:
+    #       duration: 10
 
 imagePullSecrets: []
 
@@ -25,41 +52,6 @@ command: []
   # - "s3"
   # - "ls"
 
-strategy: {}
-  # blueGreen:
-  #   activeService: sample
-  #   autoPromotionEnabled: true
-  #   autoPromotionSeconds: 30
-  #   previewService: sample-preview
-  # canary:
-  #   canaryService: sample-preview
-  #   stableService: sample
-  #   steps:
-  #   - setWeight: 25
-  #   - pause:
-  #       duration: 10
-  #   - analysis:
-  #       templates:
-  #       - templateName: http-benchmark
-  #         clusterScope: true
-  #       args:
-  #       - name: url
-  #         value: http://sample-preview:3000/success/98
-  #   - setWeight: 50
-  #   - pause:
-  #       duration: 10
-  #   - setWeight: 75
-  #   - pause:
-  #       duration: 10
-
-irsa:
-  enabled: false
-  statement: []
-    # - resource: "arn:aws:s3:::irsa-sample"
-    #   action:
-    #     - "s3:Get*"
-    #     - "s3:List*"
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: false
@@ -69,20 +61,13 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podLabels: {}
-
-podAnnotations: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+irsa:
+  enabled: false
+  statement: []
+    # - resource: "arn:aws:s3:::irsa-sample"
+    #   action:
+    #     - "s3:Get*"
+    #     - "s3:List*"
 
 service:
   type: ClusterIP
@@ -119,6 +104,21 @@ istio:
     inject: false
   gateway:
     enabled: false
+
+podLabels: {}
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 livenessProbe: {}
   # httpGet:
