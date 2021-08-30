@@ -1,4 +1,4 @@
-{{- if .Values.ingress.preview.enabled -}}
+{{- if and .Values.ingress.enabled .Values.service.preview.enabled -}}
 {{- $ingressApiIsStable := eq (include "app.ingress.isStable" .) "true" -}}
 {{- $ingressSupportsIngressClassName := eq (include "app.ingress.supportsIngressClassName" .) "true" -}}
 {{- $ingressSupportsPathType := eq (include "app.ingress.supportsPathType" .) "true" -}}

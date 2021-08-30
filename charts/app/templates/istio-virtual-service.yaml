@@ -20,7 +20,7 @@ spec:
             port:
               number: {{ .Values.service.port | default "80" }}
 ---
-{{- if .Values.ingress.preview.enabled -}}
+{{- if and .Values.istio.gateway.enabled .Values.service.preview.enabled -}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:

@@ -90,7 +90,6 @@ ingress:
     - host: sample.domain.com
 
   preview:
-    enabled: false
     hosts:
       - host: sample-preview.domain.com
 
