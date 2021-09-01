@@ -33,7 +33,7 @@ Create chart name and version as used by the chart label.
 Return instance and name labels.
 */}}
 {{- define "app.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "app.name" . | quote }}
+app.kubernetes.io/name: {{ include "app.fullname" . | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end }}
 
