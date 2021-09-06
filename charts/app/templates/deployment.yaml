@@ -54,7 +54,7 @@ spec:
           {{- end }}
           ports:
             - name: {{ .Values.service.name | default "http" }}
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.service.targetPort | default "80" }}
               protocol: {{ .Values.service.protocol | default "TCP" }}
           {{- with .Values.livenessProbe }}
           livenessProbe:

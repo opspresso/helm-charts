@@ -3,6 +3,7 @@
 {{- $ingressSupportsIngressClassName := eq (include "app.ingress.supportsIngressClassName" .) "true" -}}
 {{- $ingressSupportsPathType := eq (include "app.ingress.supportsPathType" .) "true" -}}
 {{- $fullName := include "app.fullname" . -}}
+{{- $servicePort := .Values.service.port -}}
 {{- $ingressPath := .Values.ingress.path -}}
 {{- $ingressPathType := .Values.ingress.pathType -}}
 apiVersion: {{ include "app.ingress.apiVersion" . }}
@@ -44,10 +45,10 @@ spec:
               service:
                 name: {{ $fullName }}
                 port:
-                  number: 80
+                  number: {{ $servicePort }}
               {{- else }}
               serviceName: {{ $fullName }}
-              servicePort: 80
+              servicePort: {{ $servicePort }}
               {{- end }}
     {{- end }}
 {{- end }}
