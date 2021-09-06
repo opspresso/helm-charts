@@ -18,7 +18,7 @@ spec:
         - destination:
             host: {{ include "app.fullname" . }}
             port:
-              number: {{ .Values.service.port | default "80" }}
+              number: 80
 ---
 {{- if and .Values.istio.gateway.enabled .Values.service.preview.enabled -}}
 apiVersion: networking.istio.io/v1beta1
@@ -40,6 +40,6 @@ spec:
         - destination:
             host: {{ include "app.fullname" . }}-preview
             port:
-              number: {{ .Values.service.port | default "80" }}
+              number: 80
 {{- end }}
 {{- end }}
