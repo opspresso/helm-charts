@@ -3,7 +3,7 @@ entries:
   app:
   - apiVersion: v2
     appVersion: v0.3.8
-    created: "2021-09-10T07:00:05.080892932Z"
+    created: "2021-09-10T07:08:35.643598584Z"
     description: A Helm chart for Kubernetes
     digest: c85705582f8bd3e23fa8a28a87e8700f936540665516a41cac4ff3210d4e2f2e
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -12,8 +12,18 @@ entries:
     - app-v0.3.8.tgz
     version: v0.3.8
   - apiVersion: v2
+    appVersion: v0.3.7
+    created: "2021-09-10T07:08:35.642843449Z"
+    description: A Helm chart for Kubernetes
+    digest: 801afb69870d915ece8dc4d4b0c2eb5356d0ce24b01082cbd6d4fef7369e69a1
+    icon: https://avatars0.githubusercontent.com/u/39108256
+    name: app
+    urls:
+    - app-v0.3.7.tgz
+    version: v0.3.7
+  - apiVersion: v2
     appVersion: v0.3.6
-    created: "2021-09-10T07:00:05.080038993Z"
+    created: "2021-09-10T07:08:35.642091399Z"
     description: A Helm chart for Kubernetes
     digest: 43ca02d9e0e6630b910eff57825a5cf43742bdbf674519677e838d512b20198b
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -23,7 +33,7 @@ entries:
     version: v0.3.6
   - apiVersion: v2
     appVersion: v0.3.5
-    created: "2021-09-10T07:00:05.079165364Z"
+    created: "2021-09-10T07:08:35.641359443Z"
     description: A Helm chart for Kubernetes
     digest: 73bc83fc398f335d1639f6d0aa1c761f22eb8dc3567aeac02cd48452a066c11d
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -33,7 +43,7 @@ entries:
     version: v0.3.5
   - apiVersion: v2
     appVersion: v0.3.4
-    created: "2021-09-10T07:00:05.078294281Z"
+    created: "2021-09-10T07:08:35.640562468Z"
     description: A Helm chart for Kubernetes
     digest: f88b638cfdef0a242cfed9845eb4dd6b16a3ede7927fbf6294694d643e32ba4f
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -43,7 +53,7 @@ entries:
     version: v0.3.4
   - apiVersion: v2
     appVersion: v0.3.3
-    created: "2021-09-10T07:00:05.077478693Z"
+    created: "2021-09-10T07:08:35.639806787Z"
     description: A Helm chart for Kubernetes
     digest: d7a94db89bf4667cc4d9628583e6745f9ed7b9101d3469d1b0bc867994bac8c7
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -53,7 +63,7 @@ entries:
     version: v0.3.3
   - apiVersion: v2
     appVersion: v0.3.2
-    created: "2021-09-10T07:00:05.076629001Z"
+    created: "2021-09-10T07:08:35.639056047Z"
     description: A Helm chart for Kubernetes
     digest: de4afe53371e676ce25296c15629a3339de3a9f359fd413fa6111eab130be8f3
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -63,7 +73,7 @@ entries:
     version: v0.3.2
   - apiVersion: v2
     appVersion: v0.3.1
-    created: "2021-09-10T07:00:05.075738351Z"
+    created: "2021-09-10T07:08:35.638286999Z"
     description: A Helm chart for Kubernetes
     digest: 9e525404b27c6d9ba59b725c8d911c8c649b7f1c21690a633b137c326f71336b
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -73,7 +83,7 @@ entries:
     version: v0.3.1
   - apiVersion: v2
     appVersion: v0.3.0
-    created: "2021-09-10T07:00:05.074845297Z"
+    created: "2021-09-10T07:08:35.637330939Z"
     description: A Helm chart for Kubernetes
     digest: ca2083b3647c510616ef2aff6124b66bfd376e3482deaa2ce1879f23c30a0d78
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -83,7 +93,7 @@ entries:
     version: v0.3.0
   - apiVersion: v2
     appVersion: v0.2.2
-    created: "2021-09-10T07:00:05.073939819Z"
+    created: "2021-09-10T07:08:35.636071696Z"
     description: A Helm chart for Kubernetes
     digest: bb91bcea6c0a3397ddde1b0b4813bfee63fdd485a080a13fed7bb078c85fc05f
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -93,7 +103,7 @@ entries:
     version: v0.2.2
   - apiVersion: v2
     appVersion: v0.2.1
-    created: "2021-09-10T07:00:05.073071969Z"
+    created: "2021-09-10T07:08:35.635239665Z"
     description: A Helm chart for Kubernetes
     digest: 33d565fda0a818887138b08968aea400cf75164e7d3c89460fd65a645a432ff1
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -103,7 +113,7 @@ entries:
     version: v0.2.1
   - apiVersion: v2
     appVersion: v0.2.0
-    created: "2021-09-10T07:00:05.071856724Z"
+    created: "2021-09-10T07:08:35.634390175Z"
     description: A Helm chart for Kubernetes
     digest: 10765def0948a05769271450b375455006bb55e72f9f98d8e3d6d9f2f1143853
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -113,7 +123,7 @@ entries:
     version: v0.2.0
   - apiVersion: v2
     appVersion: v0.1.7
-    created: "2021-09-10T07:00:05.070534625Z"
+    created: "2021-09-10T07:08:35.633561676Z"
     description: A Helm chart for Kubernetes
     digest: 4218c0f2adf975f2505f92caa360fc7c72c728630c0bdfdc1a1fb57e1bb83dd3
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -123,7 +133,7 @@ entries:
     version: v0.1.7
   - apiVersion: v2
     appVersion: v0.1.6
-    created: "2021-09-10T07:00:05.069659354Z"
+    created: "2021-09-10T07:08:35.632647115Z"
     description: A Helm chart for Kubernetes
     digest: 95f44284de91ee149aadf1fb32541f2778c3bf1d897b382f5073162074672986
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -133,7 +143,7 @@ entries:
     version: v0.1.6
   - apiVersion: v2
     appVersion: v0.1.5
-    created: "2021-09-10T07:00:05.06876747Z"
+    created: "2021-09-10T07:08:35.63182961Z"
     description: A Helm chart for Kubernetes
     digest: 39024d1750204d487e760cf70188d79995756a4b07f6212ac4f6a43da53af70d
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -143,7 +153,7 @@ entries:
     version: v0.1.5
   - apiVersion: v2
     appVersion: v0.1.4
-    created: "2021-09-10T07:00:05.067942215Z"
+    created: "2021-09-10T07:08:35.631064052Z"
     description: A Helm chart for Kubernetes
     digest: 9004030a7c83b6ff5aadb28fde18b185f6aea718d627847505afd8eb7492e20b
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -153,7 +163,7 @@ entries:
     version: v0.1.4
   - apiVersion: v2
     appVersion: v0.1.3
-    created: "2021-09-10T07:00:05.067183673Z"
+    created: "2021-09-10T07:08:35.630275923Z"
     description: A Helm chart for Kubernetes
     digest: 86263577c6bdac90832f46be1e1f325f2b903ad0bd41c7efe2da6089395237d7
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -163,7 +173,7 @@ entries:
     version: v0.1.3
   - apiVersion: v2
     appVersion: v0.1.2
-    created: "2021-09-10T07:00:05.066385852Z"
+    created: "2021-09-10T07:08:35.629571063Z"
     description: A Helm chart for Kubernetes
     digest: 5855743656d0a671fb0ed231836b13cc0d812ac68b1a256a2ee8eae0102be594
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -173,7 +183,7 @@ entries:
     version: v0.1.2
   - apiVersion: v2
     appVersion: v0.1.1
-    created: "2021-09-10T07:00:05.06518838Z"
+    created: "2021-09-10T07:08:35.628853096Z"
     description: A Helm chart for Kubernetes
     digest: c6680b3613ff82835a757a4b88e769dab73043447b5282d0141bc98c5f438bde
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -183,7 +193,7 @@ entries:
     version: v0.1.1
   - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-09-10T07:00:05.064008327Z"
+    created: "2021-09-10T07:08:35.628081501Z"
     description: A Helm chart for Kubernetes
     digest: 95210935c263c1a4b137e94a3e803fc1c9e02533e6a3c676d4525a56cb80fe33
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -194,9 +204,9 @@ entries:
   elasticsearch-snapshot:
   - apiVersion: v1
     appVersion: latest
-    created: "2021-09-10T07:00:05.081170862Z"
+    created: "2021-09-10T07:08:35.643848978Z"
     description: A Helm chart for Kubernetes
-    digest: 4108791b96bc51861d52acad7a044f0194f5ecd8c8f2477101d649b11c4b3b37
+    digest: f9897565d8d95a77ce690cc9b997e6c67ee2c1e0abd932d367f2116548717eb2
     icon: https://avatars0.githubusercontent.com/u/38965494
     name: elasticsearch-snapshot
     urls:
@@ -205,9 +215,9 @@ entries:
   embulk-jobs:
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-09-10T07:00:05.082628396Z"
+    created: "2021-09-10T07:08:35.644541732Z"
     description: A Helm chart for Kubernetes
-    digest: 468e9546d680ebafe893c770b579fb922cf6879fa505b98c3ad9e213b7208117
+    digest: 9cfb9b5c4a58ca1a21bc44b700f979d7ca7998c788f3b5eafee833ddbb807b89
     icon: https://avatars0.githubusercontent.com/u/38965494
     name: embulk-jobs
     urls:
@@ -215,7 +225,7 @@ entries:
     version: v0.2.2
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-09-10T07:00:05.081644783Z"
+    created: "2021-09-10T07:08:35.644301983Z"
     description: A Helm chart for Kubernetes
     digest: c347cd98221abe0f63aa585a90f7d568f456f92e133e15df391acf83a72cea0b
     icon: https://avatars0.githubusercontent.com/u/38965494
@@ -225,7 +235,7 @@ entries:
     version: v0.2.1
   - apiVersion: v1
     appVersion: 0.10.15
-    created: "2021-09-10T07:00:05.081404079Z"
+    created: "2021-09-10T07:08:35.644076628Z"
     description: A Helm chart for Kubernetes
     digest: 392cba66b778197d776e4a2d735181cccb8673a2ea24e505cef16ce5cb02eaff
     icon: https://avatars0.githubusercontent.com/u/38965494
@@ -236,9 +246,9 @@ entries:
   job:
   - apiVersion: v2
     appVersion: v0.1.1
-    created: "2021-09-10T07:00:05.083796598Z"
+    created: "2021-09-10T07:08:35.64522936Z"
     description: A Helm chart for Kubernetes
-    digest: 17559165d1ee8dff207cdbdc3980e04d090a0ae0c0d33bd6f93ad7700200d64d
+    digest: e12f4cefea6faf8eb9a5d9c973606a76b28c9b2968b12e92374605c3542a3064
     icon: https://avatars0.githubusercontent.com/u/38965494
     name: job
     urls:
@@ -246,7 +256,7 @@ entries:
     version: v0.1.1
   - apiVersion: v2
     appVersion: v0.1.0
-    created: "2021-09-10T07:00:05.083232033Z"
+    created: "2021-09-10T07:08:35.644889707Z"
     description: A Helm chart for Kubernetes
     digest: ea9c7a31f176cedcb9e88e2354fc6fd614e1c858c681e3f3da6f35126a7b2b44
     icon: https://avatars0.githubusercontent.com/u/38965494
@@ -257,7 +267,7 @@ entries:
   sample:
   - apiVersion: v2
     appVersion: v0.3.2
-    created: "2021-09-10T07:00:05.087065485Z"
+    created: "2021-09-10T07:08:35.647924722Z"
     description: A Helm chart for Kubernetes
     digest: b4d839797eee7f8e50ee6f85032cbb45837f152dcdd0746fc36dad386476b7ba
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -267,7 +277,7 @@ entries:
     version: v0.3.2
   - apiVersion: v2
     appVersion: v0.3.1
-    created: "2021-09-10T07:00:05.086165522Z"
+    created: "2021-09-10T07:08:35.64723341Z"
     description: A Helm chart for Kubernetes
     digest: 3cb621e45582d33b3913f17d5af1441ef6368f94401c6adfe72ba2fe7b460740
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -277,7 +287,7 @@ entries:
     version: v0.3.1
   - apiVersion: v2
     appVersion: v0.3.0
-    created: "2021-09-10T07:00:05.084988777Z"
+    created: "2021-09-10T07:08:35.646516227Z"
     description: A Helm chart for Kubernetes
     digest: 21d2dc07824190c5480810599778b4dcda909519133f3487e369c6d21ece965f
     icon: https://avatars0.githubusercontent.com/u/39108256
@@ -285,4 +295,4 @@ entries:
     urls:
     - sample-v0.3.0.tgz
     version: v0.3.0
-generated: "2021-09-10T07:00:05.062631768Z"
+generated: "2021-09-10T07:08:35.626416877Z"
