@@ -12,9 +12,9 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
     version: {{ .Values.image.tag | default .Chart.AppVersion }}
 spec:
-  # {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-  # {{- end }}
+  {{- if not .Values.replicas }}
+  replicas: {{ .Values.replicas }}
+  {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
