@@ -1,6 +1,6 @@
 # prometheus-aws-costs-exporter
 
-![Version: v0.1.0](https://img.shields.io/badge/Version-v0.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v0.1.0](https://img.shields.io/badge/AppVersion-v0.1.0-informational?style=flat-square)
+![Version: v0.1.2](https://img.shields.io/badge/Version-v0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 Exporter for AWS Cost Explorer daily costs
 
@@ -17,8 +17,7 @@ Exporter for AWS Cost Explorer daily costs
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| args[0] | string | `"--host"` |  |
-| args[1] | string | `"0.0.0.0"` |  |
+| args | list | `[]` |  |
 | command | list | `[]` |  |
 | controller.strategy | object | `{}` |  |
 | dnsPolicy | string | `"ClusterFirst"` |  |
@@ -28,8 +27,7 @@ Exporter for AWS Cost Explorer daily costs
 | image.tag | string | `"latest"` |  |
 | imagePullSecrets | list | `[]` |  |
 | irsa.enabled | bool | `false` |  |
-| irsa.statement[0].action[0] | string | `"ce:*"` |  |
-| irsa.statement[0].resource | string | `"*"` |  |
+| irsa.statement | list | `[]` |  |
 | livenessProbe | object | `{}` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |

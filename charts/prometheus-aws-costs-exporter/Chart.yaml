@@ -5,7 +5,7 @@ name: prometheus-aws-costs-exporter
 type: application
 home: https://github.com/nachomillangarcia/prometheus_aws_cost_exporter
 appVersion: latest
-version: v0.1.1
+version: v0.1.2
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu

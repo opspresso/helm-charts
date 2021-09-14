@@ -29,9 +29,6 @@ spec:
       {{- if .Values.podLabels }}
         {{- toYaml .Values.podLabels | nindent 8 }}
       {{- end }}
-      {{- if .Values.istio.sidecar.inject }}
-        sidecar.istio.io/inject: 'true'
-      {{- end }}
     spec:
       containers:
         - name: app
