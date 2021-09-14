@@ -13,7 +13,7 @@ for chart in $ALL_CHARTS; do
 done
 
 # Run helm-docs to generate all README.md files from the template
-helm-docs --log-level warning --template-files ./ci/README.md.gotmpl
+helm-docs --log-level warning --template-files ./README.md.gotmpl
 
 # Check all README.md files for changes after running helm-docs
 set +e
