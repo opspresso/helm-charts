@@ -19,3 +19,5 @@ jobs:
 
       - name: Check all charts README.md
         run: sh ./helm-docs.sh
+        env:
+          TAG_NAME: ${{ github.ref }}

@@ -1,8 +1,17 @@
-#!/bin/sh
+#!/bin/bash
+set -eux
 
-set -eu
+GITHUB_PUSH=${GITHUB_PUSH:-false}
 
-rm -rf .charts
+SHELL_DIR=$(dirname $0)
+
+USERNAME=${CIRCLE_PROJECT_USERNAME:-opspresso}
+REPONAME=${CIRCLE_PROJECT_REPONAME:-helm-charts}
+
+GIT_USERNAME="bot"
+GIT_USEREMAIL="bot@nalbam.com"
+
+rm -rf ${SHELL_DIR}/build
 
 ALL_CHARTS=$(ls charts)
 
@@ -15,22 +24,22 @@ done
 # Run helm-docs to generate all README.md files from the template
 helm-docs --log-level warning --template-files ./README.md.gotmpl
 
-# Check all README.md files for changes after running helm-docs
-set +e
-for chart in $ALL_CHARTS; do
-  echo "Checking charts/$chart/README.md..."
-  diff -s charts/$chart/README.md .charts/$chart/README.md > /dev/null
-  if [ $? -eq 1 ]; then
-    echo "🔴 Error: file charts/$chart/README.md needs to be updated: "
-    diff charts/$chart/README.md .charts/$chart/README.md
-    echo "See main repo README.md for instructions"
-    rm -rf .charts
-    exit 1
-  fi
-done
+# for chart in $ALL_CHARTS; do
+#   echo "Checking charts/$chart/README.md..."
+#   diff -s charts/$chart/README.md .charts/$chart/README.md > /dev/null
+#   if [ $? -eq 1 ]; then
+#     GITHUB_PUSH="true"
+#   fi
+# done
 
-rm -rf .charts
+GITHUB_PUSH="true"
 
-echo "✅ All chart README.md files are up to date"
+if [ "${GITHUB_PUSH}" == "true" ]; then
+  git config --global user.name "${GIT_USERNAME}"
+  git config --global user.email "${GIT_USEREMAIL}"
 
-exit 0
+  git add .
+  git commit -m "Publish charts"
+
+  git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git ${TAG_NAME}
+fi

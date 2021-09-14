@@ -21,17 +21,17 @@ fi
 
 for dir in $(find ${SHELL_DIR}/charts -mindepth 1 -maxdepth 1 -type d);
 do
-    rm -rf $dir/charts
+  rm -rf $dir/charts
 
-    name=$(basename $dir)
+  name=$(basename $dir)
 
-    if [ $(helm dep list $dir 2>/dev/null| wc -l) -gt 1 ]; then
-        echo "Processing chart dependencies"
-        helm --debug dep build $dir
-    fi
+  if [ $(helm dep list $dir 2>/dev/null| wc -l) -gt 1 ]; then
+    echo "Processing chart dependencies"
+    helm --debug dep build $dir
+  fi
 
-    echo "Processing $dir"
-    helm --debug package $dir
+  echo "Processing $dir"
+  helm --debug package $dir
 done
 
 cp README.md ${SHELL_DIR}/build/
@@ -42,13 +42,13 @@ pushd ${SHELL_DIR}/build
 helm repo index .
 
 if [ "${GITHUB_PUSH}" == "true" ]; then
-    git config --global user.name "${GIT_USERNAME}"
-    git config --global user.email "${GIT_USEREMAIL}"
+  git config --global user.name "${GIT_USERNAME}"
+  git config --global user.email "${GIT_USEREMAIL}"
 
-    git add .
-    git commit -m "Publish charts"
+  git add .
+  git commit -m "Publish charts"
 
-    git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git gh-pages
+  git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git gh-pages
 fi
 
 popd
