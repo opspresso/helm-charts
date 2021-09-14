@@ -7,9 +7,7 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
     version: {{ .Values.image.tag | default .Chart.AppVersion }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
@@ -43,6 +41,10 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          {{- with .Values.args }}
+          args:
+{{ toYaml . | indent 12 }}
+          {{- end }}
           {{- with .Values.command }}
           command:
 {{ toYaml . | nindent 12 }}
@@ -63,29 +65,10 @@ spec:
           resources:
 {{ toYaml . | nindent 12 }}
           {{- end }}
-          {{- with .Values.args }}
-          args:
-{{ toYaml . | indent 12 }}
-          {{- end }}
           {{- with .Values.env }}
           env:
 {{ toYaml . | indent 12 }}
           {{- end }}
-          {{ if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled }}
-          envFrom:
-            {{ if .Values.configmap.enabled }}
-            - configMapRef:
-                name: {{ include "app.fullname" . }}
-            {{ end }}
-            {{ if .Values.secret.enabled }}
-            - secretRef:
-                name: {{ include "app.fullname" . }}
-            {{ end }}
-            {{ if .Values.externalSecrets.enabled }}
-            - secretRef:
-                name: {{ include "app.fullname" . }}-es
-            {{ end }}
-          {{ end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
