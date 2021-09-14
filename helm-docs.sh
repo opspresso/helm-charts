@@ -41,5 +41,5 @@ if [ "${GITHUB_PUSH}" == "true" ]; then
   git add .
   git commit -m "Publish charts"
 
-  git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git gh-pages
+  git push -q https://${GITHUB_TOKEN}@github.com/${USERNAME}/${REPONAME}.git ${TAG_NAME}
 fi
