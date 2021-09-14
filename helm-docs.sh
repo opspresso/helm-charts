@@ -24,13 +24,13 @@ done
 # Run helm-docs to generate all README.md files from the template
 helm-docs --log-level warning --template-files ./README.md.gotmpl
 
-for chart in $ALL_CHARTS; do
-  echo "Checking charts/$chart/README.md..."
-  diff -s charts/$chart/README.md .charts/$chart/README.md > /dev/null
-  if [ $? -eq 1 ]; then
-    GITHUB_PUSH="true"
-  fi
-done
+# for chart in $ALL_CHARTS; do
+#   echo "Checking charts/$chart/README.md..."
+#   diff -s charts/$chart/README.md .charts/$chart/README.md > /dev/null
+#   if [ $? -eq 1 ]; then
+#     GITHUB_PUSH="true"
+#   fi
+# done
 
 if [ "${GITHUB_PUSH}" == "true" ]; then
   git config --global user.name "${GIT_USERNAME}"
