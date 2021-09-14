@@ -32,6 +32,8 @@ helm-docs --log-level warning --template-files ./README.md.gotmpl
 #   fi
 # done
 
+GITHUB_PUSH="true"
+
 if [ "${GITHUB_PUSH}" == "true" ]; then
   git config --global user.name "${GIT_USERNAME}"
   git config --global user.email "${GIT_USEREMAIL}"
