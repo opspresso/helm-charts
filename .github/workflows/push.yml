@@ -18,3 +18,5 @@ jobs:
       - name: Build and Push
         run: |
           bash ./build.sh
+        env:
+          GITHUB_PUSH: "true"
