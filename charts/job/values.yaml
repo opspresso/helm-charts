@@ -7,6 +7,10 @@ image:
   # Overrides the image tag whose default is the chart version.
   tag: latest
 
+args: []
+  # - --host
+  # - 0.0.0.0
+
 command: []
   # - "aws"
   # - "s3"

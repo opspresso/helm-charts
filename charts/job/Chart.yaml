@@ -3,8 +3,8 @@ description: A Helm chart for Kubernetes
 icon: https://avatars0.githubusercontent.com/u/38965494
 name: job
 type: application
-appVersion: v0.2.0
-version: v0.2.0
+appVersion: latest
+version: v0.2.1
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu

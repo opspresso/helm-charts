@@ -12,6 +12,10 @@ spec:
       containers:
         - name: app
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          {{- with .Values.args }}
+          args:
+{{ toYaml . | indent 12 }}
+          {{- end }}
           {{- with .Values.command }}
           command:
 {{ toYaml . | nindent 12 }}
