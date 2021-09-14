@@ -33,10 +33,10 @@ serviceAccount:
 
 irsa:
   enabled: false
-  statement:
-    - resource: "*"
-      action:
-        - "ce:*"
+  statement: []
+    # - resource: "*"
+    #   action:
+    #     - "ce:*"
 
 service:
   type: ClusterIP
@@ -104,9 +104,9 @@ serviceMonitor:
       path: /metrics
       port: http
 
-args:
-  - --host
-  - 0.0.0.0
+args: []
+  # - --host
+  # - 0.0.0.0
 
 env: []
   # - name: MESSAGE
