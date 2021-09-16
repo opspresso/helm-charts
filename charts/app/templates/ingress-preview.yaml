@@ -11,7 +11,6 @@ kind: Ingress
 metadata:
   name: {{ $fullName }}-preview
   labels:
-    app: {{ $fullName }}
     {{- include "app.labels" . | nindent 4 }}
   {{- with .Values.ingress.annotations }}
   annotations:

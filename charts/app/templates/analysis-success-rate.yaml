@@ -4,7 +4,6 @@ kind: AnalysisTemplate
 metadata:
   name: {{ include "app.fullname" . }}-success-rate
   labels:
-    app: {{ include "app.fullname" . }}
     {{- include "app.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"

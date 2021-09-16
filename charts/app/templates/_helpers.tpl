@@ -30,6 +30,13 @@ Create chart name and version as used by the chart label.
 {{- end }}
 
 {{/*
+Return application version.
+*/}}
+{{- define "app.version" -}}
+{{- default .Chart.AppVersion .Values.image.tag }}
+{{- end }}
+
+{{/*
 Return instance and name labels.
 */}}
 {{- define "app.selectorLabels" -}}
@@ -41,8 +48,11 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 Return labels, including instance and name.
 */}}
 {{- define "app.labels" -}}
+app: {{ include "app.fullname" . | quote }}
+version: {{ include "app.version" . | quote }}
 {{ include "app.selectorLabels" . }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/version: {{ include "app.version" . | quote }}
 helm.sh/chart: {{ include "app.chart" . }}
 {{- end }}
 

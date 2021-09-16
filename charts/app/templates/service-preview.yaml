@@ -4,7 +4,6 @@ kind: Service
 metadata:
   name: {{ include "app.fullname" . }}-preview
   labels:
-    app: {{ include "app.fullname" . }}
     {{- include "app.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
