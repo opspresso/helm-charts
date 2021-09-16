@@ -3,8 +3,8 @@ description: Exporter for AWS Cost Explorer daily costs
 icon: https://avatars0.githubusercontent.com/u/39108256
 name: aws-costs-exporter
 type: application
-appVersion: v0.1.1
-version: v0.1.1
+appVersion: v0.1.2
+version: v0.1.2
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu

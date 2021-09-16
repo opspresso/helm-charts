@@ -107,6 +107,8 @@ serviceMonitor:
       port: http
 
 env: []
+  # - name: METRIC_MONTHLY_COSTS
+  #   value: "yes"
   # - name: METRIC_TODAY_DAILY_COSTS
   #   value: "yes"
   # - name: METRIC_YESTERDAY_DAILY_COSTS
