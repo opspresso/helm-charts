@@ -34,7 +34,7 @@ spec:
             - "0.0.0.0"
           ports:
             - name: {{ .Values.service.name | default "http" }}
-              containerPort: {{ .Values.service.targetPort | default "5000" }}
+              containerPort: {{ .Values.service.port | default "5000" }}
               protocol: {{ .Values.service.protocol | default "TCP" }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
