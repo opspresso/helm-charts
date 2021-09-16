@@ -1,6 +1,6 @@
 # prometheus-aws-costs-exporter
 
-![Version: v0.1.1](https://img.shields.io/badge/Version-v0.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.1.3](https://img.shields.io/badge/Version-v0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 Exporter for AWS Cost Explorer daily costs
 
@@ -15,32 +15,18 @@ Exporter for AWS Cost Explorer daily costs
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
-| args | list | `[]` |  |
-| command | list | `[]` |  |
-| controller.strategy | object | `{}` |  |
-| dnsPolicy | string | `"ClusterFirst"` |  |
 | env | list | `[]` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"opspresso/aws-cost-exporter"` |  |
 | image.tag | string | `"latest"` |  |
-| imagePullSecrets | list | `[]` |  |
 | irsa.enabled | bool | `false` |  |
 | irsa.statement | list | `[]` |  |
 | livenessProbe | object | `{}` |  |
 | nodeSelector | object | `{}` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
-| podSecurityContext | object | `{}` |  |
 | readinessProbe | object | `{}` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
-| restartPolicy | string | `"Always"` |  |
-| revisionHistoryLimit | int | `0` |  |
-| securityContext | object | `{}` |  |
-| service.port | int | `5000` |  |
-| service.preview.enabled | bool | `false` |  |
-| service.targetPort | int | `5000` |  |
-| service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `false` |  |
 | serviceAccount.name | string | `""` |  |
