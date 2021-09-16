@@ -4,7 +4,6 @@ kind: IamRoleServiceAccount
 metadata:
   name: {{ include "app.serviceAccountName" . }}
   labels:
-    app: {{ include "app.fullname" . }}
     {{- include "app.labels" . | nindent 4 }}
 spec:
   policy:

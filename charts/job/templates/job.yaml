@@ -3,15 +3,14 @@ kind: Job
 metadata:
   name: {{ include "app.fullname" . }}
   labels:
-    app: {{ include "app.fullname" . }}
     {{- include "app.labels" . | nindent 4 }}
 spec:
   backoffLimit: {{ .Values.backoffLimit }}
   template:
     spec:
       containers:
-        - name: app
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        - name: job
+          image: "{{ .Values.image.repository }}:{{ include "app.version" . }}"
           {{- with .Values.args }}
           args:
 {{ toYaml . | indent 12 }}
