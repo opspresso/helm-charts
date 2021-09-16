@@ -1,6 +1,6 @@
 # prometheus-aws-costs-exporter
 
-![Version: v0.1.3](https://img.shields.io/badge/Version-v0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.1.5](https://img.shields.io/badge/Version-v0.1.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 Exporter for AWS Cost Explorer daily costs
 

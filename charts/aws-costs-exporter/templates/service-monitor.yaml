@@ -4,7 +4,6 @@ kind: ServiceMonitor
 metadata:
   name: {{ include "app.fullname" . }}
   labels:
-    app: {{ include "app.fullname" . }}
     {{- include "app.labels" . | nindent 4 }}
     release: {{ .Values.serviceMonitor.selector.release }}
 spec:
