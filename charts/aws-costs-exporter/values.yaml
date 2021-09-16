@@ -12,10 +12,10 @@ controller:
 imagePullSecrets: []
 
 image:
-  repository: nachomillangarcia/prometheus_aws_cost_exporter
+  repository: opspresso/aws-cost-exporter
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart version.
-  tag: latest
+  # tag: v0.1.1
 
 args: [--host, 0.0.0.0]
 
