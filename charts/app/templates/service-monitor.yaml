@@ -5,15 +5,16 @@ metadata:
   name: {{ include "app.fullname" . }}
   labels:
     app: {{ include "app.fullname" . }}
+    {{- include "app.labels" . | nindent 4 }}
     release: {{ .Values.serviceMonitor.selector.release }}
 spec:
-  selector:
-    matchLabels:
-      app: {{ include "app.fullname" . }}
   endpoints:
   {{- range .Values.serviceMonitor.endpoints }}
     - interval: {{ .interval | quote }}
       path: {{ .path | quote }}
       port: {{ .port | quote }}
   {{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
 {{- end }}

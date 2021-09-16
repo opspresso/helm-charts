@@ -7,15 +7,11 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
     version: {{ .Values.image.tag | default .Chart.AppVersion }}
 spec:
-  replicas: {{ .Values.replicaCount }}
-  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  replicas: {{ .Values.replicaCount | default 1 }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default 1 }}
   selector:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
-  {{- with .Values.controller.strategy }}
-  strategy:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -32,23 +28,13 @@ spec:
     spec:
       containers:
         - name: app
-          {{- with .Values.securityContext }}
-          securityContext:
-            {{- toYaml . | nindent 12 }}
-          {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
-          {{- with .Values.args }}
           args:
-{{ toYaml . | indent 12 }}
-          {{- end }}
-          {{- with .Values.command }}
-          command:
-{{ toYaml . | nindent 12 }}
-          {{- end }}
+            - "--host"
+            - "0.0.0.0"
           ports:
             - name: {{ .Values.service.name | default "http" }}
-              containerPort: {{ .Values.service.targetPort | default "80" }}
+              containerPort: {{ .Values.service.targetPort | default "5000" }}
               protocol: {{ .Values.service.protocol | default "TCP" }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
@@ -66,17 +52,7 @@ spec:
           env:
 {{ toYaml . | indent 12 }}
           {{- end }}
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       serviceAccountName: {{ include "app.serviceAccountName" . }}
-      {{- with .Values.securityContext }}
-      securityContext:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirst" }}
-      restartPolicy: {{ .Values.restartPolicy | default "Always" }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | nindent 8 }}

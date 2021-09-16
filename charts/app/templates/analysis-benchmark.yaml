@@ -6,6 +6,9 @@ apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
   name: {{ include "app.fullname" . }}-http-benchmark
+  labels:
+    app: {{ include "app.fullname" . }}
+    {{- include "app.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:

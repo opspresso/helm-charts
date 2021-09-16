@@ -2,27 +2,43 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
-revisionHistoryLimit: 0
-
-controller:
-  strategy: {}
-
-imagePullSecrets: []
-
 image:
   repository: opspresso/aws-cost-exporter
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart version.
-  # tag: v0.1.1
+  # tag: latest
 
-args: [--host, 0.0.0.0]
+podLabels: {}
 
-command: []
-  # - "aws"
-  # - "s3"
-  # - "ls"
+podAnnotations: {}
+
+livenessProbe: {}
+  # httpGet:
+  #   path: /health
+  #   port: 5000
+  # initialDelaySeconds: 3
+  # periodSeconds: 10
+  # failureThreshold: 3
+
+readinessProbe: {}
+  # httpGet:
+  #   path: /health
+  #   port: 5000
+  # initialDelaySeconds: 3
+  # periodSeconds: 10
+  # failureThreshold: 3
+
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -40,65 +56,8 @@ irsa:
     #   action:
     #     - "ce:GetCostAndUsage"
 
-service:
-  type: ClusterIP
-  port: 5000
-  targetPort: 5000
-
-  preview:
-    enabled: false
-
-podLabels: {}
-
-podAnnotations: {}
-
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-livenessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: 3000
-  # initialDelaySeconds: 3
-  # periodSeconds: 10
-  # failureThreshold: 3
-
-readinessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: 3000
-  # initialDelaySeconds: 3
-  # periodSeconds: 10
-  # failureThreshold: 3
-
-resources: {}
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-dnsPolicy: ClusterFirst # ClusterFirst Default
-
-restartPolicy: Always # Always, OnFailure, Never
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
 serviceMonitor:
-  enabled: false
+  enabled: true
   selector:
     release: prometheus-operator
   endpoints:
