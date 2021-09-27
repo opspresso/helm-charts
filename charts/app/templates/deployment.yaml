@@ -84,7 +84,7 @@ spec:
             {{ end }}
             {{ if .Values.externalSecrets.enabled }}
             - secretRef:
-                name: {{ include "app.fullname" . }}-es
+                name: {{ include "app.fullname" . }}-external
             {{ end }}
           {{ end }}
       {{- with .Values.imagePullSecrets }}
