@@ -1,0 +1,36 @@
+name: Build-Push
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+
+      - name: Fetch current Chart Index
+        run: |
+          git checkout origin/gh-pages index.yaml
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.2.0
+        with:
+          config: "./.github/configs/cr.yaml"
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
