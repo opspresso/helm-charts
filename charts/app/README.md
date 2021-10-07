@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.5.0](https://img.shields.io/badge/Version-v0.5.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.6.0](https://img.shields.io/badge/Version-v0.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -74,6 +74,8 @@ helm install my-release opspresso/app -f values.yaml
 | istio.sidecar.inject | bool | `false` |  |
 | livenessProbe | object | `{}` |  |
 | nodeSelector | object | `{}` |  |
+| pdb.enabled | bool | `false` |  |
+| pdb.maxUnavailable | int | `1` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |

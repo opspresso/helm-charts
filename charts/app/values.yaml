@@ -166,7 +166,11 @@ autoscaling:
     #       type: Utilization
     #   type: Resource
 
-dnsPolicy: ClusterFirst # ClusterFirst Default
+pdb:
+  enabled: false
+  maxUnavailable: 1
+
+dnsPolicy: ClusterFirst # ClusterFirst, Default
 
 restartPolicy: Always # Always, OnFailure, Never
 
