@@ -4,7 +4,7 @@ icon: https://avatars0.githubusercontent.com/u/39108256
 name: app
 type: application
 appVersion: latest
-version: v0.6.0
+version: v0.6.1
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu
