@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.6.1](https://img.shields.io/badge/Version-v0.6.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.6.2](https://img.shields.io/badge/Version-v0.6.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -9,7 +9,7 @@ A Helm chart for Kubernetes
 Add OpsPreSso public chart repo:
 
 ```console
-helm repo add opspresso opspresso.github.io/helm-charts/
+helm repo add opspresso https://opspresso.github.io/helm-charts
 ```
 
 A simple install with default values:
