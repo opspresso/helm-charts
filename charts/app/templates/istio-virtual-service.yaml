@@ -40,7 +40,6 @@ spec:
             port:
               number: 80
 {{- end }}
-{{- end }}
 {{- if and .Values.istio.gateway.enabled .Values.service.stable.enabled -}}
 ---
 apiVersion: networking.istio.io/v1beta1
