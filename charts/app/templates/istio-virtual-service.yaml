@@ -18,8 +18,8 @@ spec:
             host: {{ include "app.fullname" . }}
             port:
               number: 80
----
 {{- if and .Values.istio.gateway.enabled .Values.service.preview.enabled -}}
+---
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -37,6 +37,29 @@ spec:
     - route:
         - destination:
             host: {{ include "app.fullname" . }}-preview
+            port:
+              number: 80
+{{- end }}
+{{- end }}
+{{- if and .Values.istio.gateway.enabled .Values.service.stable.enabled -}}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "app.fullname" . }}-stable
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  hosts:
+    {{- range .Values.ingress.stable.hosts }}
+    - {{ .host | quote }}
+    {{- end }}
+  gateways:
+    - {{ include "app.fullname" . }}
+  http:
+    - route:
+        - destination:
+            host: {{ include "app.fullname" . }}-stable
             port:
               number: 80
 {{- end }}

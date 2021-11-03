@@ -21,7 +21,7 @@ controller:
     #   previewService: sample-preview
     # canary:
     #   canaryService: sample-preview
-    #   stableService: sample
+    #   stableService: sample-stable
     #   steps:
     #   - setWeight: 25
     #   - pause:
@@ -82,6 +82,9 @@ service:
   preview:
     enabled: false
 
+  stable:
+    enabled: false
+
 ingress:
   enabled: false
   # className: nginx
@@ -99,6 +102,10 @@ ingress:
   preview:
     hosts:
       - host: sample-preview.domain.com
+
+  stable:
+    hosts:
+      - host: sample-stable.domain.com
 
   tls: []
   #  - secretName: sample-tls

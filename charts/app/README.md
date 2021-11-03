@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.6.3](https://img.shields.io/badge/Version-v0.6.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.7.0](https://img.shields.io/badge/Version-v0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -67,6 +67,7 @@ helm install my-release opspresso/app -f values.yaml
 | ingress.path | string | `"/"` |  |
 | ingress.pathType | string | `"Prefix"` |  |
 | ingress.preview.hosts[0].host | string | `"sample-preview.domain.com"` |  |
+| ingress.stable.hosts[0].host | string | `"sample-stable.domain.com"` |  |
 | ingress.tls | list | `[]` |  |
 | irsa.enabled | bool | `false` |  |
 | irsa.statement | list | `[]` |  |
@@ -89,6 +90,7 @@ helm install my-release opspresso/app -f values.yaml
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
 | service.preview.enabled | bool | `false` |  |
+| service.stable.enabled | bool | `false` |  |
 | service.targetPort | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
