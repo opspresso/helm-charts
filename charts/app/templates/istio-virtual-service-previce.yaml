@@ -1,13 +1,13 @@
-{{- if .Values.istio.gateway.enabled }}
+{{- if and .Values.istio.gateway.enabled .Values.service.preview.enabled }}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: {{ include "app.fullname" . }}
+  name: {{ include "app.fullname" . }}-preview
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
   hosts:
-    {{- range .Values.ingress.hosts }}
+    {{- range .Values.ingress.preview.hosts }}
     - {{ .host | quote }}
     {{- end }}
   gateways:
@@ -15,7 +15,7 @@ spec:
   http:
     - route:
         - destination:
-            host: {{ include "app.fullname" . }}
+            host: {{ include "app.fullname" . }}-preview
             port:
               number: 80
 {{- end }}

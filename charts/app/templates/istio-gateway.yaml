@@ -16,6 +16,9 @@ spec:
         {{- range .Values.ingress.preview.hosts }}
         - {{ .host | quote }}
         {{- end }}
+        {{- range .Values.ingress.stable.hosts }}
+        - {{ .host | quote }}
+        {{- end }}
       port:
         name: http
         number: 80
