@@ -6,14 +6,13 @@ replicaCount: 1
 
 revisionHistoryLimit: 1
 
-analysis:
-  enabled: false
-  # url: "http://sample-preview:3000/success/98"
-
 controller:
   kind: Deployment # Deployment or Rollout
 
   strategy: {}
+    # rollingUpdate:
+    #   maxSurge: 25%
+    #   maxUnavailable: 25%
     # blueGreen:
     #   activeService: sample
     #   autoPromotionEnabled: true
@@ -65,14 +64,6 @@ serviceAccount:
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
-
-irsa:
-  enabled: false
-  statement: []
-    # - resource: "arn:aws:s3:::irsa-sample"
-    #   action:
-    #     - "s3:Get*"
-    #     - "s3:List*"
 
 service:
   type: ClusterIP
@@ -161,11 +152,14 @@ autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 5
+  behavior: {}
+    # scaleDown:
+    #   policies:
+    #     - periodSeconds: 60
+    #       type: Percent
+    #       value: 25
+    #   stabilizationWindowSeconds: 600
   metrics: []
-    # - pods:
-    #     metricName: container_network_receive_bytes
-    #     targetAverageValue: 3k
-    #   type: Pods
     # - resource:
     #     name: cpu
     #     target:
@@ -210,9 +204,21 @@ secret:
   data: {}
     # SECRET_MESSAGE: "c2VjcmV0IG1lc3NhZ2U="
 
+analysis:
+  enabled: false
+  # url: "http://sample-preview:3000/success/98"
+
 externalSecrets:
   enabled: false
   backendType: systemManager
   data: []
     # - key: /k8s/common/admin-password
     #   name: admin-password
+
+irsa:
+  enabled: false
+  statement: []
+    # - resource: "arn:aws:s3:::irsa-sample"
+    #   action:
+    #     - "s3:Get*"
+    #     - "s3:List*"
