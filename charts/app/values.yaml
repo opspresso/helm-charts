@@ -160,12 +160,19 @@ autoscaling:
     #       value: 25
     #   stabilizationWindowSeconds: 600
   metrics: []
-    # - resource:
+    # - type: Resource
+    #   resource:
     #     name: cpu
     #     target:
-    #       averageUtilization: 60
     #       type: Utilization
-    #   type: Resource
+    #       averageUtilization: 60
+    # - type: ContainerResource
+    #   containerResource:
+    #     name: cpu
+    #     container: app
+    #     target:
+    #       type: Utilization
+    #       averageUtilization: 60
 
 pdb:
   enabled: false

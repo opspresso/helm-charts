@@ -10,8 +10,8 @@ spec:
   ports:
     - name: {{ .Values.service.name | default "http" }}
       port: {{ .Values.service.port | default "80" }}
-      targetPort: {{ .Values.service.name | default "http" }}
       protocol: {{ .Values.service.protocol | default "TCP" }}
+      targetPort: {{ .Values.service.name | default "http" }}
   selector:
     {{- include "app.selectorLabels" . | nindent 4 }}
 {{- end }}

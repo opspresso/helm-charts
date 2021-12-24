@@ -17,5 +17,5 @@ spec:
         - destination:
             host: {{ include "app.fullname" . }}
             port:
-              number: 80
+              number: {{ .Values.service.port | default "80" }}
 {{- end }}

@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.7.3](https://img.shields.io/badge/Version-v0.7.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.7.4](https://img.shields.io/badge/Version-v0.7.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -43,6 +43,7 @@ helm install my-release opspresso/app -f values.yaml
 | affinity | object | `{}` |  |
 | analysis.enabled | bool | `false` |  |
 | args | list | `[]` |  |
+| autoscaling.behavior | object | `{}` |  |
 | autoscaling.enabled | bool | `false` |  |
 | autoscaling.maxReplicas | int | `5` |  |
 | autoscaling.metrics | list | `[]` |  |
