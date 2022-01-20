@@ -3,6 +3,20 @@ entries:
   app:
   - apiVersion: v2
     appVersion: latest
+    created: "2022-01-20T01:58:29.279147035Z"
+    description: A Helm chart for Kubernetes
+    digest: bc1bc1ada6f17ae0ca6950ec454a0d5d9cf45e22c3ba673c2ffdc7de56c34e3a
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: app
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/app-v0.7.8/app-v0.7.8.tgz
+    version: v0.7.8
+  - apiVersion: v2
+    appVersion: latest
     created: "2022-01-20T00:59:22.379992365Z"
     description: A Helm chart for Kubernetes
     digest: 61d7163421cc6d7a3802b91710d265b04f9262c372e1f244492bf41ffefe13bc
@@ -456,6 +470,20 @@ entries:
   aws-costs-exporter:
   - apiVersion: v2
     appVersion: v0.1.2
+    created: "2022-01-20T01:58:29.40421457Z"
+    description: Exporter for AWS Cost Explorer daily costs
+    digest: a78539b479677cd4d56f3484860bd0590733693d7b06ee0dcfc076f6e004a604
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: aws-costs-exporter
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/aws-costs-exporter-v0.1.6/aws-costs-exporter-v0.1.6.tgz
+    version: v0.1.6
+  - apiVersion: v2
+    appVersion: v0.1.2
     created: "2021-09-27T03:46:38.879442822Z"
     description: Exporter for AWS Cost Explorer daily costs
     digest: ce73bcc22887d615dc3ea789d8c522895238e82a5c551295bf5a5f52e715d1e9
@@ -527,6 +555,20 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: latest
+    created: "2022-01-20T01:58:29.520595076Z"
+    description: A Helm chart for Kubernetes
+    digest: b75ed7f43e0131514a5cb2417e3f4112d5f31bc4992f8adc701a4e78d2084d7a
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: cronjob
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.1.2/cronjob-v0.1.2.tgz
+    version: v0.1.2
+  - apiVersion: v2
+    appVersion: latest
     created: "2021-09-27T10:37:57.388609776Z"
     description: A Helm chart for Kubernetes
     digest: 41fc38235391ad848c4e0ab3e0b45499d6f24597eae9a514d80218605e9d5f29
@@ -556,6 +598,16 @@ entries:
   elasticsearch-snapshot:
   - apiVersion: v1
     appVersion: latest
+    created: "2022-01-20T01:58:29.64907994Z"
+    description: A Helm chart for Kubernetes
+    digest: 0a57f1e5cf6449d756fa32ad146356fdd6ea18689b9586edb16b29aa974a0fde
+    icon: https://avatars.githubusercontent.com/u/38965494
+    name: elasticsearch-snapshot
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/elasticsearch-snapshot-v0.2.2/elasticsearch-snapshot-v0.2.2.tgz
+    version: v0.2.2
+  - apiVersion: v1
+    appVersion: latest
     created: "2021-09-27T03:46:38.880132431Z"
     description: A Helm chart for Kubernetes
     digest: 59bb80210e4eaf8a9a0ad07c84ff2f86a7d75f6363c5de89bed9ce604b02d7a3
@@ -565,6 +617,16 @@ entries:
     - elasticsearch-snapshot-v0.2.1.tgz
     version: v0.2.1
   embulk-jobs:
+  - apiVersion: v1
+    appVersion: 0.10.15
+    created: "2022-01-20T01:58:29.768896977Z"
+    description: A Helm chart for Kubernetes
+    digest: 4a3a63692321b1daf90cb9b55f0a28124450ca4096b92719f038fb874b2acc95
+    icon: https://avatars.githubusercontent.com/u/38965494
+    name: embulk-jobs
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/embulk-jobs-v0.2.3/embulk-jobs-v0.2.3.tgz
+    version: v0.2.3
   - apiVersion: v1
     appVersion: 0.10.15
     created: "2021-09-27T03:46:38.880852897Z"
@@ -623,6 +685,20 @@ entries:
     - grafana-6.16.9.tgz
     version: 6.16.9
   job:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-01-20T01:58:29.897494345Z"
+    description: A Helm chart for Kubernetes
+    digest: 98602df02f41f17efbd3fad2eb545746d4d526d354c65b0cf9c9f3fd4b12bf62
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: job
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/job-v0.2.6/job-v0.2.6.tgz
+    version: v0.2.6
   - apiVersion: v2
     appVersion: latest
     created: "2021-09-27T10:37:58.13415346Z"
@@ -804,4 +880,18 @@ entries:
     urls:
     - sample-v0.3.0.tgz
     version: v0.3.0
-generated: "2022-01-20T00:59:22.380538871Z"
+  tgbs:
+  - apiVersion: v2
+    created: "2022-01-20T01:58:30.024175139Z"
+    description: A Helm chart for Kubernetes
+    digest: 7aa546795b95f1b5af40fffdea04b198b989f6221eb22ebd51d84cf4e917ae1a
+    icon: https://avatars.githubusercontent.com/u/12152522
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: tgbs
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/tgbs-v0.1.0/tgbs-v0.1.0.tgz
+    version: v0.1.0
+generated: "2022-01-20T01:58:30.02589524Z"
