@@ -1,10 +1,9 @@
 apiVersion: v2
 description: A Helm chart for Kubernetes
-icon: https://avatars.githubusercontent.com/u/38965494
-name: app
+icon: https://avatars.githubusercontent.com/u/12152522
+name: tgbs
 type: application
-appVersion: latest
-version: v0.7.8
+version: v0.1.0
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu

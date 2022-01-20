@@ -1,0 +1,11 @@
+# Default values for sample.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+tgbs: []
+  # - name: name
+  #   serviceRef:
+  #     name: service-name
+  #     port: http2
+  #   targetGroupARN: arn:aws:elasticloadbalancing:xxx:000:targetgroup/name/xxx
+  #   targetType: ip
