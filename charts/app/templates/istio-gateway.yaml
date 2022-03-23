@@ -13,13 +13,13 @@ spec:
         {{- range .Values.ingress.hosts }}
         - {{ .host | quote }}
         {{- end }}
-        {{- if .Values.service.preview.enabled }}
-        {{- range .Values.ingress.preview.hosts }}
+        {{- if .Values.ingress.stable.enabled }}
+        {{- range .Values.ingress.stable.hosts }}
         - {{ .host | quote }}
         {{- end }}
         {{- end }}
-        {{- if .Values.service.stable.enabled }}
-        {{- range .Values.ingress.stable.hosts }}
+        {{- if .Values.ingress.preview.enabled }}
+        {{- range .Values.ingress.preview.hosts }}
         - {{ .host | quote }}
         {{- end }}
         {{- end }}

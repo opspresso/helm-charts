@@ -15,6 +15,7 @@ spec:
   http:
     - name: primary
       route:
+        {{- if .Values.istio.canary.subsets }}
         - destination:
             host: {{ include "app.fullname" . }}
             port:
@@ -27,4 +28,10 @@ spec:
               number: {{ .Values.service.port | default "80" }}
             subset: canary
           weight: 0
+        {{- else }}
+        - destination:
+            host: {{ include "app.fullname" . }}
+            port:
+              number: {{ .Values.service.port | default "80" }}
+        {{- end }}
 {{- end }}

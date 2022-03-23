@@ -5,6 +5,7 @@ metadata:
   name: {{ include "app.fullname" . }}
 spec:
   host: {{ include "app.fullname" . }}
+  {{- if .Values.istio.canary.subsets }}
   subsets:
     - name: canary
       labels:
@@ -12,6 +13,7 @@ spec:
     - name: stable
       labels:
         app: {{ include "app.fullname" . }}
+  {{- end }}
   {{- with .Values.istio.trafficPolicy }}
   trafficPolicy:
     {{- toYaml . | nindent 4 }}

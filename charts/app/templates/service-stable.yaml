@@ -1,4 +1,4 @@
-{{- if .Values.service.stable.enabled }}
+{{- if .Values.ingress.stable.enabled }}
 apiVersion: v1
 kind: Service
 metadata:

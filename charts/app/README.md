@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.8.0](https://img.shields.io/badge/Version-v0.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.8.2](https://img.shields.io/badge/Version-v0.8.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -67,13 +67,17 @@ helm install my-release opspresso/app -f values.yaml
 | ingress.hosts[0].host | string | `"sample.domain.com"` |  |
 | ingress.path | string | `"/"` |  |
 | ingress.pathType | string | `"Prefix"` |  |
-| ingress.preview.hosts[0].host | string | `"sample-preview.domain.com"` |  |
-| ingress.stable.hosts[0].host | string | `"sample-stable.domain.com"` |  |
+| ingress.preview.enabled | bool | `false` |  |
+| ingress.preview.hosts | list | `[]` |  |
+| ingress.stable.enabled | bool | `false` |  |
+| ingress.stable.hosts | list | `[]` |  |
 | ingress.tls | list | `[]` |  |
 | irsa.enabled | bool | `false` |  |
 | irsa.statement | list | `[]` |  |
+| istio.canary.subsets | bool | `false` |  |
 | istio.gateway.enabled | bool | `false` |  |
 | istio.sidecar.inject | bool | `false` |  |
+| istio.trafficPolicy | object | `{}` |  |
 | livenessProbe | object | `{}` |  |
 | nodeSelector | object | `{}` |  |
 | pdb.enabled | bool | `false` |  |
@@ -90,9 +94,7 @@ helm install my-release opspresso/app -f values.yaml
 | secret.enabled | bool | `false` |  |
 | securityContext | object | `{}` |  |
 | service.port | int | `80` |  |
-| service.preview.enabled | bool | `false` |  |
-| service.stable.enabled | bool | `false` |  |
-| service.targetPort | int | `80` |  |
+| service.targetPort | int | `3000` |  |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `false` |  |

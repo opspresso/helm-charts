@@ -1,4 +1,4 @@
-{{- if and .Values.istio.gateway.enabled .Values.service.stable.enabled }}
+{{- if and .Values.istio.gateway.enabled .Values.ingress.stable.enabled }}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
@@ -15,8 +15,16 @@ spec:
   http:
     - name: primary
       route:
+        {{- if .Values.istio.canary.subsets }}
+        - destination:
+            host: {{ include "app.fullname" . }}
+            port:
+              number: {{ .Values.service.port | default "80" }}
+            subset: canary
+        {{- else }}
         - destination:
             host: {{ include "app.fullname" . }}-stable
             port:
               number: {{ .Values.service.port | default "80" }}
+        {{- end }}
 {{- end }}
