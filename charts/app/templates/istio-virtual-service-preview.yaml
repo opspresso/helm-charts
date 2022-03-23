@@ -6,12 +6,12 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
+  gateways:
+    - {{ include "app.fullname" . }}
   hosts:
     {{- range .Values.ingress.preview.hosts }}
     - {{ .host | quote }}
     {{- end }}
-  gateways:
-    - {{ include "app.fullname" . }}
   http:
     - route:
         - destination:

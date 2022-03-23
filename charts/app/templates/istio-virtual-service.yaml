@@ -6,16 +6,25 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
+  gateways:
+    - {{ include "app.fullname" . }}
   hosts:
     {{- range .Values.ingress.hosts }}
     - {{ .host | quote }}
     {{- end }}
-  gateways:
-    - {{ include "app.fullname" . }}
   http:
-    - route:
+    - name: primary
+      route:
         - destination:
             host: {{ include "app.fullname" . }}
             port:
               number: {{ .Values.service.port | default "80" }}
+            subset: stable
+          weight: 100
+        - destination:
+            host: {{ include "app.fullname" . }}
+            port:
+              number: {{ .Values.service.port | default "80" }}
+            subset: canary
+          weight: 0
 {{- end }}
