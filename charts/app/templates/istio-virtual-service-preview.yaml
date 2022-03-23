@@ -15,16 +15,16 @@ spec:
   http:
     - name: primary
       route:
-        {{- if .Values.istio.canary.subsets }}
+      {{- if .Values.istio.canary.subsets }}
         - destination:
             host: {{ include "app.fullname" . }}
             port:
               number: {{ .Values.service.port | default "80" }}
             subset: canary
-        {{- else }}
+      {{- else }}
         - destination:
             host: {{ include "app.fullname" . }}-preview
             port:
               number: {{ .Values.service.port | default "80" }}
-        {{- end }}
+      {{- end }}
 {{- end }}
