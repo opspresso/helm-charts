@@ -1,4 +1,4 @@
-{{- if .Values.istio.gateway.enabled }}
+{{- if or .Values.istio.gateway.enabled .Values.istio.sidecar.inject }}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
