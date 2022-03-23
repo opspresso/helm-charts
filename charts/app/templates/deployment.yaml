@@ -42,7 +42,7 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ include "app.version" . }}"
+          image: {{ include "app.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           {{- with .Values.args }}
           args:

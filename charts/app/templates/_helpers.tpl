@@ -37,6 +37,13 @@ Return application version.
 {{- end }}
 
 {{/*
+Return application image.
+*/}}
+{{- define "app.image" -}}
+{{- printf "%s:%s" .Values.image.repository (include "app.version" .) -}}
+{{- end }}
+
+{{/*
 Return instance and name labels.
 */}}
 {{- define "app.selectorLabels" -}}

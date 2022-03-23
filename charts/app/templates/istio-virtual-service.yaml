@@ -15,7 +15,7 @@ spec:
   http:
     - name: primary
       route:
-        {{- if .Values.istio.canary.subsets }}
+      {{- if .Values.istio.canary.subsets }}
         - destination:
             host: {{ include "app.fullname" . }}
             port:
@@ -28,10 +28,22 @@ spec:
               number: {{ .Values.service.port | default "80" }}
             subset: canary
           weight: 0
-        {{- else }}
+      {{- else }}
         - destination:
             host: {{ include "app.fullname" . }}
             port:
               number: {{ .Values.service.port | default "80" }}
+        {{- if .Values.ingress.stable.enabled }}
+        - destination:
+            host: {{ include "app.fullname" . }}-stable
+            port:
+              number: {{ .Values.service.port | default "80" }}
         {{- end }}
+        {{- if .Values.ingress.preview.enabled }}
+        - destination:
+            host: {{ include "app.fullname" . }}-preview
+            port:
+              number: {{ .Values.service.port | default "80" }}
+        {{- end }}
+      {{- end }}
 {{- end }}
