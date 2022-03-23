@@ -21,16 +21,16 @@ controller:
     # canary:
     #   canaryService: sample-preview
     #   stableService: sample-stable
-    #   trafficRouting:
-    #     istio:
-    #       virtualService:
-    #         name: sample
-    #         routes:
-    #         - primary
-    #       # destinationRule:
-    #       #   name: sample
-    #       #   canarySubsetName: canary
-    #       #   stableSubsetName: stable
+    #   # trafficRouting:
+    #   #   istio:
+    #   #     virtualService:
+    #   #       name: sample
+    #   #       routes:
+    #   #       - primary
+    #   #     destinationRule:
+    #   #       name: sample
+    #   #       canarySubsetName: canary
+    #   #       stableSubsetName: stable
     #   steps:
     #   - setWeight: 10
     #   - pause:
