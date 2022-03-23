@@ -13,7 +13,8 @@ spec:
     - {{ .host | quote }}
     {{- end }}
   http:
-    - route:
+    - name: primary
+      route:
         - destination:
             host: {{ include "app.fullname" . }}-stable
             port:

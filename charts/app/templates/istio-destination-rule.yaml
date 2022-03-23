@@ -6,10 +6,14 @@ metadata:
 spec:
   host: {{ include "app.fullname" . }}
   subsets:
-  - name: canary
-    labels:
-      app: {{ include "app.fullname" . }}
-  - name: stable
-    labels:
-      app: {{ include "app.fullname" . }}
+    - name: canary
+      labels:
+        app: {{ include "app.fullname" . }}
+    - name: stable
+      labels:
+        app: {{ include "app.fullname" . }}
+  {{- with .Values.istio.trafficPolicy }}
+  trafficPolicy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}
