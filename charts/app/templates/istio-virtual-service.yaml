@@ -30,14 +30,8 @@ spec:
           weight: 0
       {{- else }}
         - destination:
-            host: {{ include "app.fullname" . }}-stable
+            host: {{ include "app.fullname" . }}
             port:
               number: {{ .Values.service.port | default "80" }}
-          weight: 100
-        - destination:
-            host: {{ include "app.fullname" . }}-preview
-            port:
-              number: {{ .Values.service.port | default "80" }}
-          weight: 0
       {{- end }}
 {{- end }}
