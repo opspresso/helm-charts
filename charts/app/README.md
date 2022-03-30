@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.9.0](https://img.shields.io/badge/Version-v0.9.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.10.0](https://img.shields.io/badge/Version-v0.10.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -52,7 +52,12 @@ helm install my-release opspresso/app -f values.yaml
 | configmap.data | object | `{}` |  |
 | configmap.enabled | bool | `false` |  |
 | controller.kind | string | `"Deployment"` |  |
-| controller.strategy | object | `{}` |  |
+| controller.strategy.blueGreen.autoPromotionEnabled | bool | `true` |  |
+| controller.strategy.blueGreen.autoPromotionSeconds | int | `30` |  |
+| controller.strategy.canary.steps | list | `[]` |  |
+| controller.strategy.rollingUpdate.maxSurge | string | `"25%"` |  |
+| controller.strategy.rollingUpdate.maxUnavailable | string | `"25%"` |  |
+| controller.strategy.type | string | `"RollingUpdate"` |  |
 | dnsPolicy | string | `"ClusterFirst"` |  |
 | env | list | `[]` |  |
 | externalSecrets.backendType | string | `"systemManager"` |  |

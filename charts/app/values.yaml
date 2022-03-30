@@ -9,45 +9,32 @@ revisionHistoryLimit: 1
 controller:
   kind: Deployment # Deployment or Rollout
 
-  strategy: {}
-    # rollingUpdate:
-    #   maxSurge: 25%
-    #   maxUnavailable: 25%
-    # blueGreen:
-    #   activeService: sample
-    #   autoPromotionEnabled: true
-    #   autoPromotionSeconds: 30
-    #   previewService: sample-preview
-    # canary:
-    #   canaryService: sample-preview
-    #   stableService: sample-stable
-    #   # trafficRouting:
-    #   #   istio:
-    #   #     virtualService:
-    #   #       name: sample
-    #   #       routes:
-    #   #       - primary
-    #   #     destinationRule:
-    #   #       name: sample
-    #   #       canarySubsetName: canary
-    #   #       stableSubsetName: stable
-    #   steps:
-    #   - setWeight: 10
-    #   - pause:
-    #       duration: 10
-    #   - analysis:
-    #       args:
-    #       - name: url
-    #         value: http://sample-preview/success/98
-    #       templates:
-    #       - clusterScope: true
-    #         templateName: http-benchmark
-    #   - setWeight: 25
-    #   - pause:
-    #       duration: 10
-    #   - setWeight: 50
-    #   - pause:
-    #       duration: 10
+  strategy:
+    type: RollingUpdate # RollingUpdate or BlueGreen or Canary
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 0
+    blueGreen:
+      autoPromotionEnabled: true
+      autoPromotionSeconds: 60
+    canary:
+      steps: []
+      # - setWeight: 10
+      # - pause:
+      #     duration: 60
+      # # - analysis:
+      # #     args:
+      # #     - name: url
+      # #       value: http://sample-preview/success/98
+      # #     templates:
+      # #     - clusterScope: true
+      # #       templateName: http-benchmark
+      # # - setWeight: 25
+      # # - pause:
+      # #     duration: 10
+      # - setWeight: 50
+      # - pause:
+      #     duration: 60
 
 imagePullSecrets: []
 

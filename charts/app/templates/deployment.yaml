@@ -17,10 +17,42 @@ spec:
   selector:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
-  {{- with .Values.controller.strategy }}
   strategy:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- if eq .Values.controller.strategy.type "BlueGreen" }}
+    blueGreen:
+      activeService: {{ include "app.fullname" . }}
+      {{- if .Values.ingress.preview.enabled }}
+      previewService: {{ include "app.fullname" . }}-preview
+      {{- end }}
+      {{- toYaml .Values.controller.strategy.blueGreen | nindent 6 }}
+    {{- else if eq .Values.controller.strategy.type "Canary" }}
+    canary:
+      {{- if .Values.ingress.stable.enabled }}
+      stableService: {{ include "app.fullname" . }}-stable
+      {{- else }}
+      stableService: {{ include "app.fullname" . }}
+      {{- end }}
+      {{- if .Values.ingress.preview.enabled }}
+      canaryService: {{ include "app.fullname" . }}-preview
+      {{- end }}
+      {{- if and .Values.istio.gateway.enabled .Values.istio.canary.subsets }}
+      trafficRouting:
+        istio:
+          virtualService:
+            name: {{ include "app.fullname" . }}
+            routes:
+              - primary
+          destinationRule:
+            name: {{ include "app.fullname" . }}
+            stableSubsetName: stable
+            canarySubsetName: canary
+      {{- end }}
+      steps:
+        {{- toYaml .Values.controller.strategy.canary.steps | nindent 8 }}
+    {{- else }}
+    rollingUpdate:
+      {{- toYaml .Values.controller.strategy.rollingUpdate | nindent 6 }}
+    {{- end }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
