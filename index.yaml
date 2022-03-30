@@ -3,6 +3,20 @@ entries:
   app:
   - apiVersion: v2
     appVersion: latest
+    created: "2022-03-30T04:38:10.758820536Z"
+    description: A Helm chart for Kubernetes
+    digest: 56358f22923ed9ccdb303839044f0dd00a5d47c168b609592f9217f96c34f6d2
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: app
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/app-v0.10.0/app-v0.10.0.tgz
+    version: v0.10.0
+  - apiVersion: v2
+    appVersion: latest
     created: "2022-03-23T14:22:17.292920705Z"
     description: A Helm chart for Kubernetes
     digest: 7d75a325d0027e418c0767026b9ee0ab0d08da2d4caee20277cadf93012b5ed7
@@ -1048,4 +1062,4 @@ entries:
     urls:
     - https://github.com/opspresso/helm-charts/releases/download/tgbs-v0.1.0/tgbs-v0.1.0.tgz
     version: v0.1.0
-generated: "2022-03-23T14:22:17.293437212Z"
+generated: "2022-03-30T04:38:10.759289839Z"
