@@ -46,4 +46,4 @@ helm install my-release opspresso/tgbs -f values.yaml
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Jungyoul Yu | me@nalbam.com |  |
+| Jungyoul Yu | <me@nalbam.com> |  |

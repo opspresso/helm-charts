@@ -53,10 +53,10 @@ helm install my-release opspresso/app -f values.yaml
 | configmap.enabled | bool | `false` |  |
 | controller.kind | string | `"Deployment"` |  |
 | controller.strategy.blueGreen.autoPromotionEnabled | bool | `true` |  |
-| controller.strategy.blueGreen.autoPromotionSeconds | int | `30` |  |
+| controller.strategy.blueGreen.autoPromotionSeconds | int | `60` |  |
 | controller.strategy.canary.steps | list | `[]` |  |
 | controller.strategy.rollingUpdate.maxSurge | string | `"25%"` |  |
-| controller.strategy.rollingUpdate.maxUnavailable | string | `"25%"` |  |
+| controller.strategy.rollingUpdate.maxUnavailable | int | `0` |  |
 | controller.strategy.type | string | `"RollingUpdate"` |  |
 | dnsPolicy | string | `"ClusterFirst"` |  |
 | env | list | `[]` |  |
@@ -115,4 +115,4 @@ helm install my-release opspresso/app -f values.yaml
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Jungyoul Yu | me@nalbam.com |  |
+| Jungyoul Yu | <me@nalbam.com> |  |
