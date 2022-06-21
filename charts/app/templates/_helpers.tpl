@@ -60,7 +60,7 @@ version: {{ include "app.version" . | quote }}
 {{ include "app.selectorLabels" . }}
 {{- if .Values.additionalLabels }}
 {{ toYaml .Values.additionalLabels }}
-{{- end -}}
+{{- end }}
 {{- end }}
 
 {{/*
@@ -75,7 +75,7 @@ app.kubernetes.io/version: {{ include "app.version" . | quote }}
 helm.sh/chart: {{ include "app.chart" . }}
 {{- if .Values.additionalLabels }}
 {{ toYaml .Values.additionalLabels }}
-{{- end -}}
+{{- end }}
 {{- end }}
 
 {{/*
