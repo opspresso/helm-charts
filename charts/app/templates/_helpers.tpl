@@ -58,6 +58,9 @@ Return labels, including instance and name.
 app: {{ include "app.fullname" . | quote }}
 version: {{ include "app.version" . | quote }}
 {{ include "app.selectorLabels" . }}
+{{- if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels }}
+{{- end -}}
 {{- end }}
 
 {{/*
