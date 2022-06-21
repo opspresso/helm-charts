@@ -116,6 +116,8 @@ istio:
     #   baseEjectionTime: 3m
     #   maxEjectionPercent: 100
 
+additionalLabels: {}
+
 podLabels: {}
 
 podAnnotations: {}
