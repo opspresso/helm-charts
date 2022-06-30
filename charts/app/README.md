@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.11.3](https://img.shields.io/badge/Version-v0.11.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.11.4](https://img.shields.io/badge/Version-v0.11.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -95,7 +95,7 @@ helm install my-release opspresso/app -f values.yaml
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
 | restartPolicy | string | `"Always"` |  |
-| revisionHistoryLimit | int | `1` |  |
+| revisionHistoryLimit | int | `3` |  |
 | secret.data | object | `{}` |  |
 | secret.enabled | bool | `false` |  |
 | securityContext | object | `{}` |  |
