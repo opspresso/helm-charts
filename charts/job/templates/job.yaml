@@ -13,7 +13,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ include "app.version" . }}"
           {{- with .Values.args }}
           args:
-{{- toYaml . | indent 12 }}
+{{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.command }}
           command:
@@ -21,7 +21,7 @@ spec:
           {{- end }}
           {{- with .Values.env }}
           env:
-{{- toYaml . | indent 12 }}
+{{- toYaml . | nindent 12 }}
           {{- end }}
           {{ if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled }}
           envFrom:
