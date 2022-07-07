@@ -6,6 +6,8 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
 spec:
   schedule: {{ .Values.schedule | quote }}
+  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default "3" }}
+  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default "1" }}
   jobTemplate:
     spec:
       template:
@@ -46,8 +48,6 @@ spec:
           {{- end }}
           serviceAccountName: {{ include "app.serviceAccountName" . }}
           restartPolicy: {{ .Values.restartPolicy | default "Never" }}
-          successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default "3" }}
-          failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default "1" }}
           {{- with .Values.nodeSelector }}
           nodeSelector:
 {{- toYaml . | nindent 12 }}

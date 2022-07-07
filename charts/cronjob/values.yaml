@@ -35,10 +35,10 @@ serviceAccount:
 
 schedule: "0 0 * * *"
 
-restartPolicy: Never # Always, OnFailure, Never
-
 successfulJobsHistoryLimit: 3
 failedJobsHistoryLimit: 1
+
+restartPolicy: Never # Always, OnFailure, Never
 
 nodeSelector: {}
 
