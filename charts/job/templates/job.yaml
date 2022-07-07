@@ -13,15 +13,15 @@ spec:
           image: "{{ .Values.image.repository }}:{{ include "app.version" . }}"
           {{- with .Values.args }}
           args:
-{{ toYaml . | indent 12 }}
+{{- toYaml . | indent 12 }}
           {{- end }}
           {{- with .Values.command }}
           command:
-{{ toYaml . | nindent 12 }}
+{{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.env }}
           env:
-{{ toYaml . | indent 12 }}
+{{- toYaml . | indent 12 }}
           {{- end }}
           {{ if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled }}
           envFrom:
@@ -40,19 +40,19 @@ spec:
           {{ end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "app.serviceAccountName" . }}
       restartPolicy: {{ .Values.restartPolicy | default "Never" }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}

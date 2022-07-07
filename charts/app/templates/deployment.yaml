@@ -72,17 +72,17 @@ spec:
         - name: app
           {{- with .Values.securityContext }}
           securityContext:
-            {{- toYaml . | nindent 12 }}
+{{- toYaml . | nindent 12 }}
           {{- end }}
           image: {{ include "app.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
           {{- with .Values.args }}
           args:
-{{ toYaml . | indent 12 }}
+{{- toYaml . | indent 12 }}
           {{- end }}
           {{- with .Values.command }}
           command:
-{{ toYaml . | nindent 12 }}
+{{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
             - name: {{ .Values.service.name | default "http" }}
@@ -90,19 +90,19 @@ spec:
               protocol: {{ .Values.service.protocol | default "TCP" }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
-{{ toYaml . | nindent 12 }}
+{{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.readinessProbe }}
           readinessProbe:
-{{ toYaml . | nindent 12 }}
+{{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.resources }}
           resources:
-{{ toYaml . | nindent 12 }}
+{{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.env }}
           env:
-{{ toYaml . | indent 12 }}
+{{- toYaml . | indent 12 }}
           {{- end }}
           {{ if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled }}
           envFrom:
@@ -121,24 +121,24 @@ spec:
           {{ end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "app.serviceAccountName" . }}
       {{- with .Values.securityContext }}
       securityContext:
-        {{- toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}
       dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirst" }}
       restartPolicy: {{ .Values.restartPolicy | default "Always" }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml . | nindent 8 }}
+{{- toYaml . | nindent 8 }}
       {{- end }}
