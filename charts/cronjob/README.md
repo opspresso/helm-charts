@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v0.2.4](https://img.shields.io/badge/Version-v0.2.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.2.5](https://img.shields.io/badge/Version-v0.2.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -42,7 +42,9 @@ helm install my-release opspresso/cronjob -f values.yaml
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | args | list | `[]` |  |
+| backoffLimit | int | `0` |  |
 | command | list | `[]` |  |
+| concurrencyPolicy | string | `"Forbid"` |  |
 | configmap.data | object | `{}` |  |
 | configmap.enabled | bool | `false` |  |
 | env | list | `[]` |  |
@@ -56,7 +58,7 @@ helm install my-release opspresso/cronjob -f values.yaml
 | irsa.statement | list | `[]` |  |
 | nodeSelector | object | `{}` |  |
 | restartPolicy | string | `"Never"` |  |
-| schedule | string | `"0 0 * * *"` |  |
+| schedule | string | `"0 * * * *"` |  |
 | secret.data | object | `{}` |  |
 | secret.enabled | bool | `false` |  |
 | serviceAccount.annotations | object | `{}` |  |

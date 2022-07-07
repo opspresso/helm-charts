@@ -5,11 +5,13 @@ metadata:
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
+  concurrencyPolicy: {{ .Values.concurrencyPolicy | default "Forbid" }}
   schedule: {{ .Values.schedule | quote }}
   successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default "3" }}
   failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default "1" }}
   jobTemplate:
     spec:
+      backoffLimit: failedJobsHistoryLimit: {{ .Values.backoffLimit | default "0" }}
       template:
         spec:
           containers:

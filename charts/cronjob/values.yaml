@@ -33,10 +33,14 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-schedule: "0 0 * * *"
+schedule: "0 * * * *"
+
+backoffLimit: 0
 
 successfulJobsHistoryLimit: 3
 failedJobsHistoryLimit: 1
+
+concurrencyPolicy: Forbid # Allow, Forbid, Replace
 
 restartPolicy: Never # Always, OnFailure, Never
 
