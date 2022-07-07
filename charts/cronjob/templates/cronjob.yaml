@@ -11,7 +11,7 @@ spec:
   failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default "1" }}
   jobTemplate:
     spec:
-      backoffLimit: failedJobsHistoryLimit: {{ .Values.backoffLimit | default "0" }}
+      backoffLimit: {{ .Values.backoffLimit | default "3" }}
       template:
         spec:
           containers:
