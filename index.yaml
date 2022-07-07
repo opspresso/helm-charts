@@ -3,6 +3,20 @@ entries:
   app:
   - apiVersion: v2
     appVersion: latest
+    created: "2022-07-07T09:36:37.450443802Z"
+    description: A Helm chart for Kubernetes
+    digest: 3805ae2e86cb531841e159333c09bc11b261de8f3ef7fde5b24b0df373ed0b56
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: app
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/app-v0.11.5/app-v0.11.5.tgz
+    version: v0.11.5
+  - apiVersion: v2
+    appVersion: latest
     created: "2022-06-30T05:37:07.893625539Z"
     description: A Helm chart for Kubernetes
     digest: a85a82a895aecdf54b61e036be036ed3da38a33316e745389178ad7828532b58
@@ -793,6 +807,20 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: latest
+    created: "2022-07-07T09:36:37.573710743Z"
+    description: A Helm chart for Kubernetes
+    digest: 90c4d766d6acf31570345ab816a40148407b985fdcfdefa2006542239eb8323a
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: cronjob
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.2.1/cronjob-v0.2.1.tgz
+    version: v0.2.1
+  - apiVersion: v2
+    appVersion: latest
     created: "2022-01-20T01:58:29.520595076Z"
     description: A Helm chart for Kubernetes
     digest: b75ed7f43e0131514a5cb2417e3f4112d5f31bc4992f8adc701a4e78d2084d7a
@@ -923,6 +951,20 @@ entries:
     - grafana-6.16.9.tgz
     version: 6.16.9
   job:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-07-07T09:36:37.703559615Z"
+    description: A Helm chart for Kubernetes
+    digest: 6f2aa84ceda0a094679ee03eae71b638249575b08078f067258431acedd1ffd7
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: job
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/job-v0.2.7/job-v0.2.7.tgz
+    version: v0.2.7
   - apiVersion: v2
     appVersion: latest
     created: "2022-01-20T01:58:29.897494345Z"
@@ -1132,4 +1174,4 @@ entries:
     urls:
     - https://github.com/opspresso/helm-charts/releases/download/tgbs-v0.1.0/tgbs-v0.1.0.tgz
     version: v0.1.0
-generated: "2022-06-30T05:37:07.894266432Z"
+generated: "2022-07-07T09:36:37.704231115Z"
