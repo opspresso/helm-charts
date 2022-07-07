@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v0.1.2](https://img.shields.io/badge/Version-v0.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.2.1](https://img.shields.io/badge/Version-v0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -49,6 +49,7 @@ helm install my-release opspresso/cronjob -f values.yaml
 | externalSecrets.backendType | string | `"systemManager"` |  |
 | externalSecrets.data | list | `[]` |  |
 | externalSecrets.enabled | bool | `false` |  |
+| failedJobsHistoryLimit | int | `1` |  |
 | image.repository | string | `"amazon/aws-cli"` |  |
 | image.tag | string | `"latest"` |  |
 | irsa.enabled | bool | `false` |  |
@@ -61,6 +62,7 @@ helm install my-release opspresso/cronjob -f values.yaml
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `false` |  |
 | serviceAccount.name | string | `""` |  |
+| successfulJobsHistoryLimit | int | `3` |  |
 | tolerations | list | `[]` |  |
 
 ## Maintainers

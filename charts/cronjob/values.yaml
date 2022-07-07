@@ -37,6 +37,9 @@ schedule: "0 0 * * *"
 
 restartPolicy: Never # Always, OnFailure, Never
 
+successfulJobsHistoryLimit: 3
+failedJobsHistoryLimit: 1
+
 nodeSelector: {}
 
 tolerations: []
