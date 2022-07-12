@@ -104,21 +104,28 @@ spec:
           env:
 {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{ if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled }}
+          {{- if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled }}
           envFrom:
-            {{ if .Values.configmap.enabled }}
+            {{- if .Values.configmap.enabled }}
             - configMapRef:
                 name: {{ include "app.fullname" . }}
-            {{ end }}
-            {{ if .Values.secret.enabled }}
+            {{- end }}
+            {{- if .Values.secret.enabled }}
             - secretRef:
                 name: {{ include "app.fullname" . }}
-            {{ end }}
-            {{ if .Values.externalSecrets.enabled }}
+            {{- end }}
+            {{- if .Values.externalSecrets.enabled }}
             - secretRef:
                 name: {{ include "app.fullname" . }}-external
-            {{ end }}
-          {{ end }}
+            {{- end }}
+          {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath | quote }}
+              subPath: {{ .Values.persistence.subPath | default "" }}
+          {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
 {{- toYaml . | nindent 8 }}
@@ -141,4 +148,15 @@ spec:
       {{- with .Values.tolerations }}
       tolerations:
 {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "app.fullname" .) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+      {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
