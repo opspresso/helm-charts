@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.11.8](https://img.shields.io/badge/Version-v0.11.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.11.9](https://img.shields.io/badge/Version-v0.11.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -64,6 +64,8 @@ helm install my-release opspresso/app -f values.yaml
 | externalSecrets.backendType | string | `"systemManager"` |  |
 | externalSecrets.data | list | `[]` |  |
 | externalSecrets.enabled | bool | `false` |  |
+| extraVolumeMounts | list | `[]` |  |
+| extraVolumes | list | `[]` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"nginx"` |  |
 | image.tag | string | `""` |  |
@@ -88,6 +90,10 @@ helm install my-release opspresso/app -f values.yaml
 | nodeSelector | object | `{}` |  |
 | pdb.enabled | bool | `false` |  |
 | pdb.maxUnavailable | int | `1` |  |
+| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
+| persistence.enabled | bool | `false` |  |
+| persistence.mountPath | string | `"/data"` |  |
+| persistence.size | string | `"10Gi"` |  |
 | podAnnotations | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
