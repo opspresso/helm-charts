@@ -33,6 +33,16 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
+rbac:
+  create: false
+  rules: []
+    # - apiGroups:
+    #     - ""
+    #   resources:
+    #     - "*"
+    #   verbs:
+    #     - "*"
+
 schedule: "0 * * * *"
 
 backoffLimit: 0

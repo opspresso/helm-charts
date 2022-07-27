@@ -1,6 +1,0 @@
-apiVersion: v1
-description: A Helm chart for Kubernetes
-icon: https://avatars.githubusercontent.com/u/38965494
-name: elasticsearch-snapshot
-version: v0.2.2
-appVersion: latest
