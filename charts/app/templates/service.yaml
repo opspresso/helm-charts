@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ include "app.fullname" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 -}}
+    {{- include "app.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type | default "ClusterIP" }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: {{ .Values.service.protocol | default "TCP" }}
       targetPort: {{ .Values.service.name | default "http" }}
   selector:
-    {{- include "app.selectorLabels" . | nindent 4 -}}
+    {{- include "app.selectorLabels" . | nindent 4 }}

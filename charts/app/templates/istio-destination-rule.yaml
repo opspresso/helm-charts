@@ -1,11 +1,11 @@
-{{- if .Values.istio.gateway.enabled -}}
+{{- if .Values.istio.gateway.enabled }}
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: {{ include "app.fullname" . }}
 spec:
   host: {{ include "app.fullname" . }}
-  {{- if .Values.istio.canary.subsets -}}
+  {{- if .Values.istio.canary.subsets }}
   subsets:
     - name: canary
       labels:
@@ -13,9 +13,9 @@ spec:
     - name: stable
       labels:
         app: {{ include "app.fullname" . }}
-  {{- end -}}
-  {{- with .Values.istio.trafficPolicy -}}
+  {{- end }}
+  {{- with .Values.istio.trafficPolicy }}
   trafficPolicy:
-    {{- toYaml . | nindent 4 -}}
-  {{- end -}}
-{{- end -}}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

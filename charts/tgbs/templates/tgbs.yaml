@@ -1,5 +1,5 @@
-{{- $fullName := include "fullname" . -}}
-{{- range .Values.tgbs -}}
+{{- $fullName := include "fullname" . }}
+{{- range .Values.tgbs }}
 ---
 apiVersion: elbv2.k8s.aws/v1beta1
 kind: TargetGroupBinding
@@ -13,4 +13,4 @@ spec:
     port: {{ .serviceRef.port }}
   targetGroupARN: {{ .targetGroupARN }}
   targetType: {{ .targetType }}
-{{- end -}}
+{{- end }}
