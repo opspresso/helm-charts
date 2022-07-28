@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v0.4.2](https://img.shields.io/badge/Version-v0.4.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.4.3](https://img.shields.io/badge/Version-v0.4.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -48,6 +48,7 @@ helm install my-release opspresso/cronjob -f values.yaml
 | configmap.data | object | `{}` |  |
 | configmap.enabled | bool | `false` |  |
 | env | list | `[]` |  |
+| externalSecrets.backendType | string | `"systemManager"` |  |
 | externalSecrets.data | list | `[]` |  |
 | externalSecrets.enabled | bool | `false` |  |
 | externalSecrets.refreshInterval | string | `"1h"` |  |

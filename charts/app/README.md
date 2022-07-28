@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.12.2](https://img.shields.io/badge/Version-v0.12.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.12.3](https://img.shields.io/badge/Version-v0.12.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -61,6 +61,7 @@ helm install my-release opspresso/app -f values.yaml
 | controller.strategy.type | string | `"RollingUpdate"` |  |
 | dnsPolicy | string | `"ClusterFirst"` |  |
 | env | list | `[]` |  |
+| externalSecrets.backendType | string | `"systemManager"` |  |
 | externalSecrets.data | list | `[]` |  |
 | externalSecrets.enabled | bool | `false` |  |
 | externalSecrets.refreshInterval | string | `"1h"` |  |

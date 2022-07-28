@@ -259,7 +259,7 @@ externalSecrets:
   secretStoreRef:
     kind: ClusterSecretStore
     name: parameter-store
-  # backendType: systemManager
+  backendType: systemManager
   data: []
     # - key: /k8s/common/admin-password
     #   name: admin-password

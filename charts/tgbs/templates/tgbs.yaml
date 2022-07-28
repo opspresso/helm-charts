@@ -1,4 +1,4 @@
-{{- $fullName := include "fullname" . }}
+{{- $fullName := include "fullname" . -}}
 {{- range .Values.tgbs }}
 ---
 apiVersion: elbv2.k8s.aws/v1beta1
