@@ -61,9 +61,7 @@ version: {{ include "app.version" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ include "app.version" . | quote }}
 helm.sh/chart: {{ include "app.chart" . }}
-{{- if .Values.additionalLabels -}}
 {{ toYaml .Values.additionalLabels }}
-{{- end -}}
 {{- end -}}
 
 {{/*
