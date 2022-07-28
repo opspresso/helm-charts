@@ -58,9 +58,9 @@ Return labels, including instance and name.
 app: {{ include "app.fullname" . | quote }}
 version: {{ include "app.version" . | quote }}
 {{ include "app.selectorLabels" . }}
-# {{- if .Values.additionalLabels -}}
-# {{- toYaml .Values.additionalLabels -}}
-# {{- end -}}
+{{- if .Values.additionalLabels -}}
+{{ toYaml .Values.additionalLabels }}
+{{- end -}}
 {{- end -}}
 
 {{/*
@@ -73,9 +73,9 @@ version: {{ include "app.version" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ include "app.version" . | quote }}
 helm.sh/chart: {{ include "app.chart" . }}
-# {{- if .Values.additionalLabels -}}
-# {{- toYaml .Values.additionalLabels -}}
-# {{- end -}}
+{{- if .Values.additionalLabels -}}
+{{ toYaml .Values.additionalLabels }}
+{{- end -}}
 {{- end -}}
 
 {{/*
