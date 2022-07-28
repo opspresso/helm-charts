@@ -1,12 +1,12 @@
-{{- if .Values.rbac.create }}
+{{- if .Values.rbac.create -}}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ include "app.serviceAccountName" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "app.labels" . | nindent 4 -}}
 rules:
-{{- with .Values.rbac.rules }}
+{{- with .Values.rbac.rules -}}
 {{ toYaml . | indent 2 }}
-{{- end }}
-{{- end }}
+{{- end -}}
+{{- end -}}

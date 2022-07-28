@@ -4,7 +4,7 @@ icon: https://avatars.githubusercontent.com/u/38965494
 name: cronjob
 type: application
 appVersion: latest
-version: v0.3.4
+version: v0.4.0
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu

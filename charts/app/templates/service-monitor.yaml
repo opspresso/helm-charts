@@ -1,19 +1,19 @@
-{{- if .Values.serviceMonitor.enabled }}
+{{- if .Values.serviceMonitor.enabled -}}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ include "app.fullname" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "app.labels" . | nindent 4 -}}
     release: {{ .Values.serviceMonitor.selector.release }}
 spec:
   endpoints:
-  {{- range .Values.serviceMonitor.endpoints }}
+  {{- range .Values.serviceMonitor.endpoints -}}
     - interval: {{ .interval | quote }}
       path: {{ .path | quote }}
       port: {{ .port | quote }}
-  {{- end }}
+  {{- end -}}
   selector:
     matchLabels:
-      {{- include "app.selectorLabels" . | nindent 6 }}
-{{- end }}
+      {{- include "app.selectorLabels" . | nindent 6 -}}
+{{- end -}}

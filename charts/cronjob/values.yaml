@@ -76,7 +76,11 @@ secret:
 
 externalSecrets:
   enabled: false
-  backendType: systemManager
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: parameter-store
+  # backendType: systemManager
   data: []
-    # - key: /k8s/alpha/PASSWORD
-    #   name: PASSWORD
+    # - key: /k8s/common/admin-password
+    #   name: admin-password

@@ -1,13 +1,13 @@
 # This analysis template demonstrates the use of the job metric provider.
 # It runs wrk (https://github.com/wg/wrk), an HTTP benchmarking tool, against the supplied hostname
 # and then interprets the error rate for success or failure
-{{- if .Values.analysis.enabled }}
+{{- if .Values.analysis.enabled -}}
 apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
   name: {{ include "app.fullname" . }}-http-benchmark
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "app.labels" . | nindent 4 -}}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 spec:
@@ -39,4 +39,4 @@ spec:
             activeDeadlineSeconds: 300
             backoffLimit: 10
             ttlSecondsAfterFinished: 600
-{{- end }}
+{{- end -}}

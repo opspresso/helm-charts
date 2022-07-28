@@ -1,21 +1,21 @@
-{{- if .Values.istio.gateway.enabled }}
+{{- if .Values.istio.gateway.enabled -}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: {{ include "app.fullname" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "app.labels" . | nindent 4 -}}
 spec:
   gateways:
     - {{ include "app.fullname" . }}
   hosts:
-    {{- range .Values.ingress.hosts }}
+    {{- range .Values.ingress.hosts -}}
     - {{ .host | quote }}
-    {{- end }}
+    {{- end -}}
   http:
     - name: primary
       route:
-      {{- if .Values.istio.canary.subsets }}
+      {{- if .Values.istio.canary.subsets -}}
         - destination:
             host: {{ include "app.fullname" . }}
             port:
@@ -28,10 +28,10 @@ spec:
               number: {{ .Values.service.port | default "80" }}
             subset: canary
           weight: 0
-      {{- else }}
+      {{- else -}}
         - destination:
             host: {{ include "app.fullname" . }}
             port:
               number: {{ .Values.service.port | default "80" }}
-      {{- end }}
-{{- end }}
+      {{- end -}}
+{{- end -}}

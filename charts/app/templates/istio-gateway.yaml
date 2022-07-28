@@ -1,30 +1,30 @@
-{{- if .Values.istio.gateway.enabled }}
+{{- if .Values.istio.gateway.enabled -}}
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: {{ include "app.fullname" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "app.labels" . | nindent 4 -}}
 spec:
   selector:
     istio: ingressgateway
   servers:
     - hosts:
-        {{- range .Values.ingress.hosts }}
+        {{- range .Values.ingress.hosts -}}
         - {{ .host | quote }}
-        {{- end }}
-        {{- if .Values.ingress.stable.enabled }}
-        {{- range .Values.ingress.stable.hosts }}
+        {{- end -}}
+        {{- if .Values.ingress.stable.enabled -}}
+        {{- range .Values.ingress.stable.hosts -}}
         - {{ .host | quote }}
-        {{- end }}
-        {{- end }}
-        {{- if .Values.ingress.preview.enabled }}
-        {{- range .Values.ingress.preview.hosts }}
+        {{- end -}}
+        {{- end -}}
+        {{- if .Values.ingress.preview.enabled -}}
+        {{- range .Values.ingress.preview.hosts -}}
         - {{ .host | quote }}
-        {{- end }}
-        {{- end }}
+        {{- end -}}
+        {{- end -}}
       port:
         name: {{ .Values.service.name | default "http" }}
         number: {{ .Values.service.port | default "80" }}
         protocol: HTTP
-{{- end }}
+{{- end -}}

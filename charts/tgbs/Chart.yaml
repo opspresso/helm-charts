@@ -3,7 +3,7 @@ description: A Helm chart for Kubernetes
 icon: https://avatars.githubusercontent.com/u/12152522
 name: tgbs
 type: application
-version: v0.1.0
+version: v0.2.0
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu

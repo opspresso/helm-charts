@@ -2,8 +2,8 @@
 Expand the name of the chart.
 */}}
 {{- define "app.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
-{{- end }}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 
 {{/*
 Create a default fully qualified app name.
@@ -20,21 +20,28 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s" $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
-{{- end }}
+{{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "app.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
-{{- end }}
+{{- end -}}
 
 {{/*
 Return application version.
 */}}
 {{- define "app.version" -}}
-{{- default .Chart.AppVersion .Values.image.tag }}
-{{- end }}
+{{- default .Chart.AppVersion .Values.image.tag -}}
+{{- end -}}
+
+{{/*
+Return application image.
+*/}}
+{{- define "app.image" -}}
+{{- printf "%s:%s" .Values.image.repository (include "app.version" .) -}}
+{{- end -}}
 
 {{/*
 Return instance and name labels.
@@ -42,7 +49,7 @@ Return instance and name labels.
 {{- define "app.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "app.fullname" . | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
-{{- end }}
+{{- end -}}
 
 {{/*
 Return labels, including instance and name.
@@ -54,18 +61,18 @@ version: {{ include "app.version" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ include "app.version" . | quote }}
 helm.sh/chart: {{ include "app.chart" . }}
-{{- end }}
+{{- end -}}
 
 {{/*
 Return the service account name used by the pod.
 */}}
 {{- define "app.serviceAccountName" -}}
-{{- if or .Values.serviceAccount.create .Values.irsa.enabled }}
-{{- default (include "app.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
+{{- if or .Values.serviceAccount.create .Values.irsa.enabled -}}
+{{- default (include "app.fullname" .) .Values.serviceAccount.name -}}
+{{- else -}}
+{{- default "default" .Values.serviceAccount.name -}}
+{{- end -}}
+{{- end -}}
 
 {{/*
 Allow the release namespace to be overridden for multi-namespace deployments in combined charts

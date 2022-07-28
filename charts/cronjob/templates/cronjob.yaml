@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ include "app.fullname" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "app.labels" . | nindent 4 -}}
 spec:
   schedule: {{ .Values.schedule | quote }}
   successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default "0" }}
@@ -16,19 +16,19 @@ spec:
         spec:
           containers:
             - name: job
-              image: "{{ .Values.image.repository }}:{{ include "app.version" . }}"
-              {{- with .Values.args }}
+              image: {{ include "app.image" . }}
+              {{- with .Values.args -}}
               args:
-{{- toYaml . | nindent 16 }}
-              {{- end }}
-              {{- with .Values.command }}
+{{- toYaml . | nindent 16 -}}
+              {{- end -}}
+              {{- with .Values.command -}}
               command:
-{{- toYaml . | nindent 16 }}
-              {{- end }}
-              {{- with .Values.env }}
+{{- toYaml . | nindent 16 -}}
+              {{- end -}}
+              {{- with .Values.env -}}
               env:
-{{- toYaml . | nindent 16 }}
-              {{- end }}
+{{- toYaml . | nindent 16 -}}
+              {{- end -}}
               {{ if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled }}
               envFrom:
                 {{ if .Values.configmap.enabled }}
@@ -44,21 +44,21 @@ spec:
                     name: {{ include "app.fullname" . }}-external
                 {{ end }}
               {{ end }}
-          {{- with .Values.imagePullSecrets }}
+          {{- with .Values.imagePullSecrets -}}
           imagePullSecrets:
-{{- toYaml . | nindent 12 }}
-          {{- end }}
+{{- toYaml . | nindent 12 -}}
+          {{- end -}}
           serviceAccountName: {{ include "app.serviceAccountName" . }}
           restartPolicy: {{ .Values.restartPolicy | default "Never" }}
-          {{- with .Values.nodeSelector }}
+          {{- with .Values.nodeSelector -}}
           nodeSelector:
-{{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.affinity }}
+{{- toYaml . | nindent 12 -}}
+          {{- end -}}
+          {{- with .Values.affinity -}}
           affinity:
-{{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with .Values.tolerations }}
+{{- toYaml . | nindent 12 -}}
+          {{- end -}}
+          {{- with .Values.tolerations -}}
           tolerations:
-{{- toYaml . | nindent 12 }}
-          {{- end }}
+{{- toYaml . | nindent 12 -}}
+          {{- end -}}

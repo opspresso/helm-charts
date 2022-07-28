@@ -1,28 +1,28 @@
-{{- if .Values.autoscaling.enabled }}
+{{- if .Values.autoscaling.enabled -}}
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "app.fullname" . }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "app.labels" . | nindent 4 -}}
 spec:
   scaleTargetRef:
-    {{- if eq .Values.controller.kind "Rollout" }}
+    {{- if eq .Values.controller.kind "Rollout" -}}
     apiVersion: argoproj.io/v1alpha1
     kind: Rollout
-    {{- else }}
+    {{- else -}}
     apiVersion: apps/v1
     kind: Deployment
-    {{- end }}
+    {{- end -}}
     name: {{ include "app.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
-  {{- with .Values.autoscaling.metrics }}
+  {{- with .Values.autoscaling.metrics -}}
   metrics:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- with .Values.autoscaling.behavior }}
+    {{- toYaml . | nindent 4 -}}
+  {{- end -}}
+  {{- with .Values.autoscaling.behavior -}}
   behavior:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-{{- end }}
+    {{- toYaml . | nindent 4 -}}
+  {{- end -}}
+{{- end -}}
