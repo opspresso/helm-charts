@@ -61,7 +61,9 @@ version: {{ include "app.version" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ include "app.version" . | quote }}
 helm.sh/chart: {{ include "app.chart" . }}
+{{ if .Values.additionalLabels }}
 {{ toYaml .Values.additionalLabels }}
+{{ end }}
 {{- end -}}
 
 {{/*
@@ -79,9 +81,9 @@ Return the service account name used by the pod.
 Allow the release namespace to be overridden for multi-namespace deployments in combined charts
 */}}
 {{- define "app.namespace" -}}
-  {{- if .Values.namespaceOverride -}}
-    {{- .Values.namespaceOverride -}}
-  {{- else -}}
-    {{- .Release.Namespace -}}
-  {{- end -}}
+{{- if .Values.namespaceOverride -}}
+{{- .Values.namespaceOverride -}}
+{{- else -}}
+{{- .Release.Namespace -}}
+{{- end -}}
 {{- end -}}
