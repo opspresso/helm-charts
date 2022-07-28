@@ -7,6 +7,6 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
 rules:
 {{- with .Values.rbac.rules }}
-{{ toYaml . | indent 2 }}
+  {{- toYaml . | indent 2 }}
 {{- end }}
 {{- end }}

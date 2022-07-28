@@ -19,6 +19,6 @@ spec:
   {{- with .Values.persistence.selectorLabels }}
   selector:
     matchLabels:
-{{ toYaml . | indent 6 }}
+      {{- toYaml . | indent 6 }}
   {{- end }}
 {{- end }}

@@ -50,6 +50,8 @@ backoffLimit: 0
 successfulJobsHistoryLimit: 3
 failedJobsHistoryLimit: 1
 
+additionalLabels: {}
+
 concurrencyPolicy: Forbid # Allow, Forbid, Replace
 
 restartPolicy: Never # Always, OnFailure, Never

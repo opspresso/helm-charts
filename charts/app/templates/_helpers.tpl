@@ -59,7 +59,7 @@ app: {{ include "app.fullname" . | quote }}
 version: {{ include "app.version" . | quote }}
 {{ include "app.selectorLabels" . }}
 {{- if .Values.additionalLabels -}}
-{{ toYaml .Values.additionalLabels }}
+{{- toYaml .Values.additionalLabels -}}
 {{- end -}}
 {{- end -}}
 
@@ -74,7 +74,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ include "app.version" . | quote }}
 helm.sh/chart: {{ include "app.chart" . }}
 {{- if .Values.additionalLabels -}}
-{{ toYaml .Values.additionalLabels }}
+{{- toYaml .Values.additionalLabels -}}
 {{- end -}}
 {{- end -}}
 

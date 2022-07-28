@@ -9,6 +9,6 @@ metadata:
     argocd.argoproj.io/sync-wave: "-1"
 data:
 {{- with .Values.configmap.data }}
-{{ toYaml . | indent 2 }}
+  {{- toYaml . | indent 2 }}
 {{- end }}
 {{- end }}
