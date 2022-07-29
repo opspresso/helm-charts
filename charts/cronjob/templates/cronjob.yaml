@@ -13,6 +13,9 @@ spec:
     spec:
       backoffLimit: {{ .Values.backoffLimit | default "0" }}
       template:
+        metadata:
+          labels:
+            {{- include "app.podLabels" . | nindent 12 }}
         spec:
           containers:
             - name: job

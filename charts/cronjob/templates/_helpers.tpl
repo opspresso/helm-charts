@@ -54,6 +54,18 @@ app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{/*
 Return labels, including instance and name.
 */}}
+{{- define "app.podLabels" -}}
+app: {{ include "app.fullname" . | quote }}
+version: {{ include "app.version" . | quote }}
+{{ include "app.selectorLabels" . }}
+{{ if .Values.additionalLabels }}
+{{ toYaml .Values.additionalLabels }}
+{{ end }}
+{{- end -}}
+
+{{/*
+Return labels, including instance and name.
+*/}}
 {{- define "app.labels" -}}
 app: {{ include "app.fullname" . | quote }}
 version: {{ include "app.version" . | quote }}
