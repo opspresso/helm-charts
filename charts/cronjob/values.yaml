@@ -16,6 +16,14 @@ command: []
   # - "s3"
   # - "ls"
 
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+
 irsa:
   enabled: false
   statement: []
@@ -46,6 +54,8 @@ rbac:
 schedule: "0 * * * *"
 
 backoffLimit: 0
+
+# ttlSecondsAfterFinished: 360
 
 successfulJobsHistoryLimit: 3
 failedJobsHistoryLimit: 1

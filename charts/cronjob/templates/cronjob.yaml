@@ -12,6 +12,9 @@ spec:
   jobTemplate:
     spec:
       backoffLimit: {{ .Values.backoffLimit | default "0" }}
+      {{- if .Values.ttlSecondsAfterFinished }}
+      ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
+      {{- end }}
       template:
         metadata:
           labels:
@@ -26,6 +29,10 @@ spec:
               {{- end }}
               {{- with .Values.command }}
               command:
+{{- toYaml . | nindent 16 }}
+              {{- end }}
+              {{- with .Values.resources }}
+              resources:
 {{- toYaml . | nindent 16 }}
               {{- end }}
               {{- with .Values.env }}
