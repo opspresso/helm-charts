@@ -3,6 +3,20 @@ entries:
   app:
   - apiVersion: v2
     appVersion: latest
+    created: "2022-08-18T14:08:46.164690298Z"
+    description: A Helm chart for Kubernetes
+    digest: 4b328eeb7193fecea3e9cdaebb02f8f84d92c689187629396c0314da9c40d7f1
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: app
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/app-v0.12.14/app-v0.12.14.tgz
+    version: v0.12.14
+  - apiVersion: v2
+    appVersion: latest
     created: "2022-08-18T11:29:35.334739346Z"
     description: A Helm chart for Kubernetes
     digest: f76918293cf4e143e35e2d81d69d10c5b57a8eba139e03307efe54197b373e3b
@@ -58,6 +72,20 @@ entries:
     - https://github.com/opspresso/helm-charts/releases/download/app-v0.12.10/app-v0.12.10.tgz
     version: v0.12.10
   cronjob:
+  - apiVersion: v2
+    appVersion: latest
+    created: "2022-08-18T14:08:46.452458831Z"
+    description: A Helm chart for Kubernetes
+    digest: b06ff441122da23e470386818f562900c40f66ac6bde1abfe1ab0e88f4243e8f
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: cronjob
+    type: application
+    urls:
+    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.5.3/cronjob-v0.5.3.tgz
+    version: v0.5.3
   - apiVersion: v2
     appVersion: latest
     created: "2022-08-18T11:29:35.495910638Z"
@@ -141,4 +169,4 @@ entries:
     urls:
     - https://github.com/opspresso/helm-charts/releases/download/tgbs-v0.2.1/tgbs-v0.2.1.tgz
     version: v0.2.1
-generated: "2022-08-18T11:29:35.495937938Z"
+generated: "2022-08-18T14:08:46.452515634Z"
