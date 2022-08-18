@@ -89,17 +89,17 @@ ingress:
   pathType: Prefix
 
   hosts:
-    - host: sample.domain.com
+    - sample.domain.com
 
   preview:
     enabled: false
     hosts: []
-      # - host: sample-preview.domain.com
+      # - sample-preview.domain.com
 
   stable:
     enabled: false
     hosts: []
-      # - host: sample-stable.domain.com
+      # - sample-stable.domain.com
 
   tls: []
   #  - secretName: sample-tls

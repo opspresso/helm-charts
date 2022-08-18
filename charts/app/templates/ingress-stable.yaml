@@ -32,7 +32,7 @@ spec:
   {{- end }}
   rules:
     {{- range .Values.ingress.stable.hosts }}
-    - host: {{ .host | quote }}
+    - host: {{ . | quote }}
       http:
         paths:
           - path: {{ $ingressPath }}

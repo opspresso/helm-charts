@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.12.8](https://img.shields.io/badge/Version-v0.12.8-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.12.9](https://img.shields.io/badge/Version-v0.12.9-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -75,7 +75,7 @@ helm install my-release opspresso/app -f values.yaml
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.enabled | bool | `false` |  |
-| ingress.hosts[0].host | string | `"sample.domain.com"` |  |
+| ingress.hosts[0] | string | `"sample.domain.com"` |  |
 | ingress.path | string | `"/"` |  |
 | ingress.pathType | string | `"Prefix"` |  |
 | ingress.preview.enabled | bool | `false` |  |
