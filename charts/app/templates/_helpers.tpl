@@ -30,17 +30,10 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Return global version.
-*/}}
-{{- define "app.global.version" -}}
-{{- default .Chart.AppVersion .Values.global.image.tag -}}
-{{- end -}}
-
-{{/*
 Return application version.
 */}}
 {{- define "app.version" -}}
-{{- default (include "app.global.version" .) .Values.image.tag -}}
+{{- default .Chart.AppVersion .Values.image.tag -}}
 {{- end -}}
 
 {{/*
