@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v0.5.2](https://img.shields.io/badge/Version-v0.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.5.3](https://img.shields.io/badge/Version-v0.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -55,7 +55,7 @@ helm install my-release opspresso/cronjob -f values.yaml
 | externalSecrets.refreshInterval | string | `"1h"` |  |
 | externalSecrets.secretStoreRef.kind | string | `"ClusterSecretStore"` |  |
 | externalSecrets.secretStoreRef.name | string | `"parameter-store"` |  |
-| failedJobsHistoryLimit | int | `1` |  |
+| failedJobsHistoryLimit | int | `3` |  |
 | image.repository | string | `"amazon/aws-cli"` |  |
 | image.tag | string | `"latest"` |  |
 | irsa.enabled | bool | `false` |  |

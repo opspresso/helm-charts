@@ -58,7 +58,7 @@ backoffLimit: 0
 # ttlSecondsAfterFinished: 360
 
 successfulJobsHistoryLimit: 3
-failedJobsHistoryLimit: 1
+failedJobsHistoryLimit: 3
 
 additionalLabels: {}
 

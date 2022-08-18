@@ -6,8 +6,8 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
 spec:
   schedule: {{ .Values.schedule | quote }}
-  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default "0" }}
-  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default "0" }}
+  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default "3" }}
+  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default "3" }}
   concurrencyPolicy: {{ .Values.concurrencyPolicy | default "Forbid" }}
   jobTemplate:
     spec:
