@@ -86,6 +86,16 @@ secret:
   data: {}
     # SECRET_MESSAGE: "c2VjcmV0IG1lc3NhZ2U="
 
+additionalConfigmap:
+  enabled: false
+  names: []
+    # - "additional-configmap"
+
+additionalSecret:
+  enabled: false
+  names: []
+    # - "additional-secret"
+
 externalSecrets:
   enabled: false
   refreshInterval: 1h

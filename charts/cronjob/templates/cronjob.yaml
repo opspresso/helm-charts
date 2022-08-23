@@ -39,21 +39,33 @@ spec:
               env:
 {{- toYaml . | nindent 16 }}
               {{- end }}
-              {{ if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled }}
+              {{- if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled .Values.additionalConfigmap.enabled .Values.additionalSecret.enabled }}
               envFrom:
-                {{ if .Values.configmap.enabled }}
+                {{- if .Values.configmap.enabled }}
                 - configMapRef:
                     name: {{ include "app.fullname" . }}
-                {{ end }}
-                {{ if .Values.secret.enabled }}
+                {{- end }}
+                {{- if .Values.secret.enabled }}
                 - secretRef:
                     name: {{ include "app.fullname" . }}
-                {{ end }}
-                {{ if .Values.externalSecrets.enabled }}
+                {{- end }}
+                {{- if .Values.externalSecrets.enabled }}
                 - secretRef:
                     name: {{ include "app.fullname" . }}-external
-                {{ end }}
-              {{ end }}
+                {{- end }}
+                {{- if .Values.additionalConfigmap.enabled }}
+                {{- range .Values.additionalConfigmap.names }}
+                - configMapRef:
+                    name: {{ . }}
+                {{- end }}
+                {{- end }}
+                {{- if .Values.additionalSecret.enabled }}
+                {{- range .Values.additionalSecret.names }}
+                - secretRef:
+                    name: {{ . }}
+                {{- end }}
+                {{- end }}
+              {{- end }}
           {{- with .Values.imagePullSecrets }}
           imagePullSecrets:
 {{- toYaml . | nindent 12 }}

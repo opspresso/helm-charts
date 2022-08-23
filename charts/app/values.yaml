@@ -249,9 +249,15 @@ secret:
   data: {}
     # SECRET_MESSAGE: "c2VjcmV0IG1lc3NhZ2U="
 
-analysis:
+additionalConfigmap:
   enabled: false
-  # url: "http://sample-preview:3000/success/95"
+  names: []
+    # - "additional-configmap"
+
+additionalSecret:
+  enabled: false
+  names: []
+    # - "additional-secret"
 
 externalSecrets:
   enabled: false
@@ -263,6 +269,10 @@ externalSecrets:
   data: []
     # - key: /k8s/common/admin-password
     #   name: admin-password
+
+analysis:
+  enabled: false
+  # url: "http://sample-preview:3000/success/95"
 
 irsa:
   enabled: false
