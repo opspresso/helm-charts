@@ -10,7 +10,7 @@ spec:
     - {{ include "app.fullname" . }}
   hosts:
     {{- range .Values.ingress.hosts }}
-    - {{ .host | quote }}
+    - {{ . | quote }}
     {{- end }}
   http:
     - name: primary

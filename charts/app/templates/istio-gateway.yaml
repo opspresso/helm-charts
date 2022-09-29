@@ -11,16 +11,16 @@ spec:
   servers:
     - hosts:
         {{- range .Values.ingress.hosts }}
-        - {{ .host | quote }}
+        - {{ . | quote }}
         {{- end }}
         {{- if .Values.ingress.stable.enabled }}
         {{- range .Values.ingress.stable.hosts }}
-        - {{ .host | quote }}
+        - {{ . | quote }}
         {{- end }}
         {{- end }}
         {{- if .Values.ingress.preview.enabled }}
         {{- range .Values.ingress.preview.hosts }}
-        - {{ .host | quote }}
+        - {{ . | quote }}
         {{- end }}
         {{- end }}
       port:
