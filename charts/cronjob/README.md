@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v0.5.4](https://img.shields.io/badge/Version-v0.5.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.6.0](https://img.shields.io/badge/Version-v0.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -62,8 +62,6 @@ helm install my-release opspresso/cronjob -f values.yaml
 | failedJobsHistoryLimit | int | `3` |  |
 | image.repository | string | `"amazon/aws-cli"` |  |
 | image.tag | string | `"latest"` |  |
-| irsa.enabled | bool | `false` |  |
-| irsa.statement | list | `[]` |  |
 | nodeSelector | object | `{}` |  |
 | rbac.create | bool | `false` |  |
 | rbac.rules | list | `[]` |  |

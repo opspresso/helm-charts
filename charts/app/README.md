@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.13.0](https://img.shields.io/badge/Version-v0.13.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.14.0](https://img.shields.io/badge/Version-v0.14.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -87,8 +87,6 @@ helm install my-release opspresso/app -f values.yaml
 | ingress.stable.enabled | bool | `false` |  |
 | ingress.stable.hosts | list | `[]` |  |
 | ingress.tls | list | `[]` |  |
-| irsa.enabled | bool | `false` |  |
-| irsa.statement | list | `[]` |  |
 | istio.canary.subsets | bool | `false` |  |
 | istio.gateway.enabled | bool | `false` |  |
 | istio.sidecar.inject | bool | `false` |  |

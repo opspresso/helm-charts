@@ -24,14 +24,6 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-irsa:
-  enabled: false
-  statement: []
-    # - resource: "arn:aws:s3:::irsa-sample"
-    #   action:
-    #     - "s3:Get*"
-    #     - "s3:List*"
-
 serviceAccount:
   # Specifies whether a service account should be created
   create: false

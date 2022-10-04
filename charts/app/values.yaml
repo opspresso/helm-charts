@@ -273,11 +273,3 @@ externalSecrets:
 analysis:
   enabled: false
   # url: "http://sample-preview:3000/success/95"
-
-irsa:
-  enabled: false
-  statement: []
-    # - resource: "arn:aws:s3:::irsa-sample"
-    #   action:
-    #     - "s3:Get*"
-    #     - "s3:List*"
