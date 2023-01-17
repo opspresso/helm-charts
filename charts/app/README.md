@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.14.1](https://img.shields.io/badge/Version-v0.14.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.14.2](https://img.shields.io/badge/Version-v0.14.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -129,4 +129,4 @@ helm install my-release opspresso/app -f values.yaml
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Jungyoul Yu | me@nalbam.com |  |
+| Jungyoul Yu | <me@nalbam.com> |  |

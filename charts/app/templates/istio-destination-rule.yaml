@@ -1,5 +1,5 @@
-{{- if .Values.istio.gateway.enabled }}
-apiVersion: networking.istio.io/v1alpha3
+{{- if and ( .Capabilities.APIVersions.Has "networking.istio.io/v1beta1" ) ( .Values.istio.gateway.enabled ) }}
+apiVersion: networking.istio.io/v1beta1
 kind: DestinationRule
 metadata:
   name: {{ include "app.fullname" . }}

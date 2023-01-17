@@ -1,4 +1,4 @@
-{{- if .Values.analysis.enabled }}
+{{- if and ( .Capabilities.APIVersions.Has "argoproj.io/v1alpha1" ) ( .Values.analysis.enabled ) }}
 apiVersion: argoproj.io/v1alpha1
 kind: AnalysisTemplate
 metadata:
