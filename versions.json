@@ -1,0 +1,156 @@
+{
+  "versions": {
+    "argo-cd": {
+      "version": "5.19.12",
+      "chart": "argo/argo-cd"
+    },
+    "argo-events": {
+      "version": "2.1.2",
+      "chart": "argo/argo-events"
+    },
+    "argo-rollouts": {
+      "version": "2.22.2",
+      "chart": "argo/argo-rollouts"
+    },
+    "argo-workflows": {
+      "version": "0.22.9",
+      "chart": "argo/argo-workflows"
+    },
+    "atlantis": {
+      "version": "4.10.2",
+      "chart": "atlantis/atlantis"
+    },
+    "aws-ebs-csi-driver": {
+      "version": "2.16.0",
+      "chart": "aws-ebs-csi-driver/aws-ebs-csi-driver"
+    },
+    "aws-efs-csi-driver": {
+      "version": "2.3.6",
+      "chart": "aws-efs-csi-driver/aws-efs-csi-driver"
+    },
+    "aws-load-balancer-controller": {
+      "version": "1.4.7",
+      "chart": "eks/aws-load-balancer-controller"
+    },
+    "aws-node-termination-handler": {
+      "version": "0.21.0",
+      "chart": "eks/aws-node-termination-handler"
+    },
+    "cert-manager": {
+      "version": "v1.11.0",
+      "chart": "jetstack/cert-manager"
+    },
+    "chaoskube": {
+      "version": "0.2.0",
+      "chart": "chaoskube/chaoskube"
+    },
+    "cloud-pricing-api": {
+      "version": "0.6.0",
+      "chart": "infracost/cloud-pricing-api"
+    },
+    "cluster-autoscaler": {
+      "version": "9.21.1",
+      "chart": "autoscaler/cluster-autoscaler"
+    },
+    "cluster-overprovisioner": {
+      "version": "0.7.11",
+      "chart": "deliveryhero/cluster-overprovisioner"
+    },
+    "cluster-proportional-autoscaler": {
+      "version": "1.0.1",
+      "chart": "cpa/cluster-proportional-autoscaler"
+    },
+    "cortex": {
+      "version": "2.0.1",
+      "chart": "cortex/cortex"
+    },
+    "cost-analyzer": {
+      "version": "1.99.0",
+      "chart": "kubecost/cost-analyzer"
+    },
+    "crossplane": {
+      "version": "1.11.0",
+      "chart": "crossplane/crossplane"
+    },
+    "datadog": {
+      "version": "3.10.1",
+      "chart": "datadog/datadog"
+    },
+    "external-dns": {
+      "version": "1.12.0",
+      "chart": "external-dns/external-dns"
+    },
+    "external-secrets": {
+      "version": "0.7.2",
+      "chart": "external-secrets/external-secrets"
+    },
+    "grafana": {
+      "version": "6.50.6",
+      "chart": "grafana/grafana"
+    },
+    "ingress-nginx": {
+      "version": "4.4.2",
+      "chart": "ingress-nginx/ingress-nginx"
+    },
+    "istiod": {
+      "version": "1.16.2",
+      "chart": "istio/istiod"
+    },
+    "jaeger": {
+      "version": "0.67.0",
+      "chart": "jaegertracing/jaeger"
+    },
+    "karpenter": {
+      "version": "0.16.3",
+      "chart": "karpenter/karpenter"
+    },
+    "kiali-server": {
+      "version": "1.63.1",
+      "chart": "kiali/kiali-server"
+    },
+    "kube-prometheus-stack": {
+      "version": "44.3.0",
+      "chart": "prometheus/kube-prometheus-stack"
+    },
+    "kubernetes-dashboard": {
+      "version": "6.0.0",
+      "chart": "dashboard/kubernetes-dashboard"
+    },
+    "loki": {
+      "version": "4.4.2",
+      "chart": "grafana/loki"
+    },
+    "loki-stack": {
+      "version": "2.8.9",
+      "chart": "grafana/loki-stack"
+    },
+    "metrics-server": {
+      "version": "3.8.3",
+      "chart": "metrics-server/metrics-server"
+    },
+    "oauth2-proxy": {
+      "version": "6.8.0",
+      "chart": "oauth2-proxy/oauth2-proxy"
+    },
+    "prometheus": {
+      "version": "19.3.3",
+      "chart": "prometheus/prometheus"
+    },
+    "prometheus-adapter": {
+      "version": "4.1.1",
+      "chart": "prometheus/prometheus-adapter"
+    },
+    "promtail": {
+      "version": "6.8.2",
+      "chart": "grafana/promtail"
+    },
+    "raw": {
+      "version": "0.2.5",
+      "chart": "incubator/raw"
+    },
+    "whatap": {
+      "version": "1.2.2",
+      "chart": "whatap/helm-kube-mon"
+    }
+  }
+}
