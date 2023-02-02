@@ -5,8 +5,8 @@ import os
 import json
 
 
-def get_charts(chart):
-    txt = os.popen("helm search repo '{}' -o json".format(chart)).read()
+def get_charts(name):
+    txt = os.popen("helm search repo '{}' -o json".format(name)).read()
 
     return json.loads(txt)
 
@@ -21,24 +21,24 @@ def main():
             doc = json.load(file)
 
             for k in doc["versions"]:
-                chart = doc["versions"][k]["chart"]
+                name = doc["versions"][k]["chart"]
 
                 old_ver = doc["versions"][k]["version"]
                 new_ver = ""
 
                 # search
-                json = get_charts(chart)
+                charts = get_charts(name)
 
-                for one in json:
-                    if one["name"] == chart:
+                for one in charts:
+                    if one["name"] == name:
                         new_ver = one["version"]
 
                 # replace
                 if new_ver != "":
                     if new_ver != old_ver:
-                        print("{:50} {:10} -> {:10}".format(chart, old_ver, new_ver))
+                        print("{:50} {:10} -> {:10}".format(name, old_ver, new_ver))
                     else:
-                        print("{:50} {:10}".format(chart, old_ver))
+                        print("{:50} {:10}".format(name, old_ver))
 
                     doc["versions"][k]["version"] = new_ver
 
