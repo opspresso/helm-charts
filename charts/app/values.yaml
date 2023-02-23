@@ -76,6 +76,9 @@ service:
   type: ClusterIP
   targetPort: 3000
   port: 80
+  # Annotations to add to the service
+  annotations: {}
+    # service.kubernetes.io/topology-aware-hints: auto
 
 ingress:
   enabled: false
