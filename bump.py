@@ -24,7 +24,12 @@ def main():
                 name = doc["versions"][k]["chart"]
 
                 old_ver = doc["versions"][k]["version"]
+                old_app = ""
+                if "app_version" in doc["versions"][k]:
+                    old_app = doc["versions"][k]["app_version"]
+
                 new_ver = ""
+                new_app = ""
 
                 # search
                 charts = get_charts(name)
@@ -32,15 +37,20 @@ def main():
                 for one in charts:
                     if one["name"] == name:
                         new_ver = one["version"]
+                        new_app = one["app_version"]
 
                 # replace
                 if new_ver != "":
-                    if new_ver != old_ver:
-                        print("{:50} {:10} -> {:10}".format(name, old_ver, new_ver))
-                    else:
-                        print("{:50} {:10}".format(name, old_ver))
-
                     doc["versions"][k]["version"] = new_ver
+                    doc["versions"][k]["app_version"] = new_app
+
+                    old_txt = old_ver + " (" + old_app + ")"
+                    new_txt = new_ver + " (" + new_app + ")"
+
+                    if new_ver != old_ver or new_app != old_app:
+                        print("{:45} {:20} -> {:20}".format(name, old_txt, new_txt))
+                    else:
+                        print("{:45} {:20}".format(name, old_txt))
 
         if doc != None:
             with open(filepath, "w") as file:
