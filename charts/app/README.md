@@ -1,6 +1,6 @@
 # app
 
-![Version: v0.15.0](https://img.shields.io/badge/Version-v0.15.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v0.15.1](https://img.shields.io/badge/Version-v0.15.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -50,7 +50,7 @@ helm install my-release opspresso/app -f values.yaml
 | args | list | `[]` |  |
 | autoscaling.behavior | object | `{}` |  |
 | autoscaling.enabled | bool | `false` |  |
-| autoscaling.maxReplicas | int | `5` |  |
+| autoscaling.maxReplicas | int | `6` |  |
 | autoscaling.metrics | list | `[]` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | command | list | `[]` |  |
@@ -87,6 +87,8 @@ helm install my-release opspresso/app -f values.yaml
 | ingress.stable.enabled | bool | `false` |  |
 | ingress.stable.hosts | list | `[]` |  |
 | ingress.tls | list | `[]` |  |
+| irsa.enabled | bool | `false` |  |
+| irsa.statement | list | `[]` |  |
 | istio.canary.subsets | bool | `false` |  |
 | istio.gateway.enabled | bool | `false` |  |
 | istio.sidecar.inject | bool | `false` |  |
@@ -94,12 +96,12 @@ helm install my-release opspresso/app -f values.yaml
 | livenessProbe | object | `{}` |  |
 | nodeSelector | object | `{}` |  |
 | pdb.enabled | bool | `false` |  |
-| pdb.maxUnavailable | int | `1` |  |
 | persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.enabled | bool | `false` |  |
 | persistence.mountPath | string | `"/data"` |  |
 | persistence.size | string | `"10Gi"` |  |
 | podAnnotations | object | `{}` |  |
+| podAntiAffinity | object | `{}` |  |
 | podLabels | object | `{}` |  |
 | podSecurityContext | object | `{}` |  |
 | rbac.create | bool | `false` |  |
@@ -125,9 +127,10 @@ helm install my-release opspresso/app -f values.yaml
 | serviceMonitor.endpoints[0].port | string | `"http"` |  |
 | serviceMonitor.selector.release | string | `"prometheus-operator"` |  |
 | tolerations | list | `[]` |  |
+| topologySpreadConstraints | list | `[]` |  |
 
 ## Maintainers
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Jungyoul Yu | me@nalbam.com |  |
+| Jungyoul Yu | <me@nalbam.com> |  |

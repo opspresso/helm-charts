@@ -136,6 +136,8 @@ podLabels: {}
 podAnnotations: {}
 
 podSecurityContext: {}
+  # runAsUser: 1000
+  # runAsGroup: 3000
   # fsGroup: 2000
 
 securityContext: {}
@@ -173,7 +175,7 @@ resources: {}
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 5
+  maxReplicas: 6
   behavior: {}
     # scaleDown:
     #   policies:
@@ -198,7 +200,8 @@ autoscaling:
 
 pdb:
   enabled: false
-  maxUnavailable: 1
+  # maxUnavailable: 1
+  # minAvailable: 1
 
 persistence:
   enabled: false
@@ -228,6 +231,11 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+podAntiAffinity: {}
+  # topologyKey: "topology.kubernetes.io/zone"
+
+topologySpreadConstraints: []
 
 serviceMonitor:
   enabled: false
@@ -276,3 +284,11 @@ externalSecrets:
 analysis:
   enabled: false
   # url: "http://sample-preview:3000/success/95"
+
+irsa:
+  enabled: false
+  statement: []
+    # - resource: "arn:aws:s3:::irsa-sample"
+    #   action:
+    #     - "s3:Get*"
+    #     - "s3:List*"
