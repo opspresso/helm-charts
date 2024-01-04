@@ -43,9 +43,12 @@ def main():
                     extract_path = "./charts/{}".format(name)
 
                     if os.path.exists(extract_path):
+                        print("rmtree... {}".format(extract_path))
                         shutil.rmtree(extract_path)
 
                     os.makedirs(extract_path, exist_ok=True)
+
+                    print("extract... {}".format(chart_tgz))
 
                     tar = tarfile.open(chart_tgz)
                     tar.extractall("./charts/")
