@@ -1,24 +1,24 @@
 {
   "versions": {
     "argo-cd": {
-      "app_version": "v2.6.7",
+      "app_version": "v2.9.3",
       "chart": "argo/argo-cd",
-      "version": "5.27.4"
+      "version": "5.52.0"
     },
     "argo-events": {
-      "app_version": "v1.7.6",
+      "app_version": "v1.8.1",
       "chart": "argo/argo-events",
-      "version": "2.1.4"
+      "version": "2.4.1"
     },
     "argo-rollouts": {
-      "app_version": "v1.4.1",
+      "app_version": "v1.6.4",
       "chart": "argo/argo-rollouts",
-      "version": "2.23.0"
+      "version": "2.34.0"
     },
     "argo-workflows": {
-      "app_version": "v3.4.5",
+      "app_version": "v3.5.2",
       "chart": "argo/argo-workflows",
-      "version": "0.22.15"
+      "version": "0.40.3"
     },
     "atlantis": {
       "app_version": "v0.23.3",
@@ -26,19 +26,19 @@
       "version": "4.12.2"
     },
     "aws-ebs-csi-driver": {
-      "app_version": "1.17.0",
+      "app_version": "1.26.0",
       "chart": "aws-ebs-csi-driver/aws-ebs-csi-driver",
-      "version": "2.17.2"
+      "version": "2.26.0"
     },
     "aws-efs-csi-driver": {
-      "app_version": "1.5.4",
+      "app_version": "1.7.2",
       "chart": "aws-efs-csi-driver/aws-efs-csi-driver",
-      "version": "2.4.1"
+      "version": "2.5.2"
     },
     "aws-load-balancer-controller": {
-      "app_version": "v2.4.7",
+      "app_version": "v2.6.2",
       "chart": "eks/aws-load-balancer-controller",
-      "version": "1.4.8"
+      "version": "1.6.2"
     },
     "aws-node-termination-handler": {
       "app_version": "1.19.0",
@@ -46,9 +46,9 @@
       "version": "0.21.0"
     },
     "cert-manager": {
-      "app_version": "v1.11.0",
+      "app_version": "v1.13.3",
       "chart": "jetstack/cert-manager",
-      "version": "v1.11.0"
+      "version": "v1.13.3"
     },
     "chaoskube": {
       "app_version": "0.27.0",
@@ -61,9 +61,9 @@
       "version": "0.6.3"
     },
     "cluster-autoscaler": {
-      "app_version": "1.24.0",
+      "app_version": "1.28.2",
       "chart": "autoscaler/cluster-autoscaler",
-      "version": "9.27.0"
+      "version": "9.34.1"
     },
     "cluster-overprovisioner": {
       "app_version": "3.9",
@@ -86,14 +86,14 @@
       "version": "1.101.3"
     },
     "crossplane": {
-      "app_version": "1.11.2",
+      "app_version": "1.14.5",
       "chart": "crossplane/crossplane",
-      "version": "1.11.2"
+      "version": "1.14.5"
     },
     "datadog": {
       "app_version": "7",
       "chart": "datadog/datadog",
-      "version": "3.24.0"
+      "version": "3.50.0"
     },
     "external-dns": {
       "app_version": "0.13.2",
@@ -101,24 +101,24 @@
       "version": "1.12.1"
     },
     "external-secrets": {
-      "app_version": "v0.8.1",
+      "app_version": "v0.9.11",
       "chart": "external-secrets/external-secrets",
-      "version": "0.8.1"
+      "version": "0.9.11"
     },
     "grafana": {
-      "app_version": "9.4.3",
+      "app_version": "10.2.2",
       "chart": "grafana/grafana",
-      "version": "6.52.4"
+      "version": "7.0.19"
     },
     "ingress-nginx": {
-      "app_version": "1.7.0",
+      "app_version": "1.9.5",
       "chart": "ingress-nginx/ingress-nginx",
-      "version": "4.6.0"
+      "version": "4.9.0"
     },
     "istiod": {
-      "app_version": "1.17.1",
+      "app_version": "1.20.1",
       "chart": "istio/istiod",
-      "version": "1.17.1"
+      "version": "1.20.1"
     },
     "jaeger": {
       "app_version": "1.42.0",
@@ -131,34 +131,34 @@
       "version": "0.16.3"
     },
     "kiali-server": {
-      "app_version": "v1.65.0",
+      "app_version": "v1.78.0",
       "chart": "kiali/kiali-server",
-      "version": "1.65.0"
+      "version": "1.78.0"
     },
     "kube-prometheus-stack": {
-      "app_version": "v0.63.0",
+      "app_version": "v0.70.0",
       "chart": "prometheus/kube-prometheus-stack",
-      "version": "45.8.1"
+      "version": "55.5.1"
     },
     "kubernetes-dashboard": {
       "app_version": "v2.7.0",
       "chart": "dashboard/kubernetes-dashboard",
-      "version": "6.0.6"
+      "version": "6.0.8"
     },
     "loki": {
-      "app_version": "2.7.5",
+      "app_version": "2.9.3",
       "chart": "grafana/loki",
-      "version": "4.9.0"
+      "version": "5.41.4"
     },
     "loki-stack": {
       "app_version": "v2.6.1",
       "chart": "grafana/loki-stack",
-      "version": "2.9.9"
+      "version": "2.9.11"
     },
     "metrics-server": {
-      "app_version": "0.6.3",
+      "app_version": "0.6.4",
       "chart": "metrics-server/metrics-server",
-      "version": "3.9.0"
+      "version": "3.11.0"
     },
     "oauth2-proxy": {
       "app_version": "7.4.0",
@@ -166,19 +166,19 @@
       "version": "6.10.1"
     },
     "prometheus": {
-      "app_version": "v2.43.0",
+      "app_version": "v2.48.1",
       "chart": "prometheus/prometheus",
-      "version": "20.0.2"
+      "version": "25.8.2"
     },
     "prometheus-adapter": {
-      "app_version": "v0.10.0",
+      "app_version": "v0.11.2",
       "chart": "prometheus/prometheus-adapter",
-      "version": "4.1.1"
+      "version": "4.9.0"
     },
     "promtail": {
-      "app_version": "2.7.4",
+      "app_version": "2.9.2",
       "chart": "grafana/promtail",
-      "version": "6.9.3"
+      "version": "6.15.3"
     },
     "raw": {
       "app_version": "0.2.3",
