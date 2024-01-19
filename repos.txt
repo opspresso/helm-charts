@@ -11,6 +11,7 @@ dashboard https://kubernetes.github.io/dashboard
 datadog https://helm.datadoghq.com
 deliveryhero https://charts.deliveryhero.io
 eks https://aws.github.io/eks-charts
+external-dns https://github.com/kubernetes-sigs/external-dns
 external-secrets https://charts.external-secrets.io
 grafana https://grafana.github.io/helm-charts
 incubator https://charts.helm.sh/incubator
