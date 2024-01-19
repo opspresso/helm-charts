@@ -1,39 +1,39 @@
 {
   "versions": {
     "argo-cd": {
-      "app_version": "v2.9.3",
+      "app_version": "v2.9.4",
       "chart": "argo/argo-cd",
-      "version": "5.52.0"
+      "version": "5.53.1"
     },
     "argo-events": {
-      "app_version": "v1.8.1",
+      "app_version": "v1.9.0",
       "chart": "argo/argo-events",
-      "version": "2.4.1"
+      "version": "2.4.2"
     },
     "argo-rollouts": {
       "app_version": "v1.6.4",
       "chart": "argo/argo-rollouts",
-      "version": "2.34.0"
+      "version": "2.34.1"
     },
     "argo-workflows": {
-      "app_version": "v3.5.2",
+      "app_version": "v3.5.4",
       "chart": "argo/argo-workflows",
-      "version": "0.40.3"
+      "version": "0.40.7"
     },
     "atlantis": {
-      "app_version": "v0.23.3",
+      "app_version": "v0.27.0",
       "chart": "atlantis/atlantis",
-      "version": "4.12.2"
+      "version": "4.19.0"
     },
     "aws-ebs-csi-driver": {
-      "app_version": "1.26.0",
+      "app_version": "1.26.1",
       "chart": "aws-ebs-csi-driver/aws-ebs-csi-driver",
-      "version": "2.26.0"
+      "version": "2.26.1"
     },
     "aws-efs-csi-driver": {
-      "app_version": "1.7.2",
+      "app_version": "1.7.3",
       "chart": "aws-efs-csi-driver/aws-efs-csi-driver",
-      "version": "2.5.2"
+      "version": "2.5.3"
     },
     "aws-load-balancer-controller": {
       "app_version": "v2.6.2",
@@ -56,9 +56,9 @@
       "version": "0.3.0"
     },
     "cloud-pricing-api": {
-      "app_version": "0.3.12",
+      "app_version": "0.3.18",
       "chart": "infracost/cloud-pricing-api",
-      "version": "0.6.3"
+      "version": "0.6.11"
     },
     "cluster-autoscaler": {
       "app_version": "1.28.2",
@@ -76,14 +76,14 @@
       "version": "1.1.0"
     },
     "cortex": {
-      "app_version": "v1.14.1",
+      "app_version": "v1.16.0",
       "chart": "cortex/cortex",
-      "version": "2.1.0"
+      "version": "2.2.0"
     },
     "cost-analyzer": {
-      "app_version": "1.101.3",
+      "app_version": "1.108.1",
       "chart": "kubecost/cost-analyzer",
-      "version": "1.101.3"
+      "version": "1.108.1"
     },
     "crossplane": {
       "app_version": "1.14.5",
@@ -93,12 +93,12 @@
     "datadog": {
       "app_version": "7",
       "chart": "datadog/datadog",
-      "version": "3.50.0"
+      "version": "3.52.0"
     },
     "external-dns": {
-      "app_version": "0.13.2",
+      "app_version": "0.14.0",
       "chart": "external-dns/external-dns",
-      "version": "1.12.1"
+      "version": "1.14.1"
     },
     "external-secrets": {
       "app_version": "v0.9.11",
@@ -106,9 +106,9 @@
       "version": "0.9.11"
     },
     "grafana": {
-      "app_version": "10.2.2",
+      "app_version": "10.2.3",
       "chart": "grafana/grafana",
-      "version": "7.0.19"
+      "version": "7.2.3"
     },
     "ingress-nginx": {
       "app_version": "1.9.5",
@@ -116,14 +116,14 @@
       "version": "4.9.0"
     },
     "istiod": {
-      "app_version": "1.20.1",
+      "app_version": "1.20.2",
       "chart": "istio/istiod",
-      "version": "1.20.1"
+      "version": "1.20.2"
     },
     "jaeger": {
-      "app_version": "1.42.0",
+      "app_version": "1.51.0",
       "chart": "jaegertracing/jaeger",
-      "version": "0.69.1"
+      "version": "0.73.1"
     },
     "karpenter": {
       "app_version": "0.16.3",
@@ -138,7 +138,7 @@
     "kube-prometheus-stack": {
       "app_version": "v0.70.0",
       "chart": "prometheus/kube-prometheus-stack",
-      "version": "55.5.1"
+      "version": "55.11.0"
     },
     "kubernetes-dashboard": {
       "app_version": "v2.7.0",
@@ -148,12 +148,12 @@
     "loki": {
       "app_version": "2.9.3",
       "chart": "grafana/loki",
-      "version": "5.41.4"
+      "version": "5.41.7"
     },
     "loki-stack": {
       "app_version": "v2.6.1",
       "chart": "grafana/loki-stack",
-      "version": "2.9.11"
+      "version": "2.10.0"
     },
     "metrics-server": {
       "app_version": "0.6.4",
@@ -161,14 +161,14 @@
       "version": "3.11.0"
     },
     "oauth2-proxy": {
-      "app_version": "7.4.0",
+      "app_version": "7.5.1",
       "chart": "oauth2-proxy/oauth2-proxy",
-      "version": "6.10.1"
+      "version": "6.23.1"
     },
     "prometheus": {
-      "app_version": "v2.48.1",
+      "app_version": "v2.49.1",
       "chart": "prometheus/prometheus",
-      "version": "25.8.2"
+      "version": "25.9.0"
     },
     "prometheus-adapter": {
       "app_version": "v0.11.2",
@@ -188,7 +188,7 @@
     "whatap": {
       "app_version": "1.0",
       "chart": "whatap/helm-kube-mon",
-      "version": "1.2.4"
+      "version": "1.3.4"
     }
   }
 }
