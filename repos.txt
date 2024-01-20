@@ -22,6 +22,7 @@ kedacore https://kedacore.github.io/charts
 kiali https://kiali.org/helm-charts
 kubecost https://kubecost.github.io/cost-analyzer
 metrics-server https://kubernetes-sigs.github.io/metrics-server
+oauth2-proxy https://oauth2-proxy.github.io/manifests
 opspresso https://opspresso.github.io/helm-charts
 pomerium https://helm.pomerium.io
 prometheus https://prometheus-community.github.io/helm-charts
