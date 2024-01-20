@@ -1,9 +1,9 @@
 {
   "versions": {
     "argo-cd": {
-      "app_version": "v2.9.4",
+      "app_version": "v2.9.5",
       "chart": "argo/argo-cd",
-      "version": "5.53.1"
+      "version": "5.53.2"
     },
     "argo-events": {
       "app_version": "v1.9.0",
@@ -31,9 +31,9 @@
       "version": "2.26.1"
     },
     "aws-efs-csi-driver": {
-      "app_version": "1.7.3",
+      "app_version": "1.7.4",
       "chart": "aws-efs-csi-driver/aws-efs-csi-driver",
-      "version": "2.5.3"
+      "version": "2.5.4"
     },
     "aws-load-balancer-controller": {
       "app_version": "v2.6.2",
@@ -136,9 +136,9 @@
       "version": "1.78.0"
     },
     "kube-prometheus-stack": {
-      "app_version": "v0.70.0",
+      "app_version": "v0.71.0",
       "chart": "prometheus/kube-prometheus-stack",
-      "version": "55.11.0"
+      "version": "56.0.0"
     },
     "kubernetes-dashboard": {
       "app_version": "v2.7.0",
