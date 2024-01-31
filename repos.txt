@@ -34,3 +34,4 @@ opspresso https://opspresso.github.io/helm-charts
 pomerium https://helm.pomerium.io
 prometheus https://prometheus-community.github.io/helm-charts
 secrets-store-csi-driver https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+stable https://charts.helm.sh/stable
