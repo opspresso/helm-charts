@@ -3,7 +3,7 @@
     "argo-cd": {
       "app_version": "v2.9.5",
       "chart": "argo/argo-cd",
-      "version": "5.53.2"
+      "version": "5.53.12"
     },
     "argo-events": {
       "app_version": "v1.9.0",
@@ -11,14 +11,14 @@
       "version": "2.4.2"
     },
     "argo-rollouts": {
-      "app_version": "v1.6.4",
+      "app_version": "v1.6.5",
       "chart": "argo/argo-rollouts",
-      "version": "2.34.1"
+      "version": "2.34.2"
     },
     "argo-workflows": {
       "app_version": "v3.5.4",
       "chart": "argo/argo-workflows",
-      "version": "0.40.7"
+      "version": "0.40.9"
     },
     "atlantis": {
       "app_version": "v0.27.0",
@@ -26,9 +26,9 @@
       "version": "4.19.0"
     },
     "aws-ebs-csi-driver": {
-      "app_version": "1.26.1",
+      "app_version": "1.27.0",
       "chart": "aws-ebs-csi-driver/aws-ebs-csi-driver",
-      "version": "2.26.1"
+      "version": "2.27.0"
     },
     "aws-efs-csi-driver": {
       "app_version": "1.7.4",
@@ -81,9 +81,9 @@
       "version": "2.2.0"
     },
     "cost-analyzer": {
-      "app_version": "1.108.1",
+      "app_version": "2.0.0",
       "chart": "kubecost/cost-analyzer",
-      "version": "1.108.1"
+      "version": "2.0.0"
     },
     "crossplane": {
       "app_version": "1.14.5",
@@ -93,7 +93,7 @@
     "datadog": {
       "app_version": "7",
       "chart": "datadog/datadog",
-      "version": "3.52.0"
+      "version": "3.53.1"
     },
     "external-dns": {
       "app_version": "0.14.0",
@@ -106,14 +106,14 @@
       "version": "0.9.11"
     },
     "grafana": {
-      "app_version": "10.2.3",
+      "app_version": "10.3.1",
       "chart": "grafana/grafana",
-      "version": "7.2.3"
+      "version": "7.3.0"
     },
     "ingress-nginx": {
-      "app_version": "1.9.5",
+      "app_version": "1.9.6",
       "chart": "ingress-nginx/ingress-nginx",
-      "version": "4.9.0"
+      "version": "4.9.1"
     },
     "istiod": {
       "app_version": "1.20.2",
@@ -131,14 +131,14 @@
       "version": "0.16.3"
     },
     "kiali-server": {
-      "app_version": "v1.78.0",
+      "app_version": "v1.79.0",
       "chart": "kiali/kiali-server",
-      "version": "1.78.0"
+      "version": "1.79.0"
     },
     "kube-prometheus-stack": {
-      "app_version": "v0.71.0",
+      "app_version": "v0.71.2",
       "chart": "prometheus/kube-prometheus-stack",
-      "version": "56.0.0"
+      "version": "56.3.0"
     },
     "kubernetes-dashboard": {
       "app_version": "v2.7.0",
@@ -148,12 +148,12 @@
     "loki": {
       "app_version": "2.9.3",
       "chart": "grafana/loki",
-      "version": "5.41.7"
+      "version": "5.42.0"
     },
     "loki-stack": {
-      "app_version": "v2.6.1",
+      "app_version": "v2.9.3",
       "chart": "grafana/loki-stack",
-      "version": "2.10.0"
+      "version": "2.10.1"
     },
     "metrics-server": {
       "app_version": "0.6.4",
@@ -168,7 +168,7 @@
     "prometheus": {
       "app_version": "v2.49.1",
       "chart": "prometheus/prometheus",
-      "version": "25.9.0"
+      "version": "25.11.0"
     },
     "prometheus-adapter": {
       "app_version": "v0.11.2",
@@ -176,9 +176,9 @@
       "version": "4.9.0"
     },
     "promtail": {
-      "app_version": "2.9.2",
+      "app_version": "2.9.3",
       "chart": "grafana/promtail",
-      "version": "6.15.3"
+      "version": "6.15.5"
     },
     "raw": {
       "app_version": "0.2.3",
