@@ -12,6 +12,7 @@ cortex https://cortexproject.github.io/cortex-helm-chart
 cpa https://kubernetes-sigs.github.io/cluster-proportional-autoscaler
 crossplane https://charts.crossplane.io/stable
 daangn https://daangn.github.io/helm-charts
+dandydeveloper https://dandydeveloper.github.io/charts/
 dashboard https://kubernetes.github.io/dashboard
 datadog https://helm.datadoghq.com
 deliveryhero https://charts.deliveryhero.io
