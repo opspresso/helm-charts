@@ -3,9 +3,9 @@ entries:
   app:
   - apiVersion: v2
     appVersion: latest
-    created: "2023-11-03T02:29:47.655462012Z"
+    created: "2024-03-06T11:22:01.412285187Z"
     description: A Helm chart for Kubernetes
-    digest: 773a36b543a5e38cb107308a75b547939f3233ae31155817822713fd2adbd816
+    digest: 338a4d15f3d7dfcadca7e1804ac8ba222c16842eb63c338d2cd5f43a04ac9d20
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -13,140 +13,430 @@ entries:
     name: app
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.15.1/app-v0.15.1.tgz
+    - app-v0.15.1.tgz
     version: v0.15.1
-  - apiVersion: v2
-    appVersion: latest
-    created: "2023-01-17T12:21:28.774725856Z"
-    description: A Helm chart for Kubernetes
-    digest: 4170a746e9e0f6a9171be9bee7b3b79ea4b1c37dd2e8589968b5a3019151a836
-    icon: https://avatars.githubusercontent.com/u/38965494
+  argo-cd:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Support ApplicationSet in any namespace.
+      artifacthub.io/signKey: |
+        fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
+        url: https://argoproj.github.io/argo-helm/pgp_keys.asc
+    apiVersion: v2
+    appVersion: v2.10.2
+    created: "2024-03-06T11:22:01.423666496Z"
+    dependencies:
+    - condition: redis-ha.enabled
+      name: redis-ha
+      repository: https://dandydeveloper.github.io/charts/
+      version: 4.26.1
+    description: A Helm chart for Argo CD, a declarative, GitOps continuous delivery
+      tool for Kubernetes.
+    digest: 7232341d1c8a7672097d1dc7e42eacdbfcbf1029a6052d570105d730305a3c6b
+    home: https://github.com/argoproj/argo-helm
+    icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
+    keywords:
+    - argoproj
+    - argocd
+    - gitops
+    kubeVersion: '>=1.23.0-0'
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
+    - name: argoproj
+      url: https://argoproj.github.io/
+    name: argo-cd
+    sources:
+    - https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+    - https://github.com/argoproj/argo-cd
+    urls:
+    - argo-cd-6.6.0.tgz
+    version: 6.6.0
+  argo-events:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Bump argo-events to v1.9.1
+      artifacthub.io/signKey: |
+        fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
+        url: https://argoproj.github.io/argo-helm/pgp_keys.asc
+    apiVersion: v2
+    appVersion: v1.9.1
+    created: "2024-03-06T11:22:01.42457188Z"
+    description: A Helm chart for Argo Events, the event-driven workflow automation
+      framework
+    digest: 55e17ebb4e1087342f5e5c9d7adde4a5c463dee17589434a8be6af5f9aa79e36
+    home: https://github.com/argoproj/argo-helm
+    icon: https://avatars.githubusercontent.com/u/30269780?s=200&v=4
+    keywords:
+    - argoproj
+    - argo-events
+    maintainers:
+    - name: argoproj
+      url: https://argoproj.github.io/
+    name: argo-events
+    sources:
+    - https://github.com/argoproj/argo-events
+    urls:
+    - argo-events-2.4.3.tgz
+    version: 2.4.3
+  argo-rollouts:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: Bump argo-rollouts to v1.6.6
+      artifacthub.io/signKey: |
+        fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
+        url: https://argoproj.github.io/argo-helm/pgp_keys.asc
+    apiVersion: v2
+    appVersion: v1.6.6
+    created: "2024-03-06T11:22:01.426614442Z"
+    description: A Helm chart for Argo Rollouts
+    digest: a312bed3ed51996a2fc9538bc59e34ebebb8cd8d542e95d5fd72d00dca907e53
+    home: https://github.com/argoproj/argo-helm
+    icon: https://argoproj.github.io/argo-rollouts/assets/logo.png
+    keywords:
+    - argoproj
+    - argo-rollouts
+    maintainers:
+    - name: argoproj
+      url: https://argoproj.github.io/
+    name: argo-rollouts
+    sources:
+    - https://github.com/argoproj/argo-rollouts
+    urls:
+    - argo-rollouts-2.34.3.tgz
+    version: 2.34.3
+  argo-workflows:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Support namespaceOverride
+      artifacthub.io/signKey: |
+        fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
+        url: https://argoproj.github.io/argo-helm/pgp_keys.asc
+    apiVersion: v2
+    appVersion: v3.5.5
+    created: "2024-03-06T11:22:01.42886378Z"
+    description: A Helm chart for Argo Workflows
+    digest: 412561423cb44fe8e6322f7aac57f31cad044dfc930ab934ab6976467501331a
+    home: https://github.com/argoproj/argo-helm
+    icon: https://argo-workflows.readthedocs.io/en/stable/assets/logo.png
+    maintainers:
+    - name: argoproj
+      url: https://argoproj.github.io/
+    name: argo-workflows
+    sources:
+    - https://github.com/argoproj/argo-workflows
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.14.3/app-v0.14.3.tgz
-    version: v0.14.3
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-10-04T06:15:10.433440637Z"
-    description: A Helm chart for Kubernetes
-    digest: 6dd3890455dd0c58f28e0a042aba385a4c5498bfd1ca581c34a886a7b6d96085
-    icon: https://avatars.githubusercontent.com/u/38965494
+    - argo-workflows-0.40.14.tgz
+    version: 0.40.14
+  atlantis:
+  - apiVersion: v1
+    appVersion: v0.27.0
+    created: "2024-03-06T11:22:01.430641681Z"
+    description: A Helm chart for Atlantis https://www.runatlantis.io
+    digest: dee84789bea00edece9ac054529a69a7616e6b2c70b7b359ccf986175b31efdd
+    home: https://www.runatlantis.io
+    icon: https://www.runatlantis.io/hero.png
+    keywords:
+    - terraform
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
+    - name: lkysow
+    - name: jamengual
+    - name: chenrui333
+    - name: nitrocode
+    - name: genpage
+    - name: gmartinez-sisti
+    name: atlantis
+    sources:
+    - https://github.com/runatlantis/atlantis
+    urls:
+    - atlantis-4.22.0.tgz
+    version: 4.22.0
+  aws-ebs-csi-driver:
+  - apiVersion: v2
+    appVersion: 1.28.0
+    created: "2024-03-06T11:22:01.431973262Z"
+    description: A Helm chart for AWS EBS CSI Driver
+    digest: 0ecdfd8907dd475fce94fd54d87023dc1d1f0d6a43a7c866a4f8ac903da2d680
+    home: https://github.com/kubernetes-sigs/aws-ebs-csi-driver
+    keywords:
+    - aws
+    - ebs
+    - csi
+    kubeVersion: '>=1.17.0-0'
+    maintainers:
+    - name: Kubernetes Authors
+      url: https://github.com/kubernetes-sigs/aws-ebs-csi-driver/
+    name: aws-ebs-csi-driver
+    sources:
+    - https://github.com/kubernetes-sigs/aws-ebs-csi-driver
+    urls:
+    - aws-ebs-csi-driver-2.28.1.tgz
+    version: 2.28.1
+  aws-efs-csi-driver:
+  - apiVersion: v2
+    appVersion: 1.7.6
+    created: "2024-03-06T11:22:01.432571512Z"
+    description: A Helm chart for AWS EFS CSI Driver
+    digest: a4d30eb82d3b9a66657aee4f6193582e49ef8d3feb54446ca0017531d9f4aa09
+    home: https://github.com/kubernetes-sigs/aws-efs-csi-driver
+    keywords:
+    - aws
+    - efs
+    - csi
+    kubeVersion: '>=1.17.0-0'
+    maintainers:
+    - name: leakingtapan
+      url: https://github.com/leakingtapan
+    - name: krmichel
+      url: https://github.com/krmichel
+    name: aws-efs-csi-driver
+    sources:
+    - https://github.com/kubernetes-sigs/aws-efs-csi-driver
+    urls:
+    - aws-efs-csi-driver-2.5.6.tgz
+    version: 2.5.6
+  aws-load-balancer-controller:
+  - apiVersion: v2
+    appVersion: v2.7.1
+    created: "2024-03-06T11:22:01.433586731Z"
+    description: AWS Load Balancer Controller Helm chart for Kubernetes
+    digest: 55e6f8b685729ab920c44958dfa27ada9c1ce811b8e26e18a04596096a2f52fa
+    home: https://github.com/aws/eks-charts
+    icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
+    keywords:
+    - eks
+    - alb
+    - load balancer
+    - ingress
+    - nlb
+    maintainers:
+    - email: kishorj@users.noreply.github.com
+      name: kishorj
+      url: https://github.com/kishorj
+    - email: m00nf1sh@users.noreply.github.com
+      name: m00nf1sh
+      url: https://github.com/m00nf1sh
+    name: aws-load-balancer-controller
+    sources:
+    - https://github.com/aws/eks-charts
+    urls:
+    - aws-load-balancer-controller-1.7.1.tgz
+    version: 1.7.1
+  aws-node-termination-handler:
+  - apiVersion: v2
+    appVersion: 1.19.0
+    created: "2024-03-06T11:22:01.434571654Z"
+    description: A Helm chart for the AWS Node Termination Handler.
+    digest: 07b5f219c7a4645dc0386b235805e041d1c65956a59e401d355aae3b2cf911ca
+    home: https://github.com/aws/eks-charts
+    icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
+    keywords:
+    - aws
+    - eks
+    - ec2
+    - node-termination
+    - spot
+    kubeVersion: '>= 1.16-0'
+    maintainers:
+    - email: bwagner5@users.noreply.github.com
+      name: Brandon Wagner
+      url: https://github.com/bwagner5
+    - email: jillmon@users.noreply.github.com
+      name: Jillian Kuentz
+      url: https://github.com/jillmon
+    name: aws-node-termination-handler
+    sources:
+    - https://github.com/aws/aws-node-termination-handler/
+    - https://github.com/aws/eks-charts/
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.14.1/app-v0.14.1.tgz
-    version: v0.14.1
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-09-29T03:12:58.790119472Z"
-    description: A Helm chart for Kubernetes
-    digest: d46821ec7027021c35b7ade85545db4391d88845af905b00ea898ef5a9429c68
-    icon: https://avatars.githubusercontent.com/u/38965494
+    - aws-node-termination-handler-0.21.0.tgz
+    version: 0.21.0
+  cert-manager:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/prerelease: "false"
+      artifacthub.io/signKey: |
+        fingerprint: 1020CF3C033D4F35BAE1C19E1226061C665DF13E
+        url: https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
+    apiVersion: v1
+    appVersion: v1.14.3
+    created: "2024-03-06T11:22:01.437886739Z"
+    description: A Helm chart for cert-manager
+    digest: 3c12a6c06d625239741da6a9eb013144d52ca7e08ef6a5f007fb93f6a6199c81
+    home: https://github.com/cert-manager/cert-manager
+    icon: https://raw.githubusercontent.com/cert-manager/cert-manager/d53c0b9270f8cd90d908460d69502694e1838f5f/logo/logo-small.png
+    keywords:
+    - cert-manager
+    - kube-lego
+    - letsencrypt
+    - tls
+    kubeVersion: '>= 1.22.0-0'
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
+    - email: cert-manager-maintainers@googlegroups.com
+      name: cert-manager-maintainers
+      url: https://cert-manager.io
+    name: cert-manager
+    sources:
+    - https://github.com/cert-manager/cert-manager
+    urls:
+    - cert-manager-v1.14.3.tgz
+    version: v1.14.3
+  chaoskube:
+  - apiVersion: v2
+    appVersion: 0.27.0
+    created: "2024-03-06T11:22:01.438193643Z"
+    description: Chaoskube periodically kills random pods in your Kubernetes cluster.
+    digest: 7a441ed6dc27f5bede1030cc894635032ac2bda9c4fb88a1129f721603e25591
+    home: https://github.com/linki/chaoskube
+    icon: https://raw.githubusercontent.com/linki/chaoskube/master/chaoskube.png
+    keywords:
+    - chaos-monkey
+    - chaos-engineering
+    maintainers:
+    - name: Martin Linkhorst
+      url: https://github.com/linki
+    - name: Thomas Gosteli
+      url: https://github.com/ghouscht
+    name: chaoskube
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.13.0/app-v0.13.0.tgz
-    version: v0.13.0
+    - chaoskube-0.3.0.tgz
+    version: 0.3.0
+  cluster-autoscaler:
   - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-23T10:59:53.172447208Z"
-    description: A Helm chart for Kubernetes
-    digest: b1e6a7b10eebc638e59a0a646d5c6d1316f1a05cfefe36fdd9fc3e41990f0df5
-    icon: https://avatars.githubusercontent.com/u/38965494
+    appVersion: 1.29.0
+    created: "2024-03-06T11:22:01.439278613Z"
+    description: Scales Kubernetes worker nodes within autoscaling groups.
+    digest: 12916670e3b730c65f04ee6d30e59ed8b27de97b398c7d58ed144b6e8a6ec67f
+    home: https://github.com/kubernetes/autoscaler
+    icon: https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
+    - email: guyjtempleton@googlemail.com
+      name: gjtempleton
+    name: cluster-autoscaler
+    sources:
+    - https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.12.15/app-v0.12.15.tgz
-    version: v0.12.15
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-18T14:08:46.164690298Z"
-    description: A Helm chart for Kubernetes
-    digest: 4b328eeb7193fecea3e9cdaebb02f8f84d92c689187629396c0314da9c40d7f1
-    icon: https://avatars.githubusercontent.com/u/38965494
+    - cluster-autoscaler-9.35.0.tgz
+    version: 9.35.0
+  cluster-overprovisioner:
+  - apiVersion: v1
+    appVersion: "3.9"
+    created: "2024-03-06T11:22:01.439734967Z"
+    description: 'This chart provide a buffer for cluster autoscaling to allow overprovisioning
+      of cluster nodes. This is desired when you have work loads that need to scale
+      up quickly without waiting for the new cluster nodes to be created and join
+      the cluster.  It works by creating a deployment that creates pods of a lower
+      than default `PriorityClass`. These pods request resources from the cluster
+      but don''t actually consume any resources. These pods are then evicted allowing
+      other normal pods to be created while also triggering a scale-up by the [cluster-autoscaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler).  This
+      approach is the [current recommended method to achieve overprovisioning](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-can-i-configure-overprovisioning-with-cluster-autoscaler). '
+    digest: b9c35926a9c87ecbf393a1866142e6b19b370b93316180b81e7341ea8d61e330
+    home: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler
+    icon: https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png
+    keywords:
+    - cluster
+    - autoscaling
+    - overprovision
+    - cluster-autoscaler
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
-    type: application
+    - email: max.williams@deliveryhero.com
+      name: max-rocket-internet
+    - email: miguel.mingorance@deliveryhero.com
+      name: mmingorance-dh
+    name: cluster-overprovisioner
+    sources:
+    - https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-can-i-configure-overprovisioning-with-cluster-autoscaler
+    - https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler
+    - https://github.com/kubernetes/kubernetes/tree/master/build/pause
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.12.14/app-v0.12.14.tgz
-    version: v0.12.14
+    - cluster-overprovisioner-0.7.11.tgz
+    version: 0.7.11
+  cluster-proportional-autoscaler:
   - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-18T11:29:35.334739346Z"
-    description: A Helm chart for Kubernetes
-    digest: f76918293cf4e143e35e2d81d69d10c5b57a8eba139e03307efe54197b373e3b
-    icon: https://avatars.githubusercontent.com/u/38965494
+    appVersion: 1.8.6
+    created: "2024-03-06T11:22:01.440041491Z"
+    description: This chart is used to deploy an instance of the cluster-proportional-autoscaler.
+    digest: 10cf67ff8825ea5033037da724b26630fd68bce31e44bfcf5a6f845f43a84831
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
-    type: application
+    - name: krmichel
+      url: https://github.com/krmichel
+    - name: d-mcd
+      url: https://github.com/d-mcd
+    name: cluster-proportional-autoscaler
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.12.13/app-v0.12.13.tgz
-    version: v0.12.13
+    - cluster-proportional-autoscaler-1.1.0.tgz
+    version: 1.1.0
+  cortex:
   - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-18T10:51:22.528686416Z"
-    description: A Helm chart for Kubernetes
-    digest: db2d4e3f69923769e4d71e2f41fd5e91597cd5840bfc542e1a2bf898499e7dc9
-    icon: https://avatars.githubusercontent.com/u/38965494
+    appVersion: v1.16.0
+    created: "2024-03-06T11:22:01.446807448Z"
+    dependencies:
+    - alias: memcached-frontend
+      condition: memcached-frontend.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.3.12
+    - alias: memcached-blocks-index
+      condition: memcached-blocks-index.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.3.12
+    - alias: memcached-blocks
+      condition: memcached-blocks.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.3.12
+    - alias: memcached-blocks-metadata
+      condition: memcached-blocks-metadata.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 6.3.12
+    description: Horizontally scalable, highly available, multi-tenant, long term
+      Prometheus.
+    digest: 552577815de0e1c725dc45ff3b4166c40cea6bd2761b031b2749d2083d0667fd
+    home: https://cortexmetrics.io/
+    icon: https://avatars2.githubusercontent.com/u/43045022?s=200&v=4
+    kubeVersion: ^1.19.0-0
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
-    type: application
+    - email: thayward@infoblox.com
+      name: Tom Hayward
+      url: https://github.com/kd7lxl
+    - email: Niclas.Schad@mail.schwarz
+      name: Niclas Schad
+      url: https://github.com/nschad
+    name: cortex
+    sources:
+    - https://github.com/cortexproject/cortex-helm-chart
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.12.12/app-v0.12.12.tgz
-    version: v0.12.12
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-18T06:58:37.177366933Z"
-    description: A Helm chart for Kubernetes
-    digest: dd7922c23be945dfa9293a52abda3c288dabd9b57526b44546db4ee03e2852b2
-    icon: https://avatars.githubusercontent.com/u/38965494
-    maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
-    type: application
+    - cortex-2.2.0.tgz
+    version: 2.2.0
+  cost-analyzer:
+  - annotations:
+      artifacthub.io/links: |
+        - name: Homepage
+          url: https://www.kubecost.com
+    apiVersion: v2
+    appVersion: 2.1.0
+    created: "2024-03-06T11:22:01.455147244Z"
+    description: A Helm chart that sets up Kubecost, Prometheus, and Grafana to monitor
+      cloud costs.
+    digest: e075132c795527cfffc31ee9cf2aec2ad60d82e8a3cf1792065c771b9611b598
+    name: cost-analyzer
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.12.11/app-v0.12.11.tgz
-    version: v0.12.11
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-18T06:33:18.31852971Z"
-    description: A Helm chart for Kubernetes
-    digest: f3260ea97f7acd5fc80bcdd32cbe6efdcf16267bc964c03127dbf272b29852d0
-    icon: https://avatars.githubusercontent.com/u/38965494
-    maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: app
-    type: application
-    urls:
-    - https://github.com/opspresso/helm-charts/releases/download/app-v0.12.10/app-v0.12.10.tgz
-    version: v0.12.10
+    - cost-analyzer-2.1.0.tgz
+    version: 2.1.0
   cronjob:
   - apiVersion: v2
     appVersion: latest
-    created: "2023-01-17T12:21:28.958142278Z"
+    created: "2024-03-06T11:22:01.455510844Z"
     description: A Helm chart for Kubernetes
-    digest: 589be05b11aaf0c755a87d023f8d60c6ef416c413e125667dcabc020eba66930
+    digest: 5fd7253b84064a6b2c3f635c772b82a2567623452312041d37faede2584aff2a
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -154,111 +444,547 @@ entries:
     name: cronjob
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.6.3/cronjob-v0.6.3.tgz
+    - cronjob-v0.6.3.tgz
     version: v0.6.3
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-10-04T06:15:10.550360711Z"
-    description: A Helm chart for Kubernetes
-    digest: 9117cacca3c0694ba11b840844950a08c1042a03b3dec3671b512b56936c40e6
-    icon: https://avatars.githubusercontent.com/u/38965494
+  crossplane:
+  - apiVersion: v1
+    appVersion: 1.15.0
+    created: "2024-03-06T11:22:01.456216034Z"
+    description: Crossplane is an open source Kubernetes add-on that enables platform
+      teams to assemble infrastructure from multiple vendors, and expose higher level
+      self-service APIs for application teams to consume.
+    digest: c34c29c717d4d0049416640a2476e7561933982c6039100839ced144a25d888a
+    home: https://crossplane.io
+    icon: https://docs.crossplane.io/android-chrome-192x192.png
+    keywords:
+    - cloud
+    - infrastructure
+    - services
+    - application
+    - database
+    - cache
+    - bucket
+    - infra
+    - app
+    - ops
+    - gcp
+    - azure
+    - aws
+    - alibaba
+    - cloudsql
+    - rds
+    - s3
+    - azuredatabase
+    - asparadb
+    - gke
+    - aks
+    - eks
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: cronjob
+    - email: info@crossplane.io
+      name: Crossplane Maintainers
+    name: crossplane
+    urls:
+    - crossplane-1.15.0.tgz
+    version: 1.15.0
+  datadog:
+  - apiVersion: v1
+    appVersion: "7"
+    created: "2024-03-06T11:22:01.464374932Z"
+    dependencies:
+    - condition: clusterAgent.metricsProvider.useDatadogMetrics
+      name: datadog-crds
+      repository: https://helm.datadoghq.com
+      tags:
+      - install-crds
+      version: 1.0.1
+    - condition: datadog.kubeStateMetricsEnabled
+      name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 2.13.2
+    description: Datadog Agent
+    digest: 63ffd6f9a705e8287afc0d66933be52708521d6edd1516ec6e5aeb0135aa626f
+    home: https://www.datadoghq.com
+    icon: https://datadog-live.imgix.net/img/dd_logo_70x75.png
+    keywords:
+    - monitoring
+    - alerting
+    - metric
+    maintainers:
+    - email: support@datadoghq.com
+      name: Datadog
+    name: datadog
+    sources:
+    - https://app.datadoghq.com/account/settings#agent/kubernetes
+    - https://github.com/DataDog/datadog-agent
+    urls:
+    - datadog-3.57.3.tgz
+    version: 3.57.3
+  external-dns:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: fixed
+          description: "Fixed args for webhook deployment."
+        - kind: fixed
+          description: "Fixed support for `gateway-grpcroute`, `gateway-tlsroute`, `gateway-tcproute` & `gateway-udproute`."
+        - kind: fixed
+          description: "Fixed incorrect implementation for setting the `automountServiceAccountToken`."
+    apiVersion: v2
+    appVersion: 0.14.0
+    created: "2024-03-06T11:22:01.465263385Z"
+    description: ExternalDNS synchronizes exposed Kubernetes Services and Ingresses
+      with DNS providers.
+    digest: ca3272fc5a6a5cf56c0391a4a4205f08beb625956200e488ac9c92bc793f09d7
+    home: https://github.com/kubernetes-sigs/external-dns/
+    icon: https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png
+    keywords:
+    - kubernetes
+    - externaldns
+    - external-dns
+    - dns
+    - service
+    - ingress
+    maintainers:
+    - email: steve.hipwell@gmail.com
+      name: stevehipwell
+    name: external-dns
+    sources:
+    - https://github.com/kubernetes-sigs/external-dns/
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.6.1/cronjob-v0.6.1.tgz
-    version: v0.6.1
+    - external-dns-1.14.3.tgz
+    version: 1.14.3
+  external-secrets:
   - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-23T10:59:53.314064844Z"
-    description: A Helm chart for Kubernetes
-    digest: a18c95c31852416a964aabca1b1de610887dfa371ea9ff7bc5da58783251a44e
-    icon: https://avatars.githubusercontent.com/u/38965494
+    appVersion: v0.9.13
+    created: "2024-03-06T11:22:01.468229665Z"
+    description: External secret management for Kubernetes
+    digest: 0f42f5892e2fb1a961d334573b5e6ca98fddb10a8411fa2d5dcc67ae3e9684a2
+    home: https://github.com/external-secrets/external-secrets
+    icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png
+    keywords:
+    - kubernetes-external-secrets
+    - secrets
+    kubeVersion: '>= 1.19.0-0'
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: cronjob
+    - email: kellinmcavoy@gmail.com
+      name: mcavoyk
+    name: external-secrets
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.5.4/cronjob-v0.5.4.tgz
-    version: v0.5.4
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-18T14:08:46.452458831Z"
-    description: A Helm chart for Kubernetes
-    digest: b06ff441122da23e470386818f562900c40f66ac6bde1abfe1ab0e88f4243e8f
-    icon: https://avatars.githubusercontent.com/u/38965494
+    - external-secrets-0.9.13.tgz
+    version: 0.9.13
+  grafana:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: Chart Source
+          url: https://github.com/grafana/helm-charts
+        - name: Upstream Project
+          url: https://github.com/grafana/grafana
+    apiVersion: v2
+    appVersion: 10.3.3
+    created: "2024-03-06T11:22:01.471522526Z"
+    description: The leading tool for querying and visualizing time series and metrics.
+    digest: 3ae0e37714e1688e45484cff5b02b045294f4d7748d46a18ec25fba9d34b5ff1
+    home: https://grafana.com
+    icon: https://artifacthub.io/image/b4fed1a7-6c8f-4945-b99d-096efa3e4116
+    keywords:
+    - monitoring
+    - metric
+    kubeVersion: ^1.8.0-0
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: cronjob
+    - email: zanhsieh@gmail.com
+      name: zanhsieh
+    - email: rluckie@cisco.com
+      name: rtluckie
+    - email: maor.friedman@redhat.com
+      name: maorfr
+    - email: miroslav.hadzhiev@gmail.com
+      name: Xtigyro
+    - email: mail@torstenwalter.de
+      name: torstenwalter
+    name: grafana
+    sources:
+    - https://github.com/grafana/grafana
+    - https://github.com/grafana/helm-charts
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.5.3/cronjob-v0.5.3.tgz
-    version: v0.5.3
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-18T11:29:35.495910638Z"
-    description: A Helm chart for Kubernetes
-    digest: bc156c56f084b4e2421a4ffb73c40032cc3c056c44b6e0b4cc0a7a708beb84ad
-    icon: https://avatars.githubusercontent.com/u/38965494
+    - grafana-7.3.3.tgz
+    version: 7.3.3
+  ingress-nginx:
+  - annotations:
+      artifacthub.io/changes: '- "Update Ingress-Nginx version controller-v1.10.0"'
+      artifacthub.io/prerelease: "false"
+    apiVersion: v2
+    appVersion: 1.10.0
+    created: "2024-03-06T11:22:01.474729807Z"
+    description: Ingress controller for Kubernetes using NGINX as a reverse proxy
+      and load balancer
+    digest: ee255498058883587eb91e0571b0d5f86b86c8d7b6a17cc199321f90ace31b2f
+    home: https://github.com/kubernetes/ingress-nginx
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png
+    keywords:
+    - ingress
+    - nginx
+    kubeVersion: '>=1.20.0-0'
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: cronjob
+    - name: rikatz
+    - name: strongjz
+    - name: tao12345666333
+    name: ingress-nginx
+    sources:
+    - https://github.com/kubernetes/ingress-nginx
+    urls:
+    - ingress-nginx-4.10.0.tgz
+    version: 4.10.0
+  istiod:
+  - apiVersion: v1
+    appVersion: 1.20.3
+    created: "2024-03-06T11:22:01.476042714Z"
+    description: Helm chart for istio control plane
+    digest: ee25e1cbcafebe249fa0b426d4ca7a40d248d69a168e9effac8bef152273aaab
+    icon: https://istio.io/latest/favicons/android-192x192.png
+    keywords:
+    - istio
+    - istiod
+    - istio-discovery
+    name: istiod
+    sources:
+    - https://github.com/istio/istio
+    urls:
+    - istiod-1.20.3.tgz
+    version: 1.20.3
+  kiali-server:
+  - apiVersion: v2
+    appVersion: v1.81.0
+    created: "2024-03-06T11:22:01.476600337Z"
+    description: Kiali is an open source project for service mesh observability, refer
+      to https://www.kiali.io for details.
+    digest: 7c241ec992d46c9012f2eb9f4b81a1be2eaae7b5e96f2d55f8ff2de48ad86190
+    home: https://github.com/kiali/kiali
+    icon: https://raw.githubusercontent.com/kiali/kiali.io/current/assets/icons/logo.svg
+    keywords:
+    - istio
+    - kiali
+    maintainers:
+    - email: kiali-users@googlegroups.com
+      name: Kiali
+      url: https://kiali.io
+    name: kiali-server
+    sources:
+    - https://github.com/kiali/kiali
+    - https://github.com/kiali/kiali-operator
+    - https://github.com/kiali/helm-charts
+    urls:
+    - kiali-server-1.81.0.tgz
+    version: 1.81.0
+  kubernetes-dashboard:
+  - apiVersion: v2
+    appVersion: v2.7.0
+    created: "2024-03-06T11:22:01.478105943Z"
+    dependencies:
+    - condition: metrics-server.enabled
+      name: metrics-server
+      repository: https://kubernetes-sigs.github.io/metrics-server/
+      version: 3.8.4
+    description: General-purpose web UI for Kubernetes clusters
+    digest: 6e82eb260b9a7c1fd525640e3f650e6924deb93cdc206953a878c309da2ede9b
+    home: https://github.com/kubernetes/dashboard
+    icon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg
+    keywords:
+    - kubernetes
+    - dashboard
+    kubeVersion: '>=1.19.0-0'
+    maintainers:
+    - email: cdesaintmartin@wiremind.fr
+      name: desaintmartin
+    name: kubernetes-dashboard
+    sources:
+    - https://github.com/kubernetes/dashboard
+    urls:
+    - kubernetes-dashboard-6.0.8.tgz
+    version: 6.0.8
+  loki:
+  - apiVersion: v2
+    appVersion: 2.9.4
+    created: "2024-03-06T11:22:01.487318617Z"
+    dependencies:
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      version: 4.0.15
+    - alias: grafana-agent-operator
+      condition: monitoring.selfMonitoring.grafanaAgent.installOperator
+      name: grafana-agent-operator
+      repository: https://grafana.github.io/helm-charts
+      version: 0.3.15
+    description: Helm chart for Grafana Loki in simple, scalable mode
+    digest: 0828b008a19de8279c5063732ab7fc0fc4a72973f4fa52055c854185498e2f76
+    home: https://grafana.github.io/helm-charts
+    icon: https://grafana.com/docs/loki/latest/logo_and_name.png
+    maintainers:
+    - name: trevorwhitney
+    - name: jeschkies
+    name: loki
+    sources:
+    - https://github.com/grafana/loki
+    - https://grafana.com/oss/loki/
+    - https://grafana.com/docs/loki/latest/
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.5.2/cronjob-v0.5.2.tgz
-    version: v0.5.2
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-18T10:51:22.711888071Z"
-    description: A Helm chart for Kubernetes
-    digest: 8a172486cfcb451de835a5913b74a7ee850349592d5ea9805c4cc94c93504f1a
-    icon: https://avatars.githubusercontent.com/u/38965494
+    - loki-5.43.5.tgz
+    version: 5.43.5
+  loki-stack:
+  - apiVersion: v1
+    appVersion: v2.9.3
+    created: "2024-03-06T11:22:01.499530686Z"
+    dependencies:
+    - condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: ^2.15.2
+    - condition: promtail.enabled
+      name: promtail
+      repository: https://grafana.github.io/helm-charts
+      version: ^6.7.4
+    - condition: fluent-bit.enabled
+      name: fluent-bit
+      repository: https://grafana.github.io/helm-charts
+      version: ^2.3.0
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: ~6.43.0
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: ~19.7.2
+    - condition: filebeat.enabled
+      name: filebeat
+      repository: https://helm.elastic.co
+      version: ~7.17.1
+    - condition: logstash.enabled
+      name: logstash
+      repository: https://helm.elastic.co
+      version: ~7.17.1
+    description: 'Loki: like Prometheus, but for logs.'
+    digest: 4c943ec2b7dda8f1373fe105844df850c7756bc40f803b68d69b826cf9e6f721
+    home: https://grafana.com/loki
+    icon: https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png
+    kubeVersion: ^1.10.0-0
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: cronjob
+    - email: lokiproject@googlegroups.com
+      name: Loki Maintainers
+    name: loki-stack
+    sources:
+    - https://github.com/grafana/loki
+    urls:
+    - loki-stack-2.10.1.tgz
+    version: 2.10.1
+  metrics-server:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: changed
+          description: "Updated the _Metrics Server_ OCI image to [v0.7.0](https://github.com/kubernetes-sigs/metrics-server/releases/tag/v0.7.0)."
+        - kind: changed
+          description: "Updated the _addon-resizer_ OCI image to [v1.8.20](https://github.com/kubernetes/autoscaler/releases/tag/addon-resizer-1.8.20)."
+    apiVersion: v2
+    appVersion: 0.7.0
+    created: "2024-03-06T11:22:01.500322798Z"
+    description: Metrics Server is a scalable, efficient source of container resource
+      metrics for Kubernetes built-in autoscaling pipelines.
+    digest: 07078bb29c69b6810362859f95214470ae1892d66d20dde783acee0facd03128
+    home: https://github.com/kubernetes-sigs/metrics-server
+    icon: https://avatars.githubusercontent.com/u/36015203?s=400&v=4
+    keywords:
+    - kubernetes
+    - metrics-server
+    - metrics
+    maintainers:
+    - name: stevehipwell
+      url: https://github.com/stevehipwell
+    - name: krmichel
+      url: https://github.com/krmichel
+    - name: endrec
+      url: https://github.com/endrec
+    name: metrics-server
+    sources:
+    - https://github.com/kubernetes-sigs/metrics-server
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.5.1/cronjob-v0.5.1.tgz
-    version: v0.5.1
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-08-09T04:10:33.104598938Z"
-    description: A Helm chart for Kubernetes
-    digest: 1b95ebc9a49ed2c50b663143c879e3b4ae23856444bf06ad6f9c2ad9a57e6797
-    icon: https://avatars.githubusercontent.com/u/38965494
+    - metrics-server-3.12.0.tgz
+    version: 3.12.0
+  oauth2-proxy:
+  - annotations:
+      artifacthub.io/changes: |
+        - kind: added
+          description: Make deploy.strategy configurable
+          links:
+            - name: Github PR
+              url: https://github.com/oauth2-proxy/manifests/pull/188
+    apiVersion: v2
+    appVersion: 7.6.0
+    created: "2024-03-06T11:22:01.506240184Z"
+    dependencies:
+    - alias: redis
+      condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.12.1
+    description: A reverse proxy that provides authentication with Google, Github
+      or other providers
+    digest: 44d6eccd59735e3f0376ff406e07ddc6cb7a9c53cd0df9aeee4af05bd02c2ad4
+    home: https://oauth2-proxy.github.io/oauth2-proxy/
+    keywords:
+    - kubernetes
+    - oauth
+    - oauth2
+    - authentication
+    - google
+    - github
+    - redis
+    kubeVersion: '>=1.9.0-0'
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: cronjob
+    - email: cedric@desaintmartin.fr
+      name: desaintmartin
+    - name: tlawrie
+    - email: nicholas.meves@gmail.com
+      name: NickMeves
+    - email: joel.speed@hotmail.co.uk
+      name: JoelSpeed
+    - email: pierluigi.lenoci@gmail.com
+      name: pierluigilenoci
+    name: oauth2-proxy
+    sources:
+    - https://github.com/oauth2-proxy/oauth2-proxy
+    - https://github.com/oauth2-proxy/manifests
+    urls:
+    - oauth2-proxy-7.1.0.tgz
+    version: 7.1.0
+  prometheus:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: Chart Source
+          url: https://github.com/prometheus-community/helm-charts
+        - name: Upstream Project
+          url: https://github.com/prometheus/prometheus
+    apiVersion: v2
+    appVersion: v2.50.1
+    created: "2024-03-06T11:22:01.511978591Z"
+    dependencies:
+    - condition: alertmanager.enabled
+      name: alertmanager
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 1.9.*
+    - condition: kube-state-metrics.enabled
+      name: kube-state-metrics
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 5.16.*
+    - condition: prometheus-node-exporter.enabled
+      name: prometheus-node-exporter
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 4.30.*
+    - condition: prometheus-pushgateway.enabled
+      name: prometheus-pushgateway
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 2.7.*
+    description: Prometheus is a monitoring system and time series database.
+    digest: de5c1a0e42d8d0becd9eaa322cece29741e0d16c311cccfc6783ecdd0f8a3b08
+    home: https://prometheus.io/
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - monitoring
+    - prometheus
+    kubeVersion: '>=1.19.0-0'
+    maintainers:
+    - email: gianrubio@gmail.com
+      name: gianrubio
+    - email: zanhsieh@gmail.com
+      name: zanhsieh
+    - email: miroslav.hadzhiev@gmail.com
+      name: Xtigyro
+    - email: naseem@transit.app
+      name: naseemkullah
+    - email: rootsandtrees@posteo.de
+      name: zeritti
+    name: prometheus
+    sources:
+    - https://github.com/prometheus/alertmanager
+    - https://github.com/prometheus/prometheus
+    - https://github.com/prometheus/pushgateway
+    - https://github.com/prometheus/node_exporter
+    - https://github.com/kubernetes/kube-state-metrics
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.5.0/cronjob-v0.5.0.tgz
-    version: v0.5.0
-  - apiVersion: v2
-    appVersion: latest
-    created: "2022-07-29T04:46:56.795770835Z"
-    description: A Helm chart for Kubernetes
-    digest: 2b40a5a2f24e3e9915ceb89c4d1f90e0a9678b85b6e71a971bd42d1fe44a3439
-    icon: https://avatars.githubusercontent.com/u/38965494
+    - prometheus-25.16.0.tgz
+    version: 25.16.0
+  prometheus-adapter:
+  - apiVersion: v1
+    appVersion: v0.11.2
+    created: "2024-03-06T11:22:01.513555898Z"
+    description: A Helm chart for k8s prometheus adapter
+    digest: 6d34bd4a20cbf236586c357a1e88563c7aedd7f1f0cac0a75d67717bb24ae294
+    home: https://github.com/kubernetes-sigs/prometheus-adapter
+    keywords:
+    - hpa
+    - metrics
+    - prometheus
+    - adapter
     maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: cronjob
+    - email: mattias.gees@jetstack.io
+      name: mattiasgees
+    - name: steven-sheehy
+    - email: hfernandez@mesosphere.com
+      name: hectorj2f
+    name: prometheus-adapter
+    sources:
+    - https://github.com/kubernetes/charts
+    - https://github.com/kubernetes-sigs/prometheus-adapter
+    urls:
+    - prometheus-adapter-4.9.0.tgz
+    version: 4.9.0
+  promtail:
+  - apiVersion: v2
+    appVersion: 2.9.3
+    created: "2024-03-06T11:22:01.514916614Z"
+    description: Promtail is an agent which ships the contents of local logs to a
+      Loki instance
+    digest: 4f30d52d1b243951192e9e05201d5789c55c033618287d482d4ba58e9d25907e
+    home: https://grafana.com/loki
+    icon: https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png
+    maintainers:
+    - email: lokiproject@googlegroups.com
+      name: Loki Maintainers
+    - name: unguiculus
+    name: promtail
+    sources:
+    - https://github.com/grafana/loki
+    - https://grafana.com/oss/loki/
+    - https://grafana.com/docs/loki/latest/
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/cronjob-v0.4.9/cronjob-v0.4.9.tgz
-    version: v0.4.9
+    - promtail-6.15.5.tgz
+    version: 6.15.5
+  raw:
+  - apiVersion: v1
+    appVersion: 0.2.3
+    created: "2024-03-06T11:22:01.515126707Z"
+    deprecated: true
+    description: DEPRECATED A place for all the Kubernetes resources which don't already
+      have a home.
+    digest: 0ab8e7ee6ec9b7e2ab9ef2a1b4179a30ff4f2c41d57ddf26271e4cdeb92e6062
+    home: https://github.com/helm/charts/blob/master/incubator/raw
+    name: raw
+    urls:
+    - raw-0.2.5.tgz
+    version: 0.2.5
   tgbs:
   - apiVersion: v2
-    created: "2022-10-04T06:14:09.923436425Z"
+    created: "2024-03-06T11:22:01.515286586Z"
     description: A Helm chart for Kubernetes
-    digest: 17bac9bae7517f734249df1bc26d6ef21197c63343ede4cb5332ded5c3d95653
+    digest: 76de2c5a194b91a6d76b90143f192800727423ba9cdd7e28aeec02d1bf90804a
     icon: https://avatars.githubusercontent.com/u/12152522
     maintainers:
     - email: me@nalbam.com
@@ -266,32 +992,6 @@ entries:
     name: tgbs
     type: application
     urls:
-    - https://github.com/opspresso/helm-charts/releases/download/tgbs-v0.2.3/tgbs-v0.2.3.tgz
+    - tgbs-v0.2.3.tgz
     version: v0.2.3
-  - apiVersion: v2
-    created: "2022-07-28T10:42:36.707830235Z"
-    description: A Helm chart for Kubernetes
-    digest: 8fd649ef5cd4ab7cea1ab39542bc71b64f6ecb40bd990f31c4294cdeb80c99d5
-    icon: https://avatars.githubusercontent.com/u/12152522
-    maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: tgbs
-    type: application
-    urls:
-    - https://github.com/opspresso/helm-charts/releases/download/tgbs-v0.2.2/tgbs-v0.2.2.tgz
-    version: v0.2.2
-  - apiVersion: v2
-    created: "2022-07-28T09:43:00.670182569Z"
-    description: A Helm chart for Kubernetes
-    digest: f4a640d14c52ae1f2b7cd7f8c221dda59023a37d00cc1c17d817292ed428be50
-    icon: https://avatars.githubusercontent.com/u/12152522
-    maintainers:
-    - email: me@nalbam.com
-      name: Jungyoul Yu
-    name: tgbs
-    type: application
-    urls:
-    - https://github.com/opspresso/helm-charts/releases/download/tgbs-v0.2.1/tgbs-v0.2.1.tgz
-    version: v0.2.1
-generated: "2023-11-03T02:29:47.655534221Z"
+generated: "2024-03-06T11:22:01.411412073Z"
