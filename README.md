@@ -10,8 +10,6 @@ helm search repo opspresso
 
 ## helm repo
 
-* SEE ![repos.txt](repos.txt)
-
 ```bash
 cat repos.txt | xargs -I {} bash -c 'helm repo add {}'
 ```
