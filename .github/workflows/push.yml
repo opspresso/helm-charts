@@ -15,15 +15,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure Git
+      - name: Checkout gh-pages
+        uses: actions/checkout@v3
+        with:
+          ref: gh-pages
+          path: build
+
+      - name: Build and Push
         run: |
-          git config user.name "nalbam-bot"
-          git config user.email "bot@nalbam.com"
-
-      - name: Install Helm
-        uses: azure/setup-helm@v1
-
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.5.0
+          bash ./build.sh
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PUSH: "true"
