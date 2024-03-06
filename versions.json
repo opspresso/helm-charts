@@ -93,7 +93,7 @@
     "external-dns": {
       "app_version": "0.14.0",
       "chart": "external-dns/external-dns",
-      "version": "1.14.1"
+      "version": "1.14.3"
     },
     "external-secrets": {
       "app_version": "v0.9.13",

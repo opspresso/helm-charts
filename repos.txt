@@ -15,7 +15,7 @@ dashboard https://kubernetes.github.io/dashboard
 datadog https://helm.datadoghq.com
 deliveryhero https://charts.deliveryhero.io
 eks https://aws.github.io/eks-charts
-external-dns https://github.com/kubernetes-sigs/external-dns
+external-dns https://kubernetes-sigs.github.io/external-dns
 external-secrets https://charts.external-secrets.io
 fluxcd https://charts.fluxcd.io
 gocd https://gocd.github.io/helm-chart

@@ -1,0 +1,29 @@
+annotations:
+  artifacthub.io/changes: |
+    - kind: fixed
+      description: "Fixed args for webhook deployment."
+    - kind: fixed
+      description: "Fixed support for `gateway-grpcroute`, `gateway-tlsroute`, `gateway-tcproute` & `gateway-udproute`."
+    - kind: fixed
+      description: "Fixed incorrect implementation for setting the `automountServiceAccountToken`."
+apiVersion: v2
+appVersion: 0.14.0
+description: ExternalDNS synchronizes exposed Kubernetes Services and Ingresses with
+  DNS providers.
+home: https://github.com/kubernetes-sigs/external-dns/
+icon: https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png
+keywords:
+- kubernetes
+- externaldns
+- external-dns
+- dns
+- service
+- ingress
+maintainers:
+- email: steve.hipwell@gmail.com
+  name: stevehipwell
+name: external-dns
+sources:
+- https://github.com/kubernetes-sigs/external-dns/
+type: application
+version: 1.14.3
