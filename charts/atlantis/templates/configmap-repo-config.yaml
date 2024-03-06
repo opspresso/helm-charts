@@ -1,0 +1,11 @@
+{{- if .Values.repoConfig -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "atlantis.fullname" . }}-repo-config
+  labels:
+{{- include "atlantis.labels" . | nindent 4 }}
+data:
+  repos.yaml: |
+{{ .Values.repoConfig | indent 4 }}
+{{- end -}}

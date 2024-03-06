@@ -1,0 +1,32 @@
+{{- if and .Values.ingester.enabled .Values.ingester.autoscaling.enabled -}}
+{{- with .Values.ingester.autoscaling -}}
+apiVersion: {{ include "cortex.hpaVersion" $ }}
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "cortex.ingesterFullname" $ }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "cortex.ingesterLabels" $ | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: {{ if $.Values.ingester.statefulSet.enabled }}StatefulSet{{ else }}Deployment{{ end }}
+    name: {{ include "cortex.ingesterFullname" $ }}
+  minReplicas: {{ .minReplicas }}
+  maxReplicas: {{ .maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ .targetMemoryUtilizationPercentage }}
+  {{- with .extraMetrics }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .behavior }}
+  behavior:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
+{{- end }}

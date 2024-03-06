@@ -1,0 +1,595 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ template "atlantis.fullname" . }}
+  labels:
+{{- include "atlantis.labels" . | nindent 4 }}
+{{- if .Values.statefulSet.labels }}
+{{ toYaml .Values.statefulSet.labels | indent 4 }}
+{{- end }}
+  {{- with .Values.statefulSet.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  serviceName: {{ template "atlantis.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "atlantis.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "atlantis.name" . }}
+        release: {{ .Release.Name }}
+{{- if .Values.podTemplate.labels }}
+{{ toYaml .Values.podTemplate.labels | indent 8 }}
+{{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap-config.yaml") . | sha256sum }}
+        checksum/repo-config: {{ include (print $.Template.BasePath "/configmap-repo-config.yaml") . | sha256sum }}
+        {{- if .Values.initConfig.enabled }}
+        checksum/init-config: {{ include (print $.Template.BasePath "/configmap-init-config.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if .Values.podTemplate.annotations }}
+        {{- toYaml .Values.podTemplate.annotations | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- if .Values.hostAliases }}
+      hostAliases:
+      {{- range .Values.hostAliases }}
+        - hostnames: {{- range .hostnames }}
+          - {{ . }}{{- end }}
+          ip: {{ .ip }}
+      {{- end }}
+      {{- end }}
+      hostNetwork: {{ .Values.hostNetwork }}
+      serviceAccountName: {{ template "atlantis.serviceAccountName" . }}
+      shareProcessNamespace: {{ .Values.statefulSet.shareProcessNamespace }}
+      automountServiceAccountToken: {{ .Values.serviceAccount.mount }}
+      {{- if .Values.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      {{- end }}
+      securityContext: {{ .Values.statefulSet.securityContext | toYaml | nindent 8 }}
+      {{- if .Values.statefulSet.priorityClassName }}
+      priorityClassName: {{ .Values.statefulSet.priorityClassName }}
+      {{- end }}
+      volumes:
+      {{- if and .Values.volumeClaim.enabled ( not .Values.dataStorage ) }}
+      - name : atlantis-data
+        persistentVolumeClaim:
+          claimName: {{ template "atlantis.fullname" . }}-data
+      {{- end }}
+      {{- if .Values.tlsSecretName }}
+      - name: tls
+        secret:
+          secretName: {{ .Values.tlsSecretName }}
+      {{- end }}
+      {{- range $name, $_ := .Values.serviceAccountSecrets }}
+      - name: {{ $name }}-volume
+        secret:
+          secretName: {{ $name }}
+      {{- end }}
+      {{- range .Values.googleServiceAccountSecrets }}
+      - name: {{ .name }}
+        secret:
+          secretName: {{ .secretName }}
+      {{- end }}
+      {{- if .Values.gitconfig }}
+      - name: gitconfig-volume
+        secret:
+          secretName: {{ template "atlantis.fullname" . }}-gitconfig
+      {{- else if .Values.gitconfigSecretName }}
+      - name: gitconfig-volume
+        secret:
+          secretName: {{ .Values.gitconfigSecretName }}
+      {{- end }}
+      {{- if .Values.netrc }}
+      - name: netrc-volume
+        secret:
+          secretName: {{ template "atlantis.fullname" . }}-netrc
+      {{- else if .Values.netrcSecretName }}
+      - name: netrc-volume
+        secret:
+          secretName: {{ .Values.netrcSecretName }}
+      {{- end }}
+      {{- if or .Values.aws.credentials .Values.aws.config .Values.awsSecretName }}
+      - name: aws-volume
+        secret:
+          secretName: {{ template "atlantis.awsSecretName" . }}
+      {{- end }}
+      {{- if .Values.githubApp }}
+      {{- if or .Values.githubApp.key .Values.vcsSecretName}}
+      - name: github-app-key-volume
+        secret:
+          secretName: {{ template "atlantis.vcsSecretName" . }}
+          items:
+          - key: key.pem
+            path: key.pem
+      {{- end }}
+      {{- end }}
+      {{- if .Values.repoConfig }}
+      - name: repo-config
+        configMap:
+          name:  {{ template "atlantis.fullname" . }}-repo-config
+      {{- end }}
+      {{- if .Values.config }}
+      - name: config
+        configMap:
+          name:  {{ template "atlantis.fullname" . }}
+      {{- end }}
+      {{- if .Values.containerSecurityContext.readOnlyRootFilesystem }}
+      - name: atlantis-home-dir
+        emptyDir: {}
+      - name: tmp-dir
+        emptyDir: {}
+      {{- end }}
+      {{- if .Values.customPem }}
+      - name: additional-trust-certs
+        secret:
+          secretName: {{ .Values.customPem }}
+      {{- end }}
+      {{- if .Values.extraVolumes }}
+      {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
+      {{- if .Values.initConfig.enabled }}
+      - name: init-config
+        configMap:
+          name: {{ template "atlantis.fullname" . }}-init-config
+          items:
+            - key: init-config.sh
+              path: init-config.sh
+              mode: 0555
+      - name: init-shared-path
+        emptyDir:
+          sizeLimit: {{ .Values.initConfig.sizeLimit }}
+      {{- end }}
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- range .Values.imagePullSecrets }}
+      - name: {{ . }}
+      {{- end }}
+      {{- end }}
+      {{- if or .Values.initContainers .Values.initConfig.enabled }}
+      initContainers:
+        {{- with .Values.initContainers }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- if .Values.initConfig.enabled }}
+        - name: init-config
+          image: {{ .Values.initConfig.image }}
+          imagePullPolicy: {{ .Values.initConfig.pullPolicy }}
+          command:
+            - /init-config.sh
+          workingDir: {{ .Values.initConfig.workDir }}
+          env:
+            - name: PATH
+              value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:{{ .Values.initConfig.sharedDir }}
+            - name: INIT_SHARED_DIR
+              value: {{ .Values.initConfig.sharedDir }}
+          volumeMounts:
+            - name: init-config
+              mountPath: /init-config.sh
+              subPath: init-config.sh
+            - name: init-shared-path
+              mountPath: {{ .Values.initConfig.sharedDir }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.containerSecurityContext }}
+          securityContext: {{- toYaml .Values.containerSecurityContext | nindent 12 }}
+          {{- end }}
+          {{- if .Values.command }}
+          command:
+          {{- range .Values.command }}
+            - {{ . }}
+            {{- end }}
+            {{- end }}
+          args:
+            - server
+            {{- if .Values.config }}
+            - --config=/etc/atlantis/atlantis.yaml
+            {{- end }}
+            {{- if .Values.extraArgs }}
+            {{ toYaml .Values.extraArgs | indent 12 | trim }}
+            {{- end }}
+          ports:
+          - name: atlantis
+            containerPort: 4141
+          {{- with .Values.lifecycle }}
+          lifecycle: {{ toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if or .Values.loadEnvFromSecrets .Values.loadEnvFromConfigMaps }}
+          envFrom:
+          {{- range .Values.loadEnvFromSecrets }}
+            - secretRef:
+                name: {{ . }}
+          {{- end }}
+          {{- range .Values.loadEnvFromConfigMaps }}
+            - configMapRef:
+                name: {{ . }}
+          {{- end }}
+          {{- end }}
+          env:
+          {{- if .Values.environmentRaw }}
+          {{- with .Values.environmentRaw }}
+          {{- toYaml . | nindent 10 }}
+          {{- end }}
+          {{- end }}
+          {{- range $key, $value := .Values.environment }}
+          - name: {{ $key }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- range .Values.environmentSecrets }}
+          - name: {{ .name }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .secretKeyRef.name }}
+                key: {{ .secretKeyRef.key }}
+          {{- end }}
+          {{- if .Values.allowForkPRs }}
+          - name: ATLANTIS_ALLOW_FORK_PRS
+            value: {{ .Values.allowForkPRs | quote }}
+          {{- end }}
+          {{- if .Values.allowDraftPRs }}
+          - name: ATLANTIS_ALLOW_DRAFT_PRS
+            value: {{ .Values.allowDraftPRs | quote }}
+          {{- end }}
+          {{- if .Values.hidePrevPlanComments }}
+          - name: ATLANTIS_HIDE_PREV_PLAN_COMMENTS
+            value: {{ .Values.hidePrevPlanComments | quote }}
+          {{- end }}
+          {{- if .Values.hideUnchangedPlanComments }}
+          - name: ATLANTIS_HIDE_UNCHANGED_PLAN_COMMENTS
+            value: {{ .Values.hideUnchangedPlanComments | quote }}
+          {{- end }}
+          {{- if .Values.disableApply }}
+          - name: ATLANTIS_DISABLE_APPLY
+            value: {{ .Values.disableApply | quote }}
+          {{- end }}
+          {{- if .Values.disableApplyAll }}
+          - name: ATLANTIS_DISABLE_APPLY_ALL
+            value: {{ .Values.disableApplyAll | quote }}
+          {{- end }}
+          {{- if .Values.disableRepoLocking }}
+          - name: ATLANTIS_DISABLE_REPO_LOCKING
+            value: {{ .Values.disableRepoLocking | quote }}
+          {{- end }}
+          {{- if .Values.enableDiffMarkdownFormat }}
+          - name: ATLANTIS_ENABLE_DIFF_MARKDOWN_FORMAT
+            value: {{ .Values.enableDiffMarkdownFormat | quote }}
+          {{- end }}
+          {{- if .Values.defaultTFVersion }}
+          - name: ATLANTIS_DEFAULT_TF_VERSION
+            value: {{ .Values.defaultTFVersion }}
+          {{- end }}
+          {{- if .Values.logLevel }}
+          - name: ATLANTIS_LOG_LEVEL
+            value: {{ .Values.logLevel | quote}}
+          {{- end }}
+          {{- if .Values.tlsSecretName }}
+          - name: ATLANTIS_SSL_CERT_FILE
+            value: /etc/tls/tls.crt
+          - name: ATLANTIS_SSL_KEY_FILE
+            value: /etc/tls/tls.key
+          {{- end }}
+          - name: ATLANTIS_DATA_DIR
+            value: {{ .Values.atlantisDataDirectory }}
+          - name: ATLANTIS_REPO_ALLOWLIST
+            value: {{ toYaml (coalesce .Values.orgWhitelist .Values.orgAllowlist) }}
+          - name: ATLANTIS_PORT
+            value: "4141"
+          {{- if .Values.repoConfig }}
+          - name: ATLANTIS_REPO_CONFIG
+            value: /etc/atlantis/repos.yaml
+          {{- end }}
+          {{- if .Values.atlantisUrl }}
+          - name: ATLANTIS_ATLANTIS_URL
+            value: {{ .Values.atlantisUrl }}
+          {{- else if .Values.ingress.enabled }}
+          - name: ATLANTIS_ATLANTIS_URL
+            {{- if .Values.ingress.tls }}
+            value: https://{{ .Values.ingress.host }}
+            {{- else }}
+            value: http://{{ .Values.ingress.host }}
+            {{- end }}
+          {{- end }}
+          {{- if .Values.github.user }}
+          - name: ATLANTIS_GH_USER
+            value: {{ required "github.user is required if github configuration is specified." .Values.github.user }}
+          - name: ATLANTIS_GH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: github_token
+          - name: ATLANTIS_GH_WEBHOOK_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: github_secret
+          {{- end }}
+          {{- if .Values.github.hostname }}
+          - name: ATLANTIS_GH_HOSTNAME
+            value: {{ .Values.github.hostname }}
+          {{- end }}
+          {{- if .Values.githubApp }}
+          {{- if .Values.githubApp.id }}
+          - name: ATLANTIS_GH_APP_ID
+            value: {{ .Values.githubApp.id | quote}}
+          {{- end }}
+          {{- if .Values.githubApp.slug }}
+          - name: ATLANTIS_GH_APP_SLUG
+            value: {{ .Values.githubApp.slug | quote}}
+          {{- end }}
+          - name: ATLANTIS_WRITE_GIT_CREDS
+            value: "true"
+          {{- if or .Values.githubApp.secret .Values.vcsSecretName}}
+          - name: ATLANTIS_GH_WEBHOOK_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: github_secret
+          {{- end }}
+          {{- if or .Values.githubApp.key .Values.vcsSecretName}}
+          - name: ATLANTIS_GH_APP_KEY_FILE
+            value: "/var/github-app/key.pem"
+          {{- end }}
+          {{- end }}
+          {{- if .Values.gitlab }}
+          - name: ATLANTIS_GITLAB_USER
+            value: {{ required "gitlab.user is required if gitlab configuration is specified." .Values.gitlab.user }}
+          - name: ATLANTIS_GITLAB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: gitlab_token
+          - name: ATLANTIS_GITLAB_WEBHOOK_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: gitlab_secret
+          {{- if .Values.gitlab.hostname }}
+          - name: ATLANTIS_GITLAB_HOSTNAME
+            value: {{ .Values.gitlab.hostname }}
+          {{- end }}
+          {{- end }}
+          {{- if .Values.bitbucket }}
+          - name: ATLANTIS_BITBUCKET_USER
+            value: {{ required "bitbucket.user is required if bitbucket configuration is specified." .Values.bitbucket.user }}
+          - name: ATLANTIS_BITBUCKET_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: bitbucket_token
+          {{- if .Values.bitbucket.baseURL }}
+          - name: ATLANTIS_BITBUCKET_BASE_URL
+            value: {{ .Values.bitbucket.baseURL }}
+          - name: ATLANTIS_BITBUCKET_WEBHOOK_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: bitbucket_secret
+          {{- end }}
+          {{- end }}
+          {{- if .Values.azuredevops }}
+          - name: ATLANTIS_AZUREDEVOPS_USER
+            value: {{ required "azuredevops.user is required if azuredevops configuration is specified." .Values.azuredevops.user }}
+          - name: ATLANTIS_AZUREDEVOPS_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: azuredevops_token
+          - name: ATLANTIS_AZUREDEVOPS_WEBHOOK_USER
+            value: {{ required "azuredevops.webhookUser is required if azuredevops configuration is specified." .Values.azuredevops.webhookUser }}
+          - name: ATLANTIS_AZUREDEVOPS_WEBHOOK_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.vcsSecretName" . }}
+                key: azuredevops_webhook_password
+          {{- end }}
+          {{- if or .Values.basicAuthSecretName .Values.basicAuth }}
+          - name: ATLANTIS_WEB_BASIC_AUTH
+            value: "true"
+          - name: ATLANTIS_WEB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.basicAuthSecretName" . }}
+                key: username
+          - name: ATLANTIS_WEB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.basicAuthSecretName" . }}
+                key: password
+          {{- end }}
+          {{- if or .Values.api .Values.apiSecretName }}
+          - name: ATLANTIS_API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.apiSecretName" . }}
+                key: apisecret
+          {{- end }}
+          {{- if .Values.lockingDbType }}
+          - name: ATLANTIS_LOCKING_DB_TYPE
+            value: {{ .Values.lockingDbType | quote }}
+          {{- end }}
+          {{- if .Values.redis.host }}
+          - name: ATLANTIS_REDIS_HOST
+            value: {{ .Values.redis.host | quote }}
+          {{- end }}
+          {{- if or .Values.redis.password .Values.redisSecretName }}
+          - name: ATLANTIS_REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "atlantis.redisSecretName" . }}
+                key: password
+          {{- end }}
+          {{- if .Values.redis.port }}
+          - name: ATLANTIS_REDIS_PORT
+            value: {{ .Values.redis.port | quote }}
+          {{- end }}
+          {{- if .Values.redis.db }}
+          - name: ATLANTIS_REDIS_DB
+            value: {{ .Values.redis.db | quote }}
+          {{- end }}
+          {{- if .Values.redis.tlsEnabled }}
+          - name: ATLANTIS_REDIS_TLS_ENABLED
+            value: {{ .Values.redis.tlsEnabled | quote }}
+          {{- end }}
+          {{- if .Values.redis.insecureSkipVerify }}
+          - name: ATLANTIS_REDIS_INSECURE_SKIP_VERIFY
+            value: {{ .Values.redis.insecureSkipVerify | quote }}
+          {{- end }}
+          {{- if .Values.aws.directory }}
+          - name: AWS_SHARED_CREDENTIALS_FILE
+            value: {{ .Values.aws.directory }}/credentials
+          - name: AWS_CONFIG_FILE
+            value: {{ .Values.aws.directory }}/config
+          {{- end }}
+          {{- if .Values.initConfig.enabled }}
+          - name: PATH
+            value: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:{{ .Values.initConfig.sharedDir }}
+          - name: INIT_SHARED_DIR
+            value: {{ .Values.initConfig.sharedDir }}
+          {{- end }}
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 4141
+              scheme: {{ .Values.livenessProbe.scheme }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 4141
+              scheme: {{ .Values.readinessProbe.scheme }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          {{- end }}
+          volumeMounts:
+          {{- if or .Values.volumeClaim.enabled .Values.dataStorage  }}
+          - name: atlantis-data
+            mountPath: {{ .Values.atlantisDataDirectory }}
+          {{- end }}
+          {{- range $name, $_ := .Values.serviceAccountSecrets }}
+          - name: {{ $name }}-volume
+            readOnly: true
+            mountPath: /etc/{{ $name }}
+          {{- end }}
+          {{- range .Values.googleServiceAccountSecrets }}
+          - name: {{ .name }}
+            readOnly: true
+            mountPath: /var/secrets/{{ .name }}
+          {{- end }}
+          {{- if or .Values.gitconfig .Values.gitconfigSecretName }}
+          - name: gitconfig-volume
+            readOnly: true
+            mountPath: /home/atlantis/.gitconfig
+            subPath: gitconfig
+          {{- end }}
+          {{- if or .Values.netrc .Values.netrcSecretName }}
+          - name: netrc-volume
+            readOnly: true
+            mountPath: /home/atlantis/.netrc
+            subPath: netrc
+          {{- end }}
+          {{- if or .Values.aws.credentials .Values.aws.config .Values.awsSecretName }}
+          - name: aws-volume
+            readOnly: true
+            mountPath: {{ .Values.aws.directory | default "/home/atlantis/.aws" }}
+          {{- end }}
+          {{- if .Values.tlsSecretName }}
+          - name: tls
+            mountPath: /etc/tls/
+          {{- end }}
+          {{- if .Values.repoConfig }}
+          - name: repo-config
+            mountPath: /etc/atlantis/repos.yaml
+            subPath: repos.yaml
+            readOnly: true
+          {{- end }}
+          {{- if .Values.githubApp }}
+          {{- if or .Values.githubApp.key .Values.vcsSecretName}}
+          - name: github-app-key-volume
+            mountPath: /var/github-app
+            readOnly: true
+          {{- end }}
+          {{- end }}
+          {{- if .Values.config }}
+          - name: config
+            mountPath: /etc/atlantis/atlantis.yaml
+            subPath: atlantis.yaml
+            readOnly: true
+          {{- end }}
+          {{- if .Values.containerSecurityContext.readOnlyRootFilesystem }}
+          - name: atlantis-home-dir
+            mountPath: /home/atlantis
+          - name: tmp-dir
+            mountPath: /tmp
+          {{- end }}
+          {{- if .Values.customPem }}
+          - name: additional-trust-certs
+            mountPath: /etc/ssl/certs/ca-certificates.crt
+            subPath: ca-certificates.crt
+          {{- end }}
+          {{- if .Values.extraVolumeMounts }}
+          {{- toYaml .Values.extraVolumeMounts | nindent 10 }}
+          {{- end }}
+          {{- if .Values.initConfig.enabled }}
+          - name: init-shared-path
+            mountPath: {{ .Values.initConfig.sharedDir }}
+            readOnly: true
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.extraContainers }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+  {{- with .Values.statefulSet.updateStrategy }}
+  updateStrategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- if .Values.dataStorage }}
+  volumeClaimTemplates:
+  - metadata:
+      name: atlantis-data
+    spec:
+      accessModes: ["ReadWriteOnce"] # Volume should not be shared by multiple nodes.
+      {{- if .Values.storageClassName }}
+      storageClassName: {{ .Values.storageClassName }} # Storage class of the volume
+      {{- end }}
+      resources:
+        requests:
+          # The biggest thing Atlantis stores is the Git repo when it checks it out.
+          # It deletes the repo after the pull request is merged.
+          storage: {{ .Values.dataStorage }}
+  {{- end }}
