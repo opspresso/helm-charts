@@ -5,6 +5,7 @@ aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
 aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver
 aws-secrets-manager https://aws.github.io/secrets-store-csi-driver-provider-aws
 awx-operator https://ansible.github.io/awx-operator/
+bitnami https://charts.bitnami.com/bitnami
 chaoskube https://linki.github.io/chaoskube
 codecentric https://codecentric.github.io/cluster-overprovisioner
 cortex https://cortexproject.github.io/cortex-helm-chart
