@@ -156,9 +156,9 @@
       "version": "3.12.0"
     },
     "oauth2-proxy": {
-      "app_version": "7.5.1",
+      "app_version": "7.6.0",
       "chart": "oauth2-proxy/oauth2-proxy",
-      "version": "6.23.1"
+      "version": "7.1.0"
     },
     "prometheus": {
       "app_version": "v2.50.1",
