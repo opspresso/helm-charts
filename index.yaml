@@ -3,9 +3,9 @@ entries:
   app:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-03-06T11:26:39.528405996Z"
+    created: "2024-03-15T07:10:54.282869752Z"
     description: A Helm chart for Kubernetes
-    digest: 3765b7436bd01ccbced95e245180f8ec932f876a91f09b951c2116d52003e52b
+    digest: 9fe7300ec32883048b586d4316761b39020da2b08fde1d6cc947eb1890bea275
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -25,7 +25,7 @@ entries:
         url: https://argoproj.github.io/argo-helm/pgp_keys.asc
     apiVersion: v2
     appVersion: v2.10.2
-    created: "2024-03-06T11:26:39.537538062Z"
+    created: "2024-03-15T07:10:54.291816556Z"
     dependencies:
     - condition: redis-ha.enabled
       name: redis-ha
@@ -33,7 +33,7 @@ entries:
       version: 4.26.1
     description: A Helm chart for Argo CD, a declarative, GitOps continuous delivery
       tool for Kubernetes.
-    digest: 1ecf0ecfd0bc6697a8bebc12732ad97803cd770bc1c59eb25288f3e5ed318698
+    digest: ea666dfcbc4f27c75b07318a7057dcc4e527f15a25a03e95df317a76b9044550
     home: https://github.com/argoproj/argo-helm
     icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
     keywords:
@@ -61,10 +61,10 @@ entries:
         url: https://argoproj.github.io/argo-helm/pgp_keys.asc
     apiVersion: v2
     appVersion: v1.9.1
-    created: "2024-03-06T11:26:39.539084487Z"
+    created: "2024-03-15T07:10:54.292704306Z"
     description: A Helm chart for Argo Events, the event-driven workflow automation
       framework
-    digest: cd96ca835c99153817b12df0f5ef31da6b496515d19aaf966457fe8dcc4311f4
+    digest: 7e74c6a4bab91fa6afea1ca66bd1a20dd557b44324953f681dedc109d8823341
     home: https://github.com/argoproj/argo-helm
     icon: https://avatars.githubusercontent.com/u/30269780?s=200&v=4
     keywords:
@@ -89,9 +89,9 @@ entries:
         url: https://argoproj.github.io/argo-helm/pgp_keys.asc
     apiVersion: v2
     appVersion: v1.6.6
-    created: "2024-03-06T11:26:39.541956855Z"
+    created: "2024-03-15T07:10:54.295329024Z"
     description: A Helm chart for Argo Rollouts
-    digest: 17223cd6c5c899728adfc0beb62c219befe4b47883bf235dc85c1c81d982ef4b
+    digest: abe9e8c19c3a7299ab6db0a17211577f6cab3d0fbbb2a4fd2d87bebd1b56c835
     home: https://github.com/argoproj/argo-helm
     icon: https://argoproj.github.io/argo-rollouts/assets/logo.png
     keywords:
@@ -116,9 +116,9 @@ entries:
         url: https://argoproj.github.io/argo-helm/pgp_keys.asc
     apiVersion: v2
     appVersion: v3.5.5
-    created: "2024-03-06T11:26:39.543690388Z"
+    created: "2024-03-15T07:10:54.297202649Z"
     description: A Helm chart for Argo Workflows
-    digest: 5c510fff551391ab004030b2a2658bd6b61f9924afe949a45ff757d386e16310
+    digest: 2b8a5eaa0257ca0db481705490e85f88c3239b87c092b78ac9358c002249f151
     home: https://github.com/argoproj/argo-helm
     icon: https://argo-workflows.readthedocs.io/en/stable/assets/logo.png
     maintainers:
@@ -134,9 +134,9 @@ entries:
   atlantis:
   - apiVersion: v1
     appVersion: v0.27.0
-    created: "2024-03-06T11:26:39.545206554Z"
+    created: "2024-03-15T07:10:54.299410338Z"
     description: A Helm chart for Atlantis https://www.runatlantis.io
-    digest: 69b5f0e1aeb7d236b77fdc8f82776cc5d2529681d838fe93e54be2f91f0cf54b
+    digest: 4436f23263f682deb4439158cefa2c14195fc345f45feeed2e29896bbe3acb0f
     home: https://www.runatlantis.io
     icon: https://www.runatlantis.io/hero.png
     keywords:
@@ -157,9 +157,9 @@ entries:
   aws-ebs-csi-driver:
   - apiVersion: v2
     appVersion: 1.28.0
-    created: "2024-03-06T11:26:39.546585642Z"
+    created: "2024-03-15T07:10:54.300749803Z"
     description: A Helm chart for AWS EBS CSI Driver
-    digest: 760e267c365fbd4b7d8876ef9d2e0f5db6cddabb856d686838019a97bfec4917
+    digest: 60f01083c23804cb132c47ffcb5fbe5514a7f52744d5f94b886aedb665cdcda7
     home: https://github.com/kubernetes-sigs/aws-ebs-csi-driver
     keywords:
     - aws
@@ -178,9 +178,9 @@ entries:
   aws-efs-csi-driver:
   - apiVersion: v2
     appVersion: 1.7.6
-    created: "2024-03-06T11:26:39.547286637Z"
+    created: "2024-03-15T07:10:54.301385642Z"
     description: A Helm chart for AWS EFS CSI Driver
-    digest: 75af12e6ecccf09bc7ecae54b1c23b8693e50b9a14d196644e25237651ae5303
+    digest: b788d042f0c230cde81efb96d07874b4a95943bd5c0b2696bd4c0d70905d32eb
     home: https://github.com/kubernetes-sigs/aws-efs-csi-driver
     keywords:
     - aws
@@ -201,9 +201,9 @@ entries:
   aws-load-balancer-controller:
   - apiVersion: v2
     appVersion: v2.7.1
-    created: "2024-03-06T11:26:39.548456132Z"
+    created: "2024-03-15T07:10:54.302409107Z"
     description: AWS Load Balancer Controller Helm chart for Kubernetes
-    digest: 22e626fde2f9efba5d4b55214b0a3abb9d000b122b13e6d9c11bb1f5efbde799
+    digest: b849deac90e6154b5b3dbca85c806df88eaaebc92f02b51c0115ebf5130cfe6e
     home: https://github.com/aws/eks-charts
     icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
     keywords:
@@ -228,9 +228,9 @@ entries:
   aws-node-termination-handler:
   - apiVersion: v2
     appVersion: 1.19.0
-    created: "2024-03-06T11:26:39.550345478Z"
+    created: "2024-03-15T07:10:54.303296216Z"
     description: A Helm chart for the AWS Node Termination Handler.
-    digest: 966d1b5565d30bb1b5985b04def62b8c7b7adce2642f5520b17738e58b27d274
+    digest: 076c2eb17743780f7e649eea4006f8831a886426736da33c80509dd89769379f
     home: https://github.com/aws/eks-charts
     icon: https://raw.githubusercontent.com/aws/eks-charts/master/docs/logo/aws.png
     keywords:
@@ -264,9 +264,9 @@ entries:
         url: https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
     apiVersion: v1
     appVersion: v1.14.3
-    created: "2024-03-06T11:26:39.553269856Z"
+    created: "2024-03-15T07:10:54.307003672Z"
     description: A Helm chart for cert-manager
-    digest: 64e2d014c4b01a9e3cd90be02e066ef61c30c5049d5724737925a51f55a8649e
+    digest: be8493781ca19a553cc49251eac5394648cfe8aa26bda1d85a6359b4ddc36e6c
     home: https://github.com/cert-manager/cert-manager
     icon: https://raw.githubusercontent.com/cert-manager/cert-manager/d53c0b9270f8cd90d908460d69502694e1838f5f/logo/logo-small.png
     keywords:
@@ -288,9 +288,9 @@ entries:
   chaoskube:
   - apiVersion: v2
     appVersion: 0.27.0
-    created: "2024-03-06T11:26:39.553572865Z"
+    created: "2024-03-15T07:10:54.307309825Z"
     description: Chaoskube periodically kills random pods in your Kubernetes cluster.
-    digest: 03511f7e98915a819749a30aea6064c4cc5345fdc618b14e302ff700cc54ca01
+    digest: 4b49585f41cbdd2b678339b6deb50ffa3482267add39f78edb35183f3975e5f6
     home: https://github.com/linki/chaoskube
     icon: https://raw.githubusercontent.com/linki/chaoskube/master/chaoskube.png
     keywords:
@@ -309,9 +309,9 @@ entries:
   cluster-autoscaler:
   - apiVersion: v2
     appVersion: 1.29.0
-    created: "2024-03-06T11:26:39.554679171Z"
+    created: "2024-03-15T07:10:54.308365249Z"
     description: Scales Kubernetes worker nodes within autoscaling groups.
-    digest: 8662b54bac9fef81225d60d64fc65e98054ba2c18b37cc8f7e53dc3c4c3e343c
+    digest: 3b9c17e7abc6051ee39431ef129477a41ffc387e22eebd0e12963ca98455a46e
     home: https://github.com/kubernetes/autoscaler
     icon: https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png
     maintainers:
@@ -327,7 +327,7 @@ entries:
   cluster-overprovisioner:
   - apiVersion: v1
     appVersion: "3.9"
-    created: "2024-03-06T11:26:39.555869746Z"
+    created: "2024-03-15T07:10:54.308815852Z"
     description: 'This chart provide a buffer for cluster autoscaling to allow overprovisioning
       of cluster nodes. This is desired when you have work loads that need to scale
       up quickly without waiting for the new cluster nodes to be created and join
@@ -336,7 +336,7 @@ entries:
       but don''t actually consume any resources. These pods are then evicted allowing
       other normal pods to be created while also triggering a scale-up by the [cluster-autoscaler](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler).  This
       approach is the [current recommended method to achieve overprovisioning](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-can-i-configure-overprovisioning-with-cluster-autoscaler). '
-    digest: f79da5ca7a4a73f839e7e501bd51ade1db7a4107c4506ae8a056e92fa2458dda
+    digest: 34778b8f971759b45df36140ca309169601d00a08241d29bdeeb59f5c81a6fd8
     home: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler
     icon: https://github.com/kubernetes/kubernetes/raw/master/logo/logo.png
     keywords:
@@ -360,9 +360,9 @@ entries:
   cluster-proportional-autoscaler:
   - apiVersion: v2
     appVersion: 1.8.6
-    created: "2024-03-06T11:26:39.556447135Z"
+    created: "2024-03-15T07:10:54.309150137Z"
     description: This chart is used to deploy an instance of the cluster-proportional-autoscaler.
-    digest: 2246d7f57a76d466a5ad6c9fbb26002d39751ae1f452ec52dbae646cb5355498
+    digest: 5241a34c51535f9eac5e82be3d9ac9c27da663856466c5f340436cb098dfab5b
     maintainers:
     - name: krmichel
       url: https://github.com/krmichel
@@ -375,7 +375,7 @@ entries:
   cortex:
   - apiVersion: v2
     appVersion: v1.16.0
-    created: "2024-03-06T11:26:39.563075001Z"
+    created: "2024-03-15T07:10:54.315736504Z"
     dependencies:
     - alias: memcached-frontend
       condition: memcached-frontend.enabled
@@ -399,7 +399,7 @@ entries:
       version: 6.3.12
     description: Horizontally scalable, highly available, multi-tenant, long term
       Prometheus.
-    digest: a8af676f6553e802744a28a15b4a23d80693d70f7d2dac39c030bee51c2444dc
+    digest: a0b1aed482651a9a76014e48fe7b3bed0343cc12f7e62148d8ee39833b9ce25f
     home: https://cortexmetrics.io/
     icon: https://avatars2.githubusercontent.com/u/43045022?s=200&v=4
     kubeVersion: ^1.19.0-0
@@ -423,10 +423,10 @@ entries:
           url: https://www.kubecost.com
     apiVersion: v2
     appVersion: 2.1.0
-    created: "2024-03-06T11:26:39.571266501Z"
+    created: "2024-03-15T07:10:54.323292399Z"
     description: A Helm chart that sets up Kubecost, Prometheus, and Grafana to monitor
       cloud costs.
-    digest: 1878dc83ca05574cbc93a1b025585905a826c68bbe238dad672c0fbc6a976641
+    digest: d906fb3c78a52a9dc0fd251ff1513b028081983a2c84135ae37f8b04a36f158f
     name: cost-analyzer
     urls:
     - cost-analyzer-2.1.0.tgz
@@ -434,9 +434,9 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: latest
-    created: "2024-03-06T11:26:39.571632999Z"
+    created: "2024-03-15T07:10:54.323645659Z"
     description: A Helm chart for Kubernetes
-    digest: 9b928b792f9f78cace63fe52014d8fd6f833e06136a4b77f00110ce4a35bf5b7
+    digest: f705d19d20a8d726d3d23e648f0047897e4edca908ed884f87ed8ca582b03442
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -449,11 +449,11 @@ entries:
   crossplane:
   - apiVersion: v1
     appVersion: 1.15.0
-    created: "2024-03-06T11:26:39.572334285Z"
+    created: "2024-03-15T07:10:54.324356088Z"
     description: Crossplane is an open source Kubernetes add-on that enables platform
       teams to assemble infrastructure from multiple vendors, and expose higher level
       self-service APIs for application teams to consume.
-    digest: 4686b1c43da444a8bcb047d54ce7dcf789a79b9e87fda0abe597587260888a4a
+    digest: b3ceaa44416be4828e42a4d0a2f2fd6aed214879c66dbddc392290603c9176cd
     home: https://crossplane.io
     icon: https://docs.crossplane.io/android-chrome-192x192.png
     keywords:
@@ -489,7 +489,7 @@ entries:
   datadog:
   - apiVersion: v1
     appVersion: "7"
-    created: "2024-03-06T11:26:39.580089323Z"
+    created: "2024-03-15T07:10:54.332679737Z"
     dependencies:
     - condition: clusterAgent.metricsProvider.useDatadogMetrics
       name: datadog-crds
@@ -502,7 +502,7 @@ entries:
       repository: https://prometheus-community.github.io/helm-charts
       version: 2.13.2
     description: Datadog Agent
-    digest: 87f1cea7a0641aa07a1d6e32b1170a85f0462d20737a428bace3f909d79cb0e1
+    digest: fd85012440e158a669f3cffae1f5eab7c789b505f8ac442e68d6813031e5e00f
     home: https://www.datadoghq.com
     icon: https://datadog-live.imgix.net/img/dd_logo_70x75.png
     keywords:
@@ -530,10 +530,10 @@ entries:
           description: "Fixed incorrect implementation for setting the `automountServiceAccountToken`."
     apiVersion: v2
     appVersion: 0.14.0
-    created: "2024-03-06T11:26:39.580970065Z"
+    created: "2024-03-15T07:10:54.333602553Z"
     description: ExternalDNS synchronizes exposed Kubernetes Services and Ingresses
       with DNS providers.
-    digest: 3d6b4ea85dbfda770987d8a48ef58b3d3929d9f097cf89bc249654e9bf30913d
+    digest: 9a6d396238d22ec64c969d93ebc429861bcfe5ce557a90affea1ba4d47182412
     home: https://github.com/kubernetes-sigs/external-dns/
     icon: https://github.com/kubernetes-sigs/external-dns/raw/master/docs/img/external-dns.png
     keywords:
@@ -556,9 +556,9 @@ entries:
   external-secrets:
   - apiVersion: v2
     appVersion: v0.9.13
-    created: "2024-03-06T11:26:39.583931744Z"
+    created: "2024-03-15T07:10:54.336720905Z"
     description: External secret management for Kubernetes
-    digest: 21e98d42fa68f9536b32f5938b32a64f81e5cf91e4d5ec32d5b52164275116aa
+    digest: 67c3a7199cf5317564bd7ca969db73b0137cb58aab2a019481dd9ccb1f7ec8e4
     home: https://github.com/external-secrets/external-secrets
     icon: https://raw.githubusercontent.com/external-secrets/external-secrets/main/assets/eso-logo-large.png
     keywords:
@@ -583,9 +583,9 @@ entries:
           url: https://github.com/grafana/grafana
     apiVersion: v2
     appVersion: 10.3.3
-    created: "2024-03-06T11:26:39.587042374Z"
+    created: "2024-03-15T07:10:54.339848906Z"
     description: The leading tool for querying and visualizing time series and metrics.
-    digest: 233c193769c837ef255e47bd1dc905c2a6c18f84d38af5189bea9560e7e11010
+    digest: 7369f1727ce99c8089ec025723ccf23b9ca367bc43f18c06753c2a4a29902f38
     home: https://grafana.com
     icon: https://artifacthub.io/image/b4fed1a7-6c8f-4945-b99d-096efa3e4116
     keywords:
@@ -617,10 +617,10 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 1.10.0
-    created: "2024-03-06T11:26:39.590172528Z"
+    created: "2024-03-15T07:10:54.342939867Z"
     description: Ingress controller for Kubernetes using NGINX as a reverse proxy
       and load balancer
-    digest: e699fdc202e99e6ccb3a35912d5a7cea15d71d5a19fa180d800e5c9f9ad8eb99
+    digest: 3d76939dc48defba5939697d8b6c2f321c641a55c17ca24aef3cd6db44174c1b
     home: https://github.com/kubernetes/ingress-nginx
     icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png
     keywords:
@@ -640,9 +640,9 @@ entries:
   istiod:
   - apiVersion: v1
     appVersion: 1.20.3
-    created: "2024-03-06T11:26:39.591484821Z"
+    created: "2024-03-15T07:10:54.344248685Z"
     description: Helm chart for istio control plane
-    digest: 2fe2eb60138f75621300ecd73dbf5618689074424d9d165b98ed7a53eba4f250
+    digest: 0cb0eeceb9db0db656ac2d933b87f4e389a0e215fe2a6d25e3e99e682cb7a279
     icon: https://istio.io/latest/favicons/android-192x192.png
     keywords:
     - istio
@@ -657,10 +657,10 @@ entries:
   kiali-server:
   - apiVersion: v2
     appVersion: v1.81.0
-    created: "2024-03-06T11:26:39.592039853Z"
+    created: "2024-03-15T07:10:54.345762697Z"
     description: Kiali is an open source project for service mesh observability, refer
       to https://www.kiali.io for details.
-    digest: 1adbcba0b726ace04f7faf01be83232167b4cd97afe805c688fad09113abef77
+    digest: b5ab5abb9c919147d5ec0d72ae97faf96ca57de943970f449ea086f8a7b1a854
     home: https://github.com/kiali/kiali
     icon: https://raw.githubusercontent.com/kiali/kiali.io/current/assets/icons/logo.svg
     keywords:
@@ -681,14 +681,14 @@ entries:
   kubernetes-dashboard:
   - apiVersion: v2
     appVersion: v2.7.0
-    created: "2024-03-06T11:26:39.594014105Z"
+    created: "2024-03-15T07:10:54.347131758Z"
     dependencies:
     - condition: metrics-server.enabled
       name: metrics-server
       repository: https://kubernetes-sigs.github.io/metrics-server/
       version: 3.8.4
     description: General-purpose web UI for Kubernetes clusters
-    digest: 58cf64c09a4af663a4c38234163c741cf46c4ccc024f4fcad78af6e9ad2ec0aa
+    digest: f42844ac7c9779e742854d37fcb75d10ff506b82b06431d185d179e6639a2fd8
     home: https://github.com/kubernetes/dashboard
     icon: https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.svg
     keywords:
@@ -707,7 +707,7 @@ entries:
   loki:
   - apiVersion: v2
     appVersion: 2.9.4
-    created: "2024-03-06T11:26:39.602461832Z"
+    created: "2024-03-15T07:10:54.355995475Z"
     dependencies:
     - alias: minio
       condition: minio.enabled
@@ -720,7 +720,7 @@ entries:
       repository: https://grafana.github.io/helm-charts
       version: 0.3.15
     description: Helm chart for Grafana Loki in simple, scalable mode
-    digest: 86fc1d83f71015522395c465973ef80a5d02ed53e3db2ed4040e2a7fe47abefb
+    digest: 276f89258482268d42d8b1523bab74a1c7e067a30d8dd46b5041908e21601700
     home: https://grafana.github.io/helm-charts
     icon: https://grafana.com/docs/loki/latest/logo_and_name.png
     maintainers:
@@ -738,7 +738,7 @@ entries:
   loki-stack:
   - apiVersion: v1
     appVersion: v2.9.3
-    created: "2024-03-06T11:26:39.61519138Z"
+    created: "2024-03-15T07:10:54.367989239Z"
     dependencies:
     - condition: loki.enabled
       name: loki
@@ -769,7 +769,7 @@ entries:
       repository: https://helm.elastic.co
       version: ~7.17.1
     description: 'Loki: like Prometheus, but for logs.'
-    digest: 9e8e6ae672e0af385f875fa7b792eb4fe72bdd2a18ca0ef2cbc0dcad0423cfae
+    digest: 2ca1286df67817403e078a4410a0bd968732446b2adc2f8529a9624d5a879fdb
     home: https://grafana.com/loki
     icon: https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png
     kubeVersion: ^1.10.0-0
@@ -791,10 +791,10 @@ entries:
           description: "Updated the _addon-resizer_ OCI image to [v1.8.20](https://github.com/kubernetes/autoscaler/releases/tag/addon-resizer-1.8.20)."
     apiVersion: v2
     appVersion: 0.7.0
-    created: "2024-03-06T11:26:39.615977685Z"
+    created: "2024-03-15T07:10:54.369522658Z"
     description: Metrics Server is a scalable, efficient source of container resource
       metrics for Kubernetes built-in autoscaling pipelines.
-    digest: 585da86d832726c2eedd8f062bceaa80963b2c560ef305012463566234e2a3c3
+    digest: b3d4c5463732dcd09b03b637c19de73a5ec96864abf740e3ee454ef09110f8a7
     home: https://github.com/kubernetes-sigs/metrics-server
     icon: https://avatars.githubusercontent.com/u/36015203?s=400&v=4
     keywords:
@@ -825,7 +825,7 @@ entries:
               url: https://github.com/oauth2-proxy/manifests/pull/188
     apiVersion: v2
     appVersion: 7.6.0
-    created: "2024-03-06T11:26:39.621941788Z"
+    created: "2024-03-15T07:10:54.374670146Z"
     dependencies:
     - alias: redis
       condition: redis.enabled
@@ -834,7 +834,7 @@ entries:
       version: 18.12.1
     description: A reverse proxy that provides authentication with Google, Github
       or other providers
-    digest: 63da50ce79f291940e9970fd67f225d37aad2f57145ad49333fa705f76964913
+    digest: d760ea5d81f2c3fa7709fda409170d201f8c6500835ec1689506487109179eff
     home: https://oauth2-proxy.github.io/oauth2-proxy/
     keywords:
     - kubernetes
@@ -872,7 +872,7 @@ entries:
           url: https://github.com/prometheus/prometheus
     apiVersion: v2
     appVersion: v2.50.1
-    created: "2024-03-06T11:26:39.627605988Z"
+    created: "2024-03-15T07:10:54.381448163Z"
     dependencies:
     - condition: alertmanager.enabled
       name: alertmanager
@@ -891,7 +891,7 @@ entries:
       repository: https://prometheus-community.github.io/helm-charts
       version: 2.7.*
     description: Prometheus is a monitoring system and time series database.
-    digest: d77671472428b496329424d96c3eb8022e5a454c2e287cf9970b00eb6611b33d
+    digest: 93ec7ce20b3ac426ae81b974da933dfe3a947c4cd138afe789510509cc456aa7
     home: https://prometheus.io/
     icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
     keywords:
@@ -923,9 +923,9 @@ entries:
   prometheus-adapter:
   - apiVersion: v1
     appVersion: v0.11.2
-    created: "2024-03-06T11:26:39.628333113Z"
+    created: "2024-03-15T07:10:54.382176816Z"
     description: A Helm chart for k8s prometheus adapter
-    digest: 9664964c6cae9d93e02c6ad789312e7eb246d3ebb3b62ed45d0740aabe0450d2
+    digest: e9aea73064d110c302672f28fca2799b670cecd48fe2c3ff69eba0e102261ddb
     home: https://github.com/kubernetes-sigs/prometheus-adapter
     keywords:
     - hpa
@@ -948,10 +948,10 @@ entries:
   promtail:
   - apiVersion: v2
     appVersion: 2.9.3
-    created: "2024-03-06T11:26:39.630476916Z"
+    created: "2024-03-15T07:10:54.383455347Z"
     description: Promtail is an agent which ships the contents of local logs to a
       Loki instance
-    digest: be6d61c048fcb4cb841f41fda70c8636b653bf457ea0c2fd3c11a9420d7dd774
+    digest: 9d21a844b21a73dd33621df12c343fbe15aaf4e6b200505549504108f66f8482
     home: https://grafana.com/loki
     icon: https://raw.githubusercontent.com/grafana/loki/master/docs/sources/logo.png
     maintainers:
@@ -970,11 +970,11 @@ entries:
   raw:
   - apiVersion: v1
     appVersion: 0.2.3
-    created: "2024-03-06T11:26:39.630688483Z"
+    created: "2024-03-15T07:10:54.383648138Z"
     deprecated: true
     description: DEPRECATED A place for all the Kubernetes resources which don't already
       have a home.
-    digest: b5f400bff9fb1c66066c7a4b6507a73effc0b3d2aefd002122079cf00c3c133b
+    digest: 7bffd52b6f81e972231cceca7b49f1195a316be18b8f5d5a9a9e74b2e13c88f7
     home: https://github.com/helm/charts/blob/master/incubator/raw
     name: raw
     urls:
@@ -982,9 +982,9 @@ entries:
     version: 0.2.5
   tgbs:
   - apiVersion: v2
-    created: "2024-03-06T11:26:39.630849175Z"
+    created: "2024-03-15T07:10:54.384107687Z"
     description: A Helm chart for Kubernetes
-    digest: a886d56008ebecb910e112dc5635fc6d93fd90a620db774c726ce62ffb8830b6
+    digest: 72b66198f80c2d216a9a018d1e9cba74cfd063a2e5b0f5cf4094bc51c2c1164f
     icon: https://avatars.githubusercontent.com/u/12152522
     maintainers:
     - email: me@nalbam.com
@@ -994,4 +994,4 @@ entries:
     urls:
     - tgbs-v0.2.3.tgz
     version: v0.2.3
-generated: "2024-03-06T11:26:39.527537015Z"
+generated: "2024-03-15T07:10:54.282000957Z"
