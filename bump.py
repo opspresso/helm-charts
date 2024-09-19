@@ -1,14 +1,71 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
 import json
+import os
+import yaml
 
 
-def get_charts(chart):
+GRAY = "\033[90m"
+YELLOW = "\033[93m"
+RESET = "\033[0m"
+
+
+def get_chart_version(chart, name):
     txt = os.popen("helm search repo '{}' -o json".format(chart)).read()
 
-    return json.loads(txt)
+    charts = json.loads(txt)
+
+    new_ver = ""
+    new_app = ""
+
+    for one in charts:
+        if one["name"] == chart:
+            new_ver = one["version"]
+            new_app = one["app_version"]
+            break
+
+    return new_ver, new_app
+
+
+def get_oci_version(chart, name):
+    txt = os.popen("helm show chart oci://{}/{}".format(chart, name)).read()
+
+    docs = yaml.unsafe_load(txt)
+
+    new_ver = docs["version"]
+    new_app = docs["appVersion"]
+
+    return new_ver, new_app
+
+
+def get_latest_version(chart, name, type="https"):
+    if type == "oci":
+        new_ver, new_app = get_oci_version(chart, name)
+    else:
+        new_ver, new_app = get_chart_version(chart, name)
+
+    return new_ver, new_app
+
+
+def print_version(name, old_ver, old_app, new_ver, new_app, is_fixed=False):
+    old_txt = old_ver
+    if old_app != "":
+        old_txt = old_ver + " (" + old_app + ")"
+
+    new_txt = new_ver
+    if new_app != "":
+        new_txt = new_ver + " (" + new_app + ")"
+
+    if new_ver != old_ver or new_app != old_app:
+        if is_fixed:
+            print(
+                "{:45} {:20} -- {}{:20}{}".format(name, old_txt, GRAY, new_txt, RESET)
+            )
+        else:
+            print("{:45} {:20} -> {:20}".format(name, old_txt, new_txt))
+    else:
+        print("{:45} {:20}".format(name, old_txt))
 
 
 def main():
@@ -28,34 +85,31 @@ def main():
                 if "app_version" in doc["versions"][k]:
                     old_app = doc["versions"][k]["app_version"]
 
-                old_txt = old_ver + " (" + old_app + ")"
-
                 new_ver = ""
                 new_app = ""
 
-                if "fixed" in doc["versions"][k] and doc["versions"][k]["fixed"] == True:
-                    print("{:45} {:20} -- {:20}".format(chart, old_txt, "fixed"))
-                    continue
+                is_fixed = False
 
-                # search
-                charts = get_charts(chart)
+                if (
+                    "fixed" in doc["versions"][k]
+                    and doc["versions"][k]["fixed"] == True
+                ):
+                    is_fixed = True
 
-                for one in charts:
-                    if one["name"] == chart:
-                        new_ver = one["version"]
-                        new_app = one["app_version"]
+                type = "https"
+                if "type" in doc["versions"][k]:
+                    type = doc["versions"][k]["type"]
+
+                # latest version
+                new_ver, new_app = get_latest_version(chart, k, type)
 
                 # replace
                 if new_ver != "":
-                    doc["versions"][k]["version"] = new_ver
-                    doc["versions"][k]["app_version"] = new_app
+                    if is_fixed != True:
+                        doc["versions"][k]["version"] = new_ver
+                        doc["versions"][k]["app_version"] = new_app
 
-                    new_txt = new_ver + " (" + new_app + ")"
-
-                    if new_ver != old_ver or new_app != old_app:
-                        print("{:45} {:20} -> {:20}".format(k, old_txt, new_txt))
-                    else:
-                        print("{:45} {:20}".format(k, old_txt))
+                print_version(k, old_ver, old_app, new_ver, new_app, is_fixed)
 
         if doc != None:
             with open(filepath, "w") as file:
