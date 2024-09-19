@@ -1,179 +1,117 @@
 {
   "versions": {
-    "argo-cd": {
-      "app_version": "v2.10.3",
-      "chart": "argo/argo-cd",
-      "version": "6.7.2"
-    },
     "argo-events": {
-      "app_version": "v1.9.1",
+      "app_version": "v1.9.2",
       "chart": "argo/argo-events",
-      "version": "2.4.3"
+      "version": "2.4.7"
     },
     "argo-rollouts": {
-      "app_version": "v1.6.6",
+      "app_version": "v1.7.1",
       "chart": "argo/argo-rollouts",
-      "version": "2.34.3"
+      "version": "2.37.3"
     },
     "argo-workflows": {
-      "app_version": "v3.5.5",
+      "app_version": "v3.5.10",
       "chart": "argo/argo-workflows",
-      "version": "0.40.14"
+      "version": "0.41.14"
     },
     "atlantis": {
-      "app_version": "v0.27.0",
+      "app_version": "v0.28.5",
       "chart": "atlantis/atlantis",
-      "version": "4.23.4"
+      "version": "5.4.4"
     },
     "aws-ebs-csi-driver": {
-      "app_version": "1.28.0",
+      "app_version": "1.33.0",
       "chart": "aws-ebs-csi-driver/aws-ebs-csi-driver",
-      "version": "2.28.1"
+      "version": "2.33.0"
     },
     "aws-efs-csi-driver": {
-      "app_version": "1.7.6",
+      "app_version": "2.0.6",
       "chart": "aws-efs-csi-driver/aws-efs-csi-driver",
-      "version": "2.5.6"
+      "version": "3.0.7"
     },
     "aws-load-balancer-controller": {
-      "app_version": "v2.7.1",
+      "app_version": "v2.8.1",
       "chart": "eks/aws-load-balancer-controller",
-      "version": "1.7.1"
+      "version": "1.8.1"
     },
     "aws-node-termination-handler": {
-      "app_version": "1.19.0",
-      "chart": "eks/aws-node-termination-handler",
-      "version": "0.21.0"
+      "app_version": "1.22.1",
+      "chart": "public.ecr.aws/aws-ec2/helm",
+      "type": "oci",
+      "version": "0.24.1"
+    },
+    "awx-operator": {
+      "app_version": "1.1.4",
+      "chart": "awx-operator/awx-operator",
+      "fixed": true,
+      "version": "1.1.4"
     },
     "cert-manager": {
-      "app_version": "v1.14.4",
+      "app_version": "v1.15.2",
       "chart": "jetstack/cert-manager",
-      "version": "v1.14.4"
-    },
-    "chaoskube": {
-      "app_version": "0.27.0",
-      "chart": "chaoskube/chaoskube",
-      "version": "0.3.0"
+      "version": "v1.15.2"
     },
     "cluster-autoscaler": {
-      "app_version": "1.29.0",
+      "app_version": "1.30.0",
       "chart": "autoscaler/cluster-autoscaler",
-      "version": "9.35.0"
+      "version": "9.37.0"
     },
     "cluster-overprovisioner": {
       "app_version": "3.9",
       "chart": "deliveryhero/cluster-overprovisioner",
       "version": "0.7.11"
     },
-    "cluster-proportional-autoscaler": {
-      "app_version": "1.8.6",
-      "chart": "cpa/cluster-proportional-autoscaler",
-      "version": "1.1.0"
-    },
-    "cortex": {
-      "app_version": "v1.16.0",
-      "chart": "cortex/cortex",
-      "version": "2.2.0"
+    "coroot": {
+      "app_version": "1.4.1",
+      "chart": "coroot/coroot",
+      "version": "0.14.4"
     },
     "cost-analyzer": {
-      "app_version": "2.1.1",
+      "app_version": "2.3.4",
       "chart": "kubecost/cost-analyzer",
-      "version": "2.1.1"
-    },
-    "crossplane": {
-      "app_version": "1.15.0",
-      "chart": "crossplane/crossplane",
-      "version": "1.15.0"
+      "version": "2.3.4"
     },
     "datadog": {
       "app_version": "7",
       "chart": "datadog/datadog",
-      "version": "3.57.3"
-    },
-    "external-dns": {
-      "app_version": "0.14.0",
-      "chart": "external-dns/external-dns",
-      "version": "1.14.3"
+      "version": "3.69.3"
     },
     "external-secrets": {
-      "app_version": "v0.9.13",
+      "app_version": "v0.10.0",
       "chart": "external-secrets/external-secrets",
-      "version": "0.9.13"
-    },
-    "grafana": {
-      "app_version": "10.4.0",
-      "chart": "grafana/grafana",
-      "version": "7.3.7"
+      "version": "0.10.0"
     },
     "ingress-nginx": {
-      "app_version": "1.10.0",
+      "app_version": "1.11.1",
       "chart": "ingress-nginx/ingress-nginx",
-      "version": "4.10.0"
+      "version": "4.11.1"
     },
     "istiod": {
-      "app_version": "1.21.0",
+      "app_version": "1.19.4",
       "chart": "istio/istiod",
-      "version": "1.21.0"
-    },
-    "jaeger": {
-      "app_version": "1.53.0",
-      "chart": "jaegertracing/jaeger",
-      "version": "2.0.1"
+      "version": "1.19.4"
     },
     "karpenter": {
-      "app_version": "0.16.3",
-      "chart": "karpenter/karpenter",
-      "version": "0.16.3"
+      "app_version": "1.0.1",
+      "chart": "public.ecr.aws/karpenter",
+      "type": "oci",
+      "version": "1.0.1"
     },
-    "kiali-server": {
-      "app_version": "v1.81.0",
-      "chart": "kiali/kiali-server",
-      "version": "1.81.0"
-    },
-    "kube-prometheus-stack": {
-      "app_version": "v0.72.0",
-      "chart": "prometheus/kube-prometheus-stack",
-      "version": "57.0.3"
+    "keda": {
+      "app_version": "2.15.0",
+      "chart": "kedacore/keda",
+      "version": "2.15.0"
     },
     "kubernetes-dashboard": {
       "app_version": "",
       "chart": "dashboard/kubernetes-dashboard",
-      "version": "7.1.2"
-    },
-    "loki": {
-      "app_version": "2.9.4",
-      "chart": "grafana/loki",
-      "version": "5.43.7"
-    },
-    "loki-stack": {
-      "app_version": "v2.9.3",
-      "chart": "grafana/loki-stack",
-      "version": "2.10.2"
+      "version": "7.5.0"
     },
     "metrics-server": {
-      "app_version": "0.7.0",
+      "app_version": "0.7.1",
       "chart": "metrics-server/metrics-server",
-      "version": "3.12.0"
-    },
-    "oauth2-proxy": {
-      "app_version": "7.6.0",
-      "chart": "oauth2-proxy/oauth2-proxy",
-      "version": "7.1.0"
-    },
-    "prometheus": {
-      "app_version": "v2.50.1",
-      "chart": "prometheus/prometheus",
-      "version": "25.17.0"
-    },
-    "prometheus-adapter": {
-      "app_version": "v0.11.2",
-      "chart": "prometheus/prometheus-adapter",
-      "version": "4.9.0"
-    },
-    "promtail": {
-      "app_version": "2.9.3",
-      "chart": "grafana/promtail",
-      "version": "6.15.5"
+      "version": "3.12.1"
     },
     "raw": {
       "app_version": "0.2.3",
