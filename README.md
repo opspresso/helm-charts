@@ -31,3 +31,12 @@ helm search repo "eks/aws-load-balancer-controller" -o json | jq .
 ```bash
 python3 download.py
 ```
+
+## login public.ecr.aws
+
+```bash
+aws ecr-public get-login-password \
+     --region us-east-1 | helm registry login \
+     --username AWS \
+     --password-stdin public.ecr.aws
+```
