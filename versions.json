@@ -1,9 +1,9 @@
 {
   "versions": {
     "argo-cd": {
-      "app_version": "v2.12.4",
+      "app_version": "v2.12.6",
       "chart": "argo/argo-cd",
-      "version": "7.6.10"
+      "version": "7.6.12"
     },
     "argo-events": {
       "app_version": "v1.9.2",
@@ -23,7 +23,7 @@
     "atlantis": {
       "app_version": "v0.30.0",
       "chart": "atlantis/atlantis",
-      "version": "5.7.0"
+      "version": "5.8.0"
     },
     "aws-ebs-csi-driver": {
       "app_version": "1.36.0",
@@ -36,9 +36,9 @@
       "version": "3.0.8"
     },
     "aws-load-balancer-controller": {
-      "app_version": "v2.9.1",
+      "app_version": "v2.9.2",
       "chart": "eks/aws-load-balancer-controller",
-      "version": "1.9.1"
+      "version": "1.9.2"
     },
     "aws-node-termination-handler": {
       "app_version": "1.22.1",
@@ -59,7 +59,7 @@
     "cluster-autoscaler": {
       "app_version": "1.31.0",
       "chart": "autoscaler/cluster-autoscaler",
-      "version": "9.43.0"
+      "version": "9.43.1"
     },
     "cluster-overprovisioner": {
       "app_version": "3.9",
@@ -67,24 +67,24 @@
       "version": "0.7.11"
     },
     "coroot": {
-      "app_version": "1.5.8",
+      "app_version": "1.5.11",
       "chart": "coroot/coroot",
-      "version": "0.15.9"
+      "version": "0.15.12"
     },
     "cost-analyzer": {
-      "app_version": "2.4.1",
+      "app_version": "2.4.2",
       "chart": "kubecost/cost-analyzer",
-      "version": "2.4.1"
+      "version": "2.4.2"
     },
     "datadog": {
       "app_version": "7",
       "chart": "datadog/datadog",
-      "version": "3.74.3"
+      "version": "3.76.2"
     },
     "external-secrets": {
-      "app_version": "v0.10.4",
+      "app_version": "v0.10.5",
       "chart": "external-secrets/external-secrets",
-      "version": "0.10.4"
+      "version": "0.10.5"
     },
     "ingress-nginx": {
       "app_version": "1.11.3",
@@ -92,10 +92,10 @@
       "version": "4.11.3"
     },
     "istiod": {
-      "app_version": "1.23.2",
+      "app_version": "1.23.3",
       "chart": "istio/istiod",
       "path": "istio",
-      "version": "1.23.2"
+      "version": "1.23.3"
     },
     "karpenter": {
       "app_version": "1.0.6",
@@ -106,13 +106,13 @@
     "keda": {
       "app_version": "2.15.1",
       "chart": "kedacore/keda",
-      "version": "2.15.1"
+      "version": "2.15.2"
     },
     "kubernetes-dashboard": {
       "app_version": "",
       "chart": "dashboard/kubernetes-dashboard",
       "path": "dashboard",
-      "version": "7.8.0"
+      "version": "7.9.0"
     },
     "metrics-server": {
       "app_version": "0.7.2",
