@@ -57,7 +57,7 @@ def print_version(name, old_ver, old_app, new_ver, new_app):
     if new_app != "":
         new_txt = new_ver + " (" + new_app + ")"
 
-    if new_ver != old_ver or new_app != old_app:
+    if new_ver != old_ver:
         print("{:45} {:20} -> {}{:20}{}".format(name, old_txt, YELLOW, new_txt, RESET))
     else:
         print("{:45} {}{:20}{}".format(name, YELLOW, old_txt, RESET))
