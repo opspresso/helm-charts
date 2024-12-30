@@ -49,6 +49,8 @@ def get_latest_version(chart, name, type="https"):
 
 
 def print_version(name, old_ver, old_app, new_ver, new_app):
+    sign = ""
+
     old_txt = old_ver
     if old_app != "":
         old_txt = old_ver + " (" + old_app + ")"
@@ -58,17 +60,18 @@ def print_version(name, old_ver, old_app, new_ver, new_app):
         new_txt = new_ver + " (" + new_app + ")"
 
     if new_ver != old_ver:
-        print("{:45} {:20} -> {}{:20}{}".format(name, old_txt, YELLOW, new_txt, RESET))
+        print("{:45} {:10} {}{:20}{}".format(name, old_txt, YELLOW, new_txt, RESET))
     else:
-        print("{:45} {}{:20}{}".format(name, YELLOW, old_txt, RESET))
+        sign = "✅"
+        print("{:45} {}{:10}{}".format(name, YELLOW, old_txt, RESET))
 
-    version_line = "| {} | {} | {} |".format(name, old_txt, new_txt)
+    version_line = "| {} | {} | {} | {} |".format(name, sign, old_txt, new_txt)
 
     return version_line
 
 
-def update_version_in_readme(version_content):
-    file_path = "README.md"
+def update_version_in_readme(version_content, file_path="README.md"):
+    # file_path = "README.md"
 
     # 파일을 읽어들입니다.
     with open(file_path, "r", encoding="utf-8") as file:
@@ -124,8 +127,8 @@ def main():
         doc = None
 
         version_contents = []
-        version_contents.append("| NAME | CURRENT | LATEST |")
-        version_contents.append("| --- | --- | --- |")
+        version_contents.append("| NAME | | CURRENT | LATEST |")
+        version_contents.append("| --- | - | --- | --- |")
 
         with open(file_path, "r") as file:
             doc = json.load(file)
@@ -157,7 +160,7 @@ def main():
                     doc["versions"][k]["version"] = new_ver
                     doc["versions"][k]["app_version"] = new_app
 
-                version_line = print_version(k, old_ver, old_app, new_ver, new_app)
+                version_line = print_version(path, old_ver, old_app, new_ver, new_app)
 
                 version_contents.append(version_line)
 
@@ -166,6 +169,7 @@ def main():
                 json.dump(doc, file, sort_keys=True, indent=2)
 
         update_version_in_readme("\n".join(version_contents))
+        update_version_in_readme("\n".join(version_contents), "../argocd-env-addons/README.md")
 
 
 if __name__ == "__main__":
