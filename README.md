@@ -46,7 +46,7 @@ aws ecr-public get-login-password \
 <!--- BEGIN_VERSION --->
 | NAME | | CURRENT | LATEST |
 | --- | - | --- | --- |
-| argo-cd |  | 6.7.2 | 7.7.11 (v2.13.2) |
+| argo-cd | ✅ | 7.7.11 | 7.7.11 (v2.13.2) |
 | argo-events |  |  | 2.4.9 (v1.9.3) |
 | argo-rollouts |  |  | 2.38.0 (v1.7.2) |
 | argo-workflows |  |  | 0.45.2 (v3.6.2) |
@@ -61,7 +61,8 @@ aws ecr-public get-login-password \
 | cluster-overprovisioner |  |  | 0.7.11 (3.9) |
 | coroot |  |  | 0.16.11 (1.6.8) |
 | cost-analyzer |  |  | 2.5.1 (2.5.1) |
-| datadog |  |  | 3.86.0 (7) |
+| datadog |  |  | 3.87.0 (7) |
+| external-dns |  | 1.14.3 | 1.15.0 (0.15.0) |
 | external-secrets |  | 0.9.13 | 0.12.1 (v0.12.1) |
 | ingress-nginx |  |  | 4.11.3 (1.11.3) |
 | istio |  | 1.19.4 | 1.24.2 (1.24.2) |
