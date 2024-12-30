@@ -46,11 +46,6 @@
       "type": "oci",
       "version": "0.25.1"
     },
-    "awx-operator": {
-      "app_version": "2.19.1",
-      "chart": "awx-operator/awx-operator",
-      "version": "2.19.1"
-    },
     "cert-manager": {
       "app_version": "v1.16.2",
       "chart": "jetstack/cert-manager",
@@ -60,16 +55,6 @@
       "app_version": "1.31.0",
       "chart": "autoscaler/cluster-autoscaler",
       "version": "9.44.0"
-    },
-    "cluster-overprovisioner": {
-      "app_version": "3.9",
-      "chart": "deliveryhero/cluster-overprovisioner",
-      "version": "0.7.11"
-    },
-    "coroot": {
-      "app_version": "1.6.8",
-      "chart": "coroot/coroot",
-      "version": "0.16.11"
     },
     "cost-analyzer": {
       "app_version": "2.5.1",
@@ -107,11 +92,6 @@
       "chart": "public.ecr.aws/karpenter",
       "type": "oci",
       "version": "1.1.1"
-    },
-    "keda": {
-      "app_version": "2.16.1",
-      "chart": "kedacore/keda",
-      "version": "2.16.1"
     },
     "kubernetes-dashboard": {
       "app_version": "",

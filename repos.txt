@@ -5,12 +5,8 @@ aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
 aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver
 aws-secrets-manager https://aws.github.io/secrets-store-csi-driver-provider-aws
 bitnami https://charts.bitnami.com/bitnami
-chaoskube https://linki.github.io/chaoskube
 codecentric https://codecentric.github.io/cluster-overprovisioner
-coroot https://coroot.github.io/helm-charts
 cortex https://cortexproject.github.io/cortex-helm-chart
-cpa https://kubernetes-sigs.github.io/cluster-proportional-autoscaler
-crossplane https://charts.crossplane.io/stable
 daangn https://daangn.github.io/helm-charts
 dashboard https://kubernetes.github.io/dashboard
 datadog https://helm.datadoghq.com
@@ -18,8 +14,6 @@ deliveryhero https://charts.deliveryhero.io
 eks https://aws.github.io/eks-charts
 external-dns https://kubernetes-sigs.github.io/external-dns
 external-secrets https://charts.external-secrets.io
-fluxcd https://charts.fluxcd.io
-gocd https://gocd.github.io/helm-chart
 grafana https://grafana.github.io/helm-charts
 incubator https://charts.helm.sh/incubator
 infracost https://infracost.github.io/helm-charts
@@ -27,12 +21,10 @@ ingress-nginx https://kubernetes.github.io/ingress-nginx
 istio https://istio-release.storage.googleapis.com/charts
 jetstack https://charts.jetstack.io
 kedacore https://kedacore.github.io/charts
-kiali https://kiali.org/helm-charts
 kubecost https://kubecost.github.io/cost-analyzer
 metrics-server https://kubernetes-sigs.github.io/metrics-server
 oauth2-proxy https://oauth2-proxy.github.io/manifests
 opspresso https://opspresso.github.io/helm-charts
 pomerium https://helm.pomerium.io
 prometheus https://prometheus-community.github.io/helm-charts
-secrets-store-csi-driver https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
 stable https://charts.helm.sh/stable
