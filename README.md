@@ -46,28 +46,28 @@ aws ecr-public get-login-password \
 <!--- BEGIN_VERSION --->
 | NAME | CURRENT | LATEST |
 | --- | --- | --- |
-| argo-cd | 6.7.2 | 7.6.12 (v2.12.6) |
-| argo-events |  | 2.4.8 (v1.9.2) |
-| argo-rollouts |  | 2.37.7 (v1.7.2) |
-| argo-workflows |  | 0.42.5 (v3.5.11) |
-| atlantis | 4.23.4 | 5.8.0 (v0.30.0) |
-| aws-ebs-csi-driver | 2.28.1 | 2.36.0 (1.36.0) |
-| aws-efs-csi-driver |  | 3.0.8 (2.0.7) |
-| aws-load-balancer-controller | 1.7.1 | 1.9.2 (v2.9.2) |
-| aws-node-termination-handler | 0.22.0 | 0.24.1 (1.22.1) |
-| awx-operator |  |  |
-| cert-manager | v1.14.4 | v1.16.1 (v1.16.1) |
-| cluster-autoscaler | 9.35.0 | 9.43.1 (1.31.0) |
+| argo-cd | 6.7.2 | 7.7.11 (v2.13.2) |
+| argo-events |  | 2.4.9 (v1.9.3) |
+| argo-rollouts |  | 2.38.0 (v1.7.2) |
+| argo-workflows |  | 0.45.2 (v3.6.2) |
+| atlantis | 4.23.4 | 5.12.0 (v0.32.0) |
+| aws-ebs-csi-driver | 2.28.1 | 2.38.1 (1.38.1) |
+| aws-efs-csi-driver |  | 3.1.4 (2.1.3) |
+| aws-load-balancer-controller | 1.7.1 | 1.11.0 (v2.11.0) |
+| aws-node-termination-handler | 0.22.0 | 0.25.1 (1.23.1) |
+| awx-operator |  | 2.19.1 (2.19.1) |
+| cert-manager | v1.14.4 | v1.16.2 (v1.16.2) |
+| cluster-autoscaler | 9.35.0 | 9.44.0 (1.31.0) |
 | cluster-overprovisioner |  | 0.7.11 (3.9) |
-| coroot |  | 0.15.12 (1.5.11) |
-| cost-analyzer |  | 2.4.2 (2.4.2) |
-| datadog |  | 3.76.2 (7) |
-| external-secrets | 0.9.13 | 0.10.5 (v0.10.5) |
+| coroot |  | 0.16.11 (1.6.8) |
+| cost-analyzer |  | 2.5.1 (2.5.1) |
+| datadog |  | 3.86.0 (7) |
+| external-secrets | 0.9.13 | 0.12.1 (v0.12.1) |
 | ingress-nginx |  | 4.11.3 (1.11.3) |
-| istiod | 1.19.4 | 1.23.3 (1.23.3) |
-| karpenter |  | 1.0.6 (1.0.6) |
-| keda |  | 2.15.2 (2.15.1) |
-| kubernetes-dashboard | 7.1.2 | 7.9.0 |
+| istiod | 1.19.4 | 1.24.2 (1.24.2) |
+| karpenter |  | 1.1.1 (1.1.1) |
+| keda |  | 2.16.1 (2.16.1) |
+| kubernetes-dashboard | 7.1.2 | 7.10.0 |
 | metrics-server | 3.12.0 | 3.12.2 (0.7.2) |
 | raw |  | 0.2.5 (0.2.3) |
 <!--- END_VERSION --->

@@ -1,65 +1,65 @@
 {
   "versions": {
     "argo-cd": {
-      "app_version": "v2.12.6",
+      "app_version": "v2.13.2",
       "chart": "argo/argo-cd",
-      "version": "7.6.12"
+      "version": "7.7.11"
     },
     "argo-events": {
-      "app_version": "v1.9.2",
+      "app_version": "v1.9.3",
       "chart": "argo/argo-events",
-      "version": "2.4.8"
+      "version": "2.4.9"
     },
     "argo-rollouts": {
       "app_version": "v1.7.2",
       "chart": "argo/argo-rollouts",
-      "version": "2.37.7"
+      "version": "2.38.0"
     },
     "argo-workflows": {
-      "app_version": "v3.5.11",
+      "app_version": "v3.6.2",
       "chart": "argo/argo-workflows",
-      "version": "0.42.5"
+      "version": "0.45.2"
     },
     "atlantis": {
-      "app_version": "v0.30.0",
+      "app_version": "v0.32.0",
       "chart": "atlantis/atlantis",
-      "version": "5.8.0"
+      "version": "5.12.0"
     },
     "aws-ebs-csi-driver": {
-      "app_version": "1.36.0",
+      "app_version": "1.38.1",
       "chart": "aws-ebs-csi-driver/aws-ebs-csi-driver",
-      "version": "2.36.0"
+      "version": "2.38.1"
     },
     "aws-efs-csi-driver": {
-      "app_version": "2.0.7",
+      "app_version": "2.1.3",
       "chart": "aws-efs-csi-driver/aws-efs-csi-driver",
-      "version": "3.0.8"
+      "version": "3.1.4"
     },
     "aws-load-balancer-controller": {
-      "app_version": "v2.9.2",
+      "app_version": "v2.11.0",
       "chart": "eks/aws-load-balancer-controller",
-      "version": "1.9.2"
+      "version": "1.11.0"
     },
     "aws-node-termination-handler": {
-      "app_version": "1.22.1",
+      "app_version": "1.23.1",
       "chart": "public.ecr.aws/aws-ec2/helm",
       "type": "oci",
-      "version": "0.24.1"
+      "version": "0.25.1"
     },
     "awx-operator": {
-      "app_version": "1.1.4",
+      "app_version": "2.19.1",
       "chart": "awx-operator/awx-operator",
-      "version": "1.1.4"
+      "version": "2.19.1"
     },
     "cert-manager": {
-      "app_version": "v1.16.1",
+      "app_version": "v1.16.2",
       "chart": "jetstack/cert-manager",
-      "version": "v1.16.1"
+      "version": "v1.16.2"
     },
     "cluster-autoscaler": {
       "app_version": "1.31.0",
       "chart": "autoscaler/cluster-autoscaler",
-      "version": "9.43.1"
+      "version": "9.44.0"
     },
     "cluster-overprovisioner": {
       "app_version": "3.9",
@@ -67,24 +67,24 @@
       "version": "0.7.11"
     },
     "coroot": {
-      "app_version": "1.5.11",
+      "app_version": "1.6.8",
       "chart": "coroot/coroot",
-      "version": "0.15.12"
+      "version": "0.16.11"
     },
     "cost-analyzer": {
-      "app_version": "2.4.2",
+      "app_version": "2.5.1",
       "chart": "kubecost/cost-analyzer",
-      "version": "2.4.2"
+      "version": "2.5.1"
     },
     "datadog": {
       "app_version": "7",
       "chart": "datadog/datadog",
-      "version": "3.76.2"
+      "version": "3.86.0"
     },
     "external-secrets": {
-      "app_version": "v0.10.5",
+      "app_version": "v0.12.1",
       "chart": "external-secrets/external-secrets",
-      "version": "0.10.5"
+      "version": "0.12.1"
     },
     "ingress-nginx": {
       "app_version": "1.11.3",
@@ -92,27 +92,27 @@
       "version": "4.11.3"
     },
     "istiod": {
-      "app_version": "1.23.3",
+      "app_version": "1.24.2",
       "chart": "istio/istiod",
       "path": "istio",
-      "version": "1.23.3"
+      "version": "1.24.2"
     },
     "karpenter": {
-      "app_version": "1.0.6",
+      "app_version": "1.1.1",
       "chart": "public.ecr.aws/karpenter",
       "type": "oci",
-      "version": "1.0.6"
+      "version": "1.1.1"
     },
     "keda": {
-      "app_version": "2.15.1",
+      "app_version": "2.16.1",
       "chart": "kedacore/keda",
-      "version": "2.15.2"
+      "version": "2.16.1"
     },
     "kubernetes-dashboard": {
       "app_version": "",
       "chart": "dashboard/kubernetes-dashboard",
       "path": "dashboard",
-      "version": "7.9.0"
+      "version": "7.10.0"
     },
     "metrics-server": {
       "app_version": "0.7.2",
