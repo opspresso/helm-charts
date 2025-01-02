@@ -45,8 +45,8 @@ python3 bump.py
 | NAME | | CURRENT | LATEST |
 | --- | - | --- | --- |
 | argo-cd | ✅ | 7.7.11 | 7.7.11 (v2.13.2) |
-| argo-events |  |  | 2.4.9 (v1.9.3) |
-| argo-rollouts |  |  | 2.38.0 (v1.7.2) |
+| argo-events |  |  | 2.4.10 (v1.9.3) |
+| argo-rollouts | ✅ | 2.38.1 | 2.38.1 (v1.7.2) |
 | argo-workflows |  |  | 0.45.2 (v3.6.2) |
 | atlantis |  | 4.25.0 | 5.12.0 (v0.32.0) |
 | aws-ebs-csi-driver | ✅ | 2.38.1 | 2.38.1 (1.38.1) |
@@ -59,7 +59,7 @@ python3 bump.py
 | datadog |  |  | 3.87.0 (7) |
 | external-dns | ✅ | 1.15.0 | 1.15.0 (0.15.0) |
 | external-secrets | ✅ | 0.12.1 | 0.12.1 (v0.12.1) |
-| ingress-nginx |  |  | 4.11.3 (1.11.3) |
+| ingress-nginx |  | 4.11.3 | 4.12.0 (1.12.0) |
 | istio | ✅ | 1.24.2 | 1.24.2 (1.24.2) |
 | karpenter |  |  | 1.1.1 (1.1.1) |
 | dashboard | ✅ | 7.10.0 | 7.10.0 |

@@ -8,12 +8,12 @@
     "argo-events": {
       "app_version": "v1.9.3",
       "chart": "argo/argo-events",
-      "version": "2.4.9"
+      "version": "2.4.10"
     },
     "argo-rollouts": {
       "app_version": "v1.7.2",
       "chart": "argo/argo-rollouts",
-      "version": "2.38.0"
+      "version": "2.38.1"
     },
     "argo-workflows": {
       "app_version": "v3.6.2",
@@ -77,9 +77,9 @@
       "version": "0.12.1"
     },
     "ingress-nginx": {
-      "app_version": "1.11.3",
+      "app_version": "1.12.0",
       "chart": "ingress-nginx/ingress-nginx",
-      "version": "4.11.3"
+      "version": "4.12.0"
     },
     "istiod": {
       "app_version": "1.24.2",
