@@ -62,7 +62,7 @@ python3 bump.py
 | ingress-nginx |  | 4.11.3 | 4.12.0 (1.12.0) |
 | istio | ✅ | 1.24.2 | 1.24.2 (1.24.2) |
 | karpenter |  |  | 1.1.1 (1.1.1) |
-| dashboard | ✅ | 7.10.0 | 7.10.0 |
+| dashboard |  | 6.0.8 | 7.10.0 |
 | metrics-server | ✅ | 3.12.2 | 3.12.2 (0.7.2) |
 | raw |  |  | 0.2.5 (0.2.3) |
 <!--- END_VERSION --->
