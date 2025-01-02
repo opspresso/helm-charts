@@ -3,7 +3,7 @@
     "argo-cd": {
       "app_version": "v2.13.2",
       "chart": "argo/argo-cd",
-      "version": "7.7.11"
+      "version": "7.7.12"
     },
     "argo-events": {
       "app_version": "v1.9.3",
@@ -23,7 +23,7 @@
     "atlantis": {
       "app_version": "v0.32.0",
       "chart": "atlantis/atlantis",
-      "version": "5.12.0"
+      "version": "5.13.0"
     },
     "aws-ebs-csi-driver": {
       "app_version": "1.38.1",
@@ -76,6 +76,11 @@
       "chart": "external-secrets/external-secrets",
       "version": "0.12.1"
     },
+    "grafana": {
+      "app_version": "11.4.0",
+      "chart": "grafana/grafana",
+      "version": "8.8.2"
+    },
     "ingress-nginx": {
       "app_version": "1.12.0",
       "chart": "ingress-nginx/ingress-nginx",
@@ -99,10 +104,25 @@
       "path": "dashboard",
       "version": "7.10.0"
     },
+    "loki-stack": {
+      "app_version": "v2.9.3",
+      "chart": "grafana/loki-stack",
+      "version": "2.10.2"
+    },
     "metrics-server": {
       "app_version": "0.7.2",
       "chart": "metrics-server/metrics-server",
       "version": "3.12.2"
+    },
+    "prometheus-stack": {
+      "app_version": "v0.79.2",
+      "chart": "prometheus/kube-prometheus-stack",
+      "version": "67.5.0"
+    },
+    "promtail": {
+      "app_version": "3.0.0",
+      "chart": "grafana/promtail",
+      "version": "6.16.6"
     },
     "raw": {
       "app_version": "0.2.3",
