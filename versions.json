@@ -1,24 +1,24 @@
 {
   "versions": {
     "argo-cd": {
-      "app_version": "v2.13.2",
+      "app_version": "v2.13.3",
       "chart": "argo/argo-cd",
-      "version": "7.7.12"
+      "version": "7.7.14"
     },
     "argo-events": {
       "app_version": "v1.9.3",
       "chart": "argo/argo-events",
-      "version": "2.4.10"
+      "version": "2.4.11"
     },
     "argo-rollouts": {
       "app_version": "v1.7.2",
       "chart": "argo/argo-rollouts",
-      "version": "2.38.1"
+      "version": "2.38.2"
     },
     "argo-workflows": {
       "app_version": "v3.6.2",
       "chart": "argo/argo-workflows",
-      "version": "0.45.2"
+      "version": "0.45.3"
     },
     "atlantis": {
       "app_version": "v0.32.0",
@@ -52,14 +52,14 @@
       "version": "v1.16.2"
     },
     "cluster-autoscaler": {
-      "app_version": "1.31.0",
+      "app_version": "1.32.0",
       "chart": "autoscaler/cluster-autoscaler",
-      "version": "9.44.0"
+      "version": "9.45.0"
     },
     "cost-analyzer": {
-      "app_version": "2.5.1",
+      "app_version": "2.5.2",
       "chart": "kubecost/cost-analyzer",
-      "version": "2.5.1"
+      "version": "2.5.2"
     },
     "datadog": {
       "app_version": "7",
@@ -117,7 +117,7 @@
     "prometheus-stack": {
       "app_version": "v0.79.2",
       "chart": "prometheus/kube-prometheus-stack",
-      "version": "67.5.0"
+      "version": "67.8.0"
     },
     "promtail": {
       "app_version": "3.0.0",
