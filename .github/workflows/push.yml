@@ -15,13 +15,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Checkout gh-pages
-        uses: actions/checkout@v3
+      - name: Checkout gh-pages 🛎️
+        uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: build
 
-      - name: Build and Push
+      - name: Build and Push 📦
         run: |
           bash ./build.sh
         env:
