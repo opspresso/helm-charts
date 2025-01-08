@@ -1,5 +1,4 @@
 #!/bin/bash
-set -eux
 
 GITHUB_PUSH=${GITHUB_PUSH:-false}
 
