@@ -4,7 +4,6 @@ autoscaler https://kubernetes.github.io/autoscaler
 aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
 aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver
 aws-secrets-manager https://aws.github.io/secrets-store-csi-driver-provider-aws
-bitnami https://charts.bitnami.com/bitnami
 codecentric https://codecentric.github.io/cluster-overprovisioner
 cortex https://cortexproject.github.io/cortex-helm-chart
 daangn https://daangn.github.io/helm-charts
