@@ -15,6 +15,9 @@ while read LINE; do
 done <${SHELL_DIR}/repos.txt
 
 for dir in $(find ${SHELL_DIR}/charts -mindepth 1 -maxdepth 1 -type d); do
+  echo
+  echo "Processing $dir"
+
   rm -rf $dir/charts
 
   name=$(basename $dir)
@@ -24,14 +27,13 @@ for dir in $(find ${SHELL_DIR}/charts -mindepth 1 -maxdepth 1 -type d); do
     helm --debug dep build $dir
   fi
 
-  echo "Processing $dir"
   helm --debug package $dir
-  echo "."
 done
 
 cp README.md ${SHELL_DIR}/build/
 mv -f *.tgz ${SHELL_DIR}/build/
 
+echo
 pushd ${SHELL_DIR}/build
 
 helm repo index .
