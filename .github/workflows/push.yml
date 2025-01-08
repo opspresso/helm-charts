@@ -21,7 +21,7 @@ jobs:
           ref: gh-pages
           path: build
 
-      - name: Build and Push 📦
+      - name: Build and Push 🚀
         run: |
           bash ./build.sh
         env:
