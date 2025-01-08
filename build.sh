@@ -37,6 +37,9 @@ pushd ${SHELL_DIR}/build
 helm repo index .
 
 if [ "${GITHUB_PUSH}" == "true" ]; then
+  echo
+  echo "Pushing to GitHub..."
+
   git config --global user.name "${GIT_USERNAME}"
   git config --global user.email "${GIT_USEREMAIL}"
 
