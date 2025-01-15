@@ -151,6 +151,13 @@ def main():
 
                 old_ver, old_app = get_local_version(chart_path)
 
+                if old_ver == "":
+                    if "current" in doc["versions"][k]:
+                        old_ver = doc["versions"][k]["current"]
+                    old_app = ""
+                else:
+                    doc["versions"][k]["current"] = old_ver
+
                 new_ver = ""
                 new_app = ""
 
