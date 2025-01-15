@@ -3,12 +3,12 @@
     "argo-cd": {
       "app_version": "v2.13.3",
       "chart": "argo/argo-cd",
-      "version": "7.7.14"
+      "version": "7.7.16"
     },
     "argo-events": {
-      "app_version": "v1.9.3",
+      "app_version": "v1.9.5",
       "chart": "argo/argo-events",
-      "version": "2.4.11"
+      "version": "2.4.13"
     },
     "argo-rollouts": {
       "app_version": "v1.7.2",
@@ -18,11 +18,12 @@
     "argo-workflows": {
       "app_version": "v3.6.2",
       "chart": "argo/argo-workflows",
-      "version": "0.45.3"
+      "version": "0.45.4"
     },
     "atlantis": {
       "app_version": "v0.32.0",
       "chart": "atlantis/atlantis",
+      "locked": true,
       "version": "5.13.0"
     },
     "aws-ebs-csi-driver": {
@@ -31,9 +32,9 @@
       "version": "2.38.1"
     },
     "aws-efs-csi-driver": {
-      "app_version": "2.1.3",
+      "app_version": "2.1.4",
       "chart": "aws-efs-csi-driver/aws-efs-csi-driver",
-      "version": "3.1.4"
+      "version": "3.1.5"
     },
     "aws-load-balancer-controller": {
       "app_version": "v2.11.0",
@@ -64,7 +65,7 @@
     "datadog": {
       "app_version": "7",
       "chart": "datadog/datadog",
-      "version": "3.87.0"
+      "version": "3.88.0"
     },
     "external-dns": {
       "app_version": "0.15.0",
@@ -101,8 +102,9 @@
     "kubernetes-dashboard": {
       "app_version": "",
       "chart": "dashboard/kubernetes-dashboard",
+      "locked": true,
       "path": "dashboard",
-      "version": "7.10.0"
+      "version": "7.10.1"
     },
     "loki-stack": {
       "app_version": "v2.9.3",
@@ -117,7 +119,7 @@
     "prometheus-stack": {
       "app_version": "v0.79.2",
       "chart": "prometheus/kube-prometheus-stack",
-      "version": "67.8.0"
+      "version": "68.1.0"
     },
     "promtail": {
       "app_version": "3.0.0",
