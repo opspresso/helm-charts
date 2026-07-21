@@ -1,37 +1,28 @@
-{{- if and ( .Capabilities.APIVersions.Has "networking.istio.io/v1beta1" ) ( .Values.istio.gateway.enabled ) }}
-apiVersion: networking.istio.io/v1beta1
+{{- if .Values.routing.istio.enabled }}
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: {{ include "app.fullname" . }}
+  namespace: {{ include "app.namespace" . }}
   labels:
     {{- include "app.labels" . | nindent 4 }}
+  {{- with .Values.routing.istio.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   gateways:
     - {{ include "app.fullname" . }}
+    - mesh
   hosts:
-    {{- range .Values.ingress.hosts }}
+    {{- range .Values.routing.hosts }}
     - {{ . | quote }}
     {{- end }}
   http:
     - name: primary
       route:
-      {{- if .Values.istio.canary.subsets }}
         - destination:
             host: {{ include "app.fullname" . }}
             port:
               number: {{ .Values.service.port | default "80" }}
-            subset: stable
-          weight: 100
-        - destination:
-            host: {{ include "app.fullname" . }}
-            port:
-              number: {{ .Values.service.port | default "80" }}
-            subset: canary
-          weight: 0
-      {{- else }}
-        - destination:
-            host: {{ include "app.fullname" . }}
-            port:
-              number: {{ .Values.service.port | default "80" }}
-      {{- end }}
 {{- end }}

@@ -1,0 +1,23 @@
+{{- if and .Values.routing.httpRoute.enabled .Values.routing.backendTLSPolicy.enabled -}}
+{{- $fullName := include "app.fullname" . -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ include "app.namespace" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+  {{- with .Values.routing.backendTLSPolicy.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  targetRefs:
+    {{- with .Values.routing.backendTLSPolicy.targetRefs }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.routing.backendTLSPolicy.validation }}
+  validation:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

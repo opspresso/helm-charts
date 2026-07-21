@@ -1,11 +1,4 @@
 {{/*
-Expand the name of the chart.
-*/}}
-{{- define "app.name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
@@ -58,9 +51,10 @@ Return labels, including instance and name.
 app: {{ include "app.fullname" . | quote }}
 version: {{ include "app.version" . | quote }}
 {{ include "app.selectorLabels" . }}
-{{ if .Values.additionalLabels }}
+app.kubernetes.io/version: {{ include "app.version" . | quote }}
+{{- if .Values.additionalLabels }}
 {{ toYaml .Values.additionalLabels }}
-{{ end }}
+{{- end }}
 {{- end -}}
 
 {{/*
@@ -68,21 +62,20 @@ Return labels, including instance and name.
 */}}
 {{- define "app.labels" -}}
 app: {{ include "app.fullname" . | quote }}
-version: {{ include "app.version" . | quote }}
 {{ include "app.selectorLabels" . }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/version: {{ include "app.version" . | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
 helm.sh/chart: {{ include "app.chart" . }}
-{{ if .Values.additionalLabels }}
+{{- if .Values.additionalLabels }}
 {{ toYaml .Values.additionalLabels }}
-{{ end }}
+{{- end }}
 {{- end -}}
 
 {{/*
 Return the service account name used by the pod.
 */}}
 {{- define "app.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
+{{- if or .Values.serviceAccount.create .Values.irsa.enabled -}}
 {{- default (include "app.fullname" .) .Values.serviceAccount.name -}}
 {{- else -}}
 {{- default "default" .Values.serviceAccount.name -}}
@@ -98,49 +91,4 @@ Allow the release namespace to be overridden for multi-namespace deployments in 
 {{- else -}}
 {{- .Release.Namespace -}}
 {{- end -}}
-{{- end -}}
-
-{{/*
-Return the appropriate apiVersion for policy.
-*/}}
-{{- define "app.policy.apiVersion" -}}
-{{- if and (.Capabilities.APIVersions.Has "policy/v1") (semverCompare ">= 1.21-0" .Capabilities.KubeVersion.Version) -}}
-{{- print "policy/v1" -}}
-{{- else -}}
-{{- print "policy/v1beta1" -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Return the appropriate apiVersion for ingress.
-*/}}
-{{- define "app.ingress.apiVersion" -}}
-{{- if and (.Capabilities.APIVersions.Has "networking.k8s.io/v1") (semverCompare ">= 1.19-0" .Capabilities.KubeVersion.Version) -}}
-{{- print "networking.k8s.io/v1" -}}
-{{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" -}}
-{{- print "networking.k8s.io/v1beta1" -}}
-{{- else -}}
-{{- print "extensions/v1beta1" -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
-Return if ingress is stable.
-*/}}
-{{- define "app.ingress.isStable" -}}
-{{- eq (include "app.ingress.apiVersion" .) "networking.k8s.io/v1" -}}
-{{- end -}}
-
-{{/*
-Return if ingress supports ingressClassName.
-*/}}
-{{- define "app.ingress.supportsIngressClassName" -}}
-{{- or (eq (include "app.ingress.isStable" .) "true") (and (eq (include "app.ingress.apiVersion" .) "networking.k8s.io/v1beta1") (semverCompare ">= 1.18-0" .Capabilities.KubeVersion.Version)) -}}
-{{- end -}}
-
-{{/*
-Return if ingress supports pathType.
-*/}}
-{{- define "app.ingress.supportsPathType" -}}
-{{- or (eq (include "app.ingress.isStable" .) "true") (and (eq (include "app.ingress.apiVersion" .) "networking.k8s.io/v1beta1") (semverCompare ">= 1.18-0" .Capabilities.KubeVersion.Version)) -}}
 {{- end -}}

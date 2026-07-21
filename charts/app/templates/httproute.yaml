@@ -1,0 +1,30 @@
+{{- if .Values.routing.httpRoute.enabled }}
+{{- $fullName := include "app.fullname" . -}}
+{{- $servicePort := .Values.service.port | default 80 -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ include "app.namespace" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+  {{- with .Values.routing.httpRoute.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+    {{- toYaml .Values.routing.httpRoute.parentRefs | nindent 4 }}
+  hostnames:
+    {{- range .Values.routing.hosts }}
+    - {{ . | quote }}
+    {{- end }}
+  rules:
+    - matches:
+        - path:
+            type: {{ eq .Values.routing.pathType "Prefix" | ternary "PathPrefix" .Values.routing.pathType }}
+            value: {{ .Values.routing.path }}
+      backendRefs:
+        - name: {{ $fullName }}
+          port: {{ $servicePort }}
+{{- end }}

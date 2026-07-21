@@ -2,6 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- Chart Identity
+nameOverride: ""
+  # nameOverride: "my-app"
+fullnameOverride: ""
+  # fullnameOverride: "my-app-fullname"
+namespaceOverride: ""
+
+# -- Controller (Deployment / Rollout)
 replicaCount: 1
 
 revisionHistoryLimit: 3
@@ -22,37 +30,177 @@ controller:
       # - setWeight: 10
       # - pause:
       #     duration: 60
-      # # - analysis:
-      # #     args:
-      # #     - name: url
-      # #       value: http://sample-preview/success/98
-      # #     templates:
-      # #     - clusterScope: true
-      # #       templateName: http-benchmark
-      # # - setWeight: 25
-      # # - pause:
-      # #     duration: 10
       # - setWeight: 50
       # - pause:
       #     duration: 60
 
-imagePullSecrets: []
-
+# -- Container Image
 image:
   repository: nginx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart version.
   tag: ""
 
-args: []
-  # - --host
-  # - 0.0.0.0
+imagePullSecrets: []
+  # - name: my-registry-secret
 
+# -- Container Spec
 command: []
   # - "aws"
   # - "s3"
   # - "ls"
 
+args: []
+  # - --host
+  # - 0.0.0.0
+
+env: []
+  # - name: MESSAGE
+  #   value: "hello world"
+
+extraPorts: []
+  # - name: metrics
+  #   containerPort: 9090
+  #   protocol: TCP
+
+livenessProbe: {}
+  # httpGet:
+  #   path: /
+  #   port: 3000
+  # initialDelaySeconds: 3
+  # periodSeconds: 10
+  # failureThreshold: 3
+
+readinessProbe: {}
+  # httpGet:
+  #   path: /
+  #   port: 3000
+  # initialDelaySeconds: 3
+  # periodSeconds: 10
+  # failureThreshold: 3
+
+startupProbe: {}
+  # httpGet:
+  #   path: /
+  #   port: 3000
+  # initialDelaySeconds: 0
+  # periodSeconds: 10
+  # failureThreshold: 30
+
+resources: {}
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+lifecycle: {}
+  # preStop:
+  #   exec:
+  #     command: ["/bin/sh", "-c", "sleep 15"]
+  # postStart:
+  #   exec:
+  #     command: ["/bin/sh", "-c", "echo started"]
+
+# -- Init & Sidecar Containers
+initContainers: []
+  # - name: init-data
+  #   image: busybox
+  #   command: ["sh", "-c", "echo init"]
+
+sidecars: []
+  # - name: log-shipper
+  #   image: fluentd:latest
+  #   volumeMounts:
+  #     - name: logs
+  #       mountPath: /var/log
+
+# -- Pod Metadata & Spec
+additionalLabels: {}
+  # team: backend
+  # environment: production
+
+podLabels: {}
+  # app.kubernetes.io/component: api
+
+podAnnotations: {}
+  # prometheus.io/scrape: "true"
+  # prometheus.io/port: "9090"
+
+podSecurityContext: {}
+  # runAsUser: 1000
+  # runAsGroup: 3000
+  # fsGroup: 2000
+
+dnsPolicy: ClusterFirst # ClusterFirst, Default
+
+restartPolicy: Always # Always, OnFailure, Never
+
+terminationGracePeriodSeconds: 30
+
+# -- Storage
+persistence:
+  enabled: false
+  # storageClassName: default
+  accessModes:
+  - ReadWriteOnce
+  size: 10Gi
+  # existingClaim: ""
+  mountPath: "/data"
+  # subPath: ""
+
+extraVolumes: []
+  # - name: extras
+  #   emptyDir: {}
+
+extraVolumeMounts: []
+  # - name: extras
+  #   mountPath: /usr/share/extras
+  #   readOnly: true
+
+# -- Scheduling
+nodeSelector: {}
+  # kubernetes.io/os: linux
+  # node.kubernetes.io/instance-type: m5.large
+
+tolerations: []
+  # - key: "dedicated"
+  #   operator: "Equal"
+  #   value: "app"
+  #   effect: "NoSchedule"
+
+affinity: {}
+  # nodeAffinity:
+  #   requiredDuringSchedulingIgnoredDuringExecution:
+  #     nodeSelectorTerms:
+  #       - matchExpressions:
+  #           - key: topology.kubernetes.io/zone
+  #             operator: In
+  #             values:
+  #               - ap-northeast-2a
+  #               - ap-northeast-2c
+
+podAntiAffinity: {}
+  # topologyKey: "topology.kubernetes.io/zone"
+
+topologySpreadConstraints: []
+  # - maxSkew: 1
+  #   topologyKey: topology.kubernetes.io/zone
+  #   whenUnsatisfiable: DoNotSchedule
+  #   labelSelector:
+  #     matchLabels:
+  #       app.kubernetes.io/name: my-app
+
+# -- ServiceAccount, RBAC & IAM
 serviceAccount:
   # Specifies whether a service account should be created
   create: false
@@ -72,106 +220,67 @@ rbac:
     #   verbs:
     #     - "*"
 
+irsa:
+  enabled: false
+  # roleArn: "arn:aws:iam::123456789012:role/my-app-role"
+  roleArn: ""
+
+# -- Service & Networking
 service:
   type: ClusterIP
+  name: http
+  protocol: TCP
   targetPort: 3000
   port: 80
   # Annotations to add to the service
   annotations: {}
     # service.kubernetes.io/topology-aware-hints: auto
 
-ingress:
-  enabled: false
-  # className: nginx
-  annotations: {}
-    # cert-manager.io/cluster-issuer: "letsencrypt-issuer"
-    # kubernetes.io/ingress.class: "nginx"
-    # kubernetes.io/ssl-redirect: "true"
-
+routing:
+  hosts:
+    - sample.domain.com
   path: /
   pathType: Prefix
 
-  hosts:
-    - sample.domain.com
-
-  preview:
+  ingress:                    # deprecated
     enabled: false
-    hosts: []
-      # - sample-preview.domain.com
+    className: ""
+    annotations: {}
+      # cert-manager.io/cluster-issuer: "letsencrypt-issuer"
+      # kubernetes.io/ingress.class: "nginx"
+      # kubernetes.io/ssl-redirect: "true"
+    tls: []
+    #  - secretName: sample-tls
+    #    hosts:
+    #      - sample.domain.com
 
-  stable:
+  istio:
     enabled: false
-    hosts: []
-      # - sample-stable.domain.com
+    annotations: {}
+    gateway:
+      selector:
+        istio: default-ingress-gateway
 
-  tls: []
-  #  - secretName: sample-tls
-  #    hosts:
-  #      - sample.domain.com
-
-istio:
-  sidecar:
-    inject: false
-  gateway:
+  httpRoute:
     enabled: false
-  canary:
-    subsets: false
-  trafficPolicy: {}
-    # connectionPool:
-    #   tcp:
-    #     maxConnections: 1
-    #   http:
-    #     http1MaxPendingRequests: 1
-    #     maxRequestsPerConnection: 1
-    # outlierDetection:
-    #   consecutive5xxErrors: 1
-    #   interval: 1s
-    #   baseEjectionTime: 3m
-    #   maxEjectionPercent: 100
+    annotations: {}
+    parentRefs:
+      - name: infra-gateway
+        namespace: istio-system
 
-additionalLabels: {}
+  backendTLSPolicy:
+    enabled: false
+    annotations: {}
+    targetRefs:
+      - kind: Service
+        name: http
+        port: 80
+    validation:
+      trust:
+        secret:
+          name: backend-tls-secret
 
-podLabels: {}
-
-podAnnotations: {}
-
-podSecurityContext: {}
-  # runAsUser: 1000
-  # runAsGroup: 3000
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-livenessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: 3000
-  # initialDelaySeconds: 3
-  # periodSeconds: 10
-  # failureThreshold: 3
-
-readinessProbe: {}
-  # httpGet:
-  #   path: /
-  #   port: 3000
-  # initialDelaySeconds: 3
-  # periodSeconds: 10
-  # failureThreshold: 3
-
-resources: {}
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-
+# -- Scaling & Availability
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -200,56 +309,10 @@ autoscaling:
 
 pdb:
   enabled: false
-  # maxUnavailable: 1
+  # maxUnavailable: 1   # default if neither maxUnavailable nor minAvailable is set
   # minAvailable: 1
 
-persistence:
-  enabled: false
-  # storageClassName: default
-  accessModes:
-    - ReadWriteOnce
-  size: 10Gi
-  # existingClaim: ""
-  mountPath: "/data"
-  # subPath: ""
-
-extraVolumes: []
-  # - name: extras
-  #   emptyDir: {}
-
-extraVolumeMounts: []
-  # - name: extras
-  #   mountPath: /usr/share/extras
-  #   readOnly: true
-
-dnsPolicy: ClusterFirst # ClusterFirst, Default
-
-restartPolicy: Always # Always, OnFailure, Never
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
-podAntiAffinity: {}
-  # topologyKey: "topology.kubernetes.io/zone"
-
-topologySpreadConstraints: []
-
-serviceMonitor:
-  enabled: false
-  selector:
-    release: prometheus-operator
-  endpoints:
-    - interval: 10s
-      path: /metrics
-      port: http
-
-env: []
-  # - name: MESSAGE
-  #   value: "hello world"
-
+# -- Configuration & Secrets
 configmap:
   enabled: false
   data: {}
@@ -276,19 +339,17 @@ externalSecrets:
   secretStoreRef:
     kind: ClusterSecretStore
     name: parameter-store
-  backendType: systemManager
   data: []
-    # - key: /k8s/common/admin-password
+    # - key: /k8s/common/demo
     #   name: admin-password
+    #   property: demo/admin-password
 
-analysis:
+# -- Monitoring
+serviceMonitor:
   enabled: false
-  # url: "http://sample-preview:3000/success/95"
-
-irsa:
-  enabled: false
-  statement: []
-    # - resource: "arn:aws:s3:::irsa-sample"
-    #   action:
-    #     - "s3:Get*"
-    #     - "s3:List*"
+  labels:
+    release: prometheus-operator
+  endpoints:
+  - interval: 10s
+    path: /metrics
+    port: http

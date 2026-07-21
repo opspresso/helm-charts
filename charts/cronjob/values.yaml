@@ -2,10 +2,16 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# Resource type: "CronJob" or "CronWorkflow"
+# CronJob: Standard Kubernetes CronJob
+# CronWorkflow: Argo Workflows CronWorkflow (requires Argo Workflows to be installed)
+type: CronJob
+
 image:
   repository: amazon/aws-cli
   # Overrides the image tag whose default is the chart version.
   tag: latest
+  pullPolicy: IfNotPresent
 
 args: []
   # - --host
@@ -23,6 +29,14 @@ resources: {}
   # limits:
   #   cpu: 100m
   #   memory: 128Mi
+
+irsa:
+  enabled: false
+  statement: []
+    # - resource: "arn:aws:s3:::irsa-sample"
+    #   action:
+    #     - "s3:Get*"
+    #     - "s3:List*"
 
 serviceAccount:
   # Specifies whether a service account should be created
@@ -44,6 +58,8 @@ rbac:
     #     - "*"
 
 schedule: "0 * * * *"
+
+# activeDeadlineSeconds: 3600
 
 backoffLimit: 0
 
@@ -94,7 +110,68 @@ externalSecrets:
   secretStoreRef:
     kind: ClusterSecretStore
     name: parameter-store
-  backendType: systemManager
   data: []
-    # - key: /k8s/common/admin-password
+    # - key: /k8s/common/demo
     #   name: admin-password
+    #   property: demo/admin-password
+
+# CronWorkflow-specific settings (only used when type: CronWorkflow)
+cronWorkflow:
+  # Timezone for the cron schedule (e.g., "Asia/Seoul", "UTC")
+  timezone: ""
+
+  # Suspend the CronWorkflow (prevents automatic execution)
+  suspend: false
+
+  # TTL strategy for workflow cleanup
+  ttlSecondsAfterSuccess: 180
+  ttlSecondsAfterFailure: 180
+
+  # Enable host network mode
+  hostNetwork: false
+
+  # Pod annotations (in addition to metadata annotations)
+  podAnnotations: {}
+
+  # Pod labels (in addition to standard labels)
+  podLabels: {}
+
+  # Volumes to mount
+  volumes: []
+    # - name: data
+    #   emptyDir: {}
+
+  # Volume mounts
+  volumeMounts: []
+    # - name: data
+    #   mountPath: /data
+
+  # Additional config/secret names to mount as envFrom
+  configs: []
+    # - "additional-config"
+
+  # Lifecycle hooks for workflow status changes
+  hooks:
+    enabled: false
+    # Webhook URL for notifications
+    url: ""
+    # Container image for hook execution
+    image: "314695318048.dkr.ecr.ap-northeast-2.amazonaws.com/daangn/kontrol-runner:latest"
+    # Payload template (JSON string)
+    payload: "{}"
+    # Enable verbose output
+    verbose: false
+    # Enable hooks for specific workflow states
+    running: false
+    succeeded: false
+    failed: false
+    pending: false
+    # Node selector for hook pods
+    nodeSelector:
+      group: job
+    # Tolerations for hook pods
+    tolerations:
+      - effect: NoSchedule
+        key: group
+        operator: Equal
+        value: job

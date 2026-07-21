@@ -1,3 +1,4 @@
+{{- if eq .Values.type "CronJob" }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
@@ -11,6 +12,9 @@ spec:
   concurrencyPolicy: {{ .Values.concurrencyPolicy | default "Forbid" }}
   jobTemplate:
     spec:
+      {{- if .Values.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ .Values.activeDeadlineSeconds }}
+      {{- end }}
       backoffLimit: {{ .Values.backoffLimit | default "0" }}
       {{- if .Values.ttlSecondsAfterFinished }}
       ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
@@ -84,3 +88,4 @@ spec:
           tolerations:
 {{- toYaml . | nindent 12 }}
           {{- end }}
+{{- end }}

@@ -1,3 +1,23 @@
+{{- /* Validations */ -}}
+{{- if and (eq .Values.controller.kind "Deployment") (or (eq .Values.controller.strategy.type "BlueGreen") (eq .Values.controller.strategy.type "Canary")) -}}
+{{- fail (printf "Deployment does not support %s strategy. Set controller.kind to Rollout." .Values.controller.strategy.type) -}}
+{{- end -}}
+{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) -}}
+{{- if not .Values.autoscaling.enabled -}}
+{{- if and (gt (int .Values.replicaCount) 1) (has "ReadWriteOnce" .Values.persistence.accessModes) -}}
+{{- fail "replicaCount > 1 with ReadWriteOnce PVC is not supported. Use ReadWriteMany or set replicaCount to 1." -}}
+{{- end -}}
+{{- else -}}
+{{- if and (gt (int .Values.autoscaling.maxReplicas) 1) (has "ReadWriteOnce" .Values.persistence.accessModes) -}}
+{{- fail "autoscaling.maxReplicas > 1 with ReadWriteOnce PVC is not supported. Use ReadWriteMany or set maxReplicas to 1." -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if .Values.podAntiAffinity -}}
+{{- if and .Values.affinity (hasKey .Values.affinity "podAntiAffinity") -}}
+{{- fail "Cannot set both affinity.podAntiAffinity and podAntiAffinity. Use one or the other." -}}
+{{- end -}}
+{{- end -}}
 {{- if eq .Values.controller.kind "Rollout" }}
 apiVersion: argoproj.io/v1alpha1
 kind: Rollout
@@ -7,13 +27,14 @@ kind: Deployment
 {{- end }}
 metadata:
   name: {{ include "app.fullname" . }}
+  namespace: {{ include "app.namespace" . }}
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
-  revisionHistoryLimit: {{ .Values.revisionHistoryLimit | default "3" }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   selector:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
@@ -21,34 +42,15 @@ spec:
     {{- if eq .Values.controller.strategy.type "BlueGreen" }}
     blueGreen:
       activeService: {{ include "app.fullname" . }}
-      {{- if .Values.ingress.preview.enabled }}
-      previewService: {{ include "app.fullname" . }}-preview
-      {{- end }}
       {{- toYaml .Values.controller.strategy.blueGreen | nindent 6 }}
     {{- else if eq .Values.controller.strategy.type "Canary" }}
     canary:
-      {{- if .Values.ingress.stable.enabled }}
-      stableService: {{ include "app.fullname" . }}-stable
-      {{- else }}
       stableService: {{ include "app.fullname" . }}
-      {{- end }}
-      {{- if .Values.ingress.preview.enabled }}
-      canaryService: {{ include "app.fullname" . }}-preview
-      {{- end }}
-      {{- if and .Values.istio.gateway.enabled .Values.istio.canary.subsets }}
-      trafficRouting:
-        istio:
-          virtualService:
-            name: {{ include "app.fullname" . }}
-            routes:
-              - primary
-          destinationRule:
-            name: {{ include "app.fullname" . }}
-            stableSubsetName: stable
-            canarySubsetName: canary
-      {{- end }}
       steps:
         {{- toYaml .Values.controller.strategy.canary.steps | nindent 8 }}
+    {{- else if eq .Values.controller.kind "Rollout" }}
+    canary:
+      {{- toYaml .Values.controller.strategy.rollingUpdate | nindent 6 }}
     {{- else }}
     rollingUpdate:
       {{- toYaml .Values.controller.strategy.rollingUpdate | nindent 6 }}
@@ -64,10 +66,12 @@ spec:
       {{- if .Values.podLabels }}
         {{- toYaml .Values.podLabels | nindent 8 }}
       {{- end }}
-      {{- if .Values.istio.sidecar.inject }}
-        sidecar.istio.io/inject: 'true'
-      {{- end }}
+
     spec:
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: app
           image: {{ include "app.image" . }}
@@ -81,9 +85,12 @@ spec:
 {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
-            - name: {{ .Values.service.name | default "http" }}
-              containerPort: {{ .Values.service.targetPort | default "80" }}
-              protocol: {{ .Values.service.protocol | default "TCP" }}
+            - name: {{ .Values.service.name }}
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: {{ .Values.service.protocol }}
+            {{- with .Values.extraPorts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
 {{- toYaml . | nindent 12 }}
@@ -92,12 +99,20 @@ spec:
           readinessProbe:
 {{- toYaml . | nindent 12 }}
           {{- end }}
+          {{- with .Values.startupProbe }}
+          startupProbe:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.resources }}
           resources:
 {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.securityContext }}
           securityContext:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.lifecycle }}
+          lifecycle:
 {{- toYaml . | nindent 12 }}
           {{- end }}
           {{- with .Values.env }}
@@ -131,13 +146,23 @@ spec:
             {{- end }}
             {{- end }}
           {{- end }}
+          {{- if or .Values.persistence.enabled .Values.extraVolumeMounts }}
           volumeMounts:
+            {{- if .Values.persistence.enabled }}
             - name: data
               mountPath: {{ .Values.persistence.mountPath | quote }}
-              subPath: {{ .Values.persistence.subPath | default "" }}
-          {{- with .Values.extraVolumeMounts }}
+              {{- if .Values.persistence.subPath }}
+              subPath: {{ .Values.persistence.subPath }}
+              {{- end }}
+            {{- end }}
+            {{- with .Values.extraVolumeMounts }}
             {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- end }}
+        {{- with .Values.sidecars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirst" }}
       restartPolicy: {{ .Values.restartPolicy | default "Always" }}
       serviceAccountName: {{ include "app.serviceAccountName" . }}
@@ -153,9 +178,21 @@ spec:
       nodeSelector:
 {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- if or .Values.affinity .Values.podAntiAffinity }}
       affinity:
-{{- toYaml . | nindent 8 }}
+        {{- with .Values.affinity }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.podAntiAffinity }}
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "app.selectorLabels" $ | nindent 20 }}
+                topologyKey: {{ .topologyKey | default "kubernetes.io/hostname" }}
+        {{- end }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
@@ -165,14 +202,14 @@ spec:
       topologySpreadConstraints:
 {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if or .Values.persistence.enabled .Values.extraVolumes }}
       volumes:
+        {{- if .Values.persistence.enabled }}
         - name: data
-          {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "app.fullname" .) }}
-          {{- else }}
-          emptyDir: {}
-          {{- end }}
-      {{- with .Values.extraVolumes }}
+        {{- end }}
+        {{- with .Values.extraVolumes }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- end }}

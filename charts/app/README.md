@@ -1,40 +1,14 @@
 # app
 
-![Version: v0.15.1](https://img.shields.io/badge/Version-v0.15.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.3.0](https://img.shields.io/badge/Version-v1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
-## How to install this chart
+## Maintainers
 
-Add OpsPreSso public chart repo:
-
-```console
-helm repo add opspresso https://opspresso.github.io/helm-charts
-```
-
-A simple install with default values:
-
-```console
-helm install opspresso/app
-```
-
-To install the chart with the release name `my-release`:
-
-```console
-helm install my-release opspresso/app
-```
-
-To install with some set values:
-
-```console
-helm install my-release opspresso/app --set values_key1=value1 --set values_key2=value2
-```
-
-To install with custom values file:
-
-```console
-helm install my-release opspresso/app -f values.yaml
-```
+| Name | Email | Url |
+| ---- | ------ | --- |
+| Jungyoul Yu (Bruce) | <bruce@daangn.com> |  |
 
 ## Values
 
@@ -42,20 +16,14 @@ helm install my-release opspresso/app -f values.yaml
 |-----|------|---------|-------------|
 | additionalConfigmap.enabled | bool | `false` |  |
 | additionalConfigmap.names | list | `[]` |  |
-| additionalLabels | object | `{}` |  |
+| additionalLabels | object | `{}` | Pod Metadata & Spec |
 | additionalSecret.enabled | bool | `false` |  |
 | additionalSecret.names | list | `[]` |  |
 | affinity | object | `{}` |  |
-| analysis.enabled | bool | `false` |  |
 | args | list | `[]` |  |
-| autoscaling.behavior | object | `{}` |  |
-| autoscaling.enabled | bool | `false` |  |
-| autoscaling.maxReplicas | int | `6` |  |
-| autoscaling.metrics | list | `[]` |  |
-| autoscaling.minReplicas | int | `1` |  |
-| command | list | `[]` |  |
-| configmap.data | object | `{}` |  |
-| configmap.enabled | bool | `false` |  |
+| autoscaling | object | `{"behavior":{},"enabled":false,"maxReplicas":6,"metrics":[],"minReplicas":1}` | Scaling & Availability |
+| command | list | `[]` | Container Spec |
+| configmap | object | `{"data":{},"enabled":false}` | Configuration & Secrets |
 | controller.kind | string | `"Deployment"` |  |
 | controller.strategy.blueGreen.autoPromotionEnabled | bool | `true` |  |
 | controller.strategy.blueGreen.autoPromotionSeconds | int | `60` |  |
@@ -65,41 +33,27 @@ helm install my-release opspresso/app -f values.yaml
 | controller.strategy.type | string | `"RollingUpdate"` |  |
 | dnsPolicy | string | `"ClusterFirst"` |  |
 | env | list | `[]` |  |
-| externalSecrets.backendType | string | `"systemManager"` |  |
 | externalSecrets.data | list | `[]` |  |
 | externalSecrets.enabled | bool | `false` |  |
 | externalSecrets.refreshInterval | string | `"1h"` |  |
 | externalSecrets.secretStoreRef.kind | string | `"ClusterSecretStore"` |  |
 | externalSecrets.secretStoreRef.name | string | `"parameter-store"` |  |
+| extraPorts | list | `[]` |  |
 | extraVolumeMounts | list | `[]` |  |
 | extraVolumes | list | `[]` |  |
-| image.pullPolicy | string | `"IfNotPresent"` |  |
-| image.repository | string | `"nginx"` |  |
-| image.tag | string | `""` |  |
+| fullnameOverride | string | `""` |  |
+| image | object | `{"pullPolicy":"IfNotPresent","repository":"nginx","tag":""}` | Container Image |
 | imagePullSecrets | list | `[]` |  |
-| ingress.annotations | object | `{}` |  |
-| ingress.enabled | bool | `false` |  |
-| ingress.hosts[0] | string | `"sample.domain.com"` |  |
-| ingress.path | string | `"/"` |  |
-| ingress.pathType | string | `"Prefix"` |  |
-| ingress.preview.enabled | bool | `false` |  |
-| ingress.preview.hosts | list | `[]` |  |
-| ingress.stable.enabled | bool | `false` |  |
-| ingress.stable.hosts | list | `[]` |  |
-| ingress.tls | list | `[]` |  |
+| initContainers | list | `[]` | Init & Sidecar Containers |
 | irsa.enabled | bool | `false` |  |
-| irsa.statement | list | `[]` |  |
-| istio.canary.subsets | bool | `false` |  |
-| istio.gateway.enabled | bool | `false` |  |
-| istio.sidecar.inject | bool | `false` |  |
-| istio.trafficPolicy | object | `{}` |  |
+| irsa.roleArn | string | `""` |  |
+| lifecycle | object | `{}` |  |
 | livenessProbe | object | `{}` |  |
-| nodeSelector | object | `{}` |  |
+| nameOverride | string | `""` | Chart Identity |
+| namespaceOverride | string | `""` |  |
+| nodeSelector | object | `{}` | Scheduling |
 | pdb.enabled | bool | `false` |  |
-| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
-| persistence.enabled | bool | `false` |  |
-| persistence.mountPath | string | `"/data"` |  |
-| persistence.size | string | `"10Gi"` |  |
+| persistence | object | `{"accessModes":["ReadWriteOnce"],"enabled":false,"mountPath":"/data","size":"10Gi"}` | Storage |
 | podAnnotations | object | `{}` |  |
 | podAntiAffinity | object | `{}` |  |
 | podLabels | object | `{}` |  |
@@ -107,30 +61,41 @@ helm install my-release opspresso/app -f values.yaml
 | rbac.create | bool | `false` |  |
 | rbac.rules | list | `[]` |  |
 | readinessProbe | object | `{}` |  |
-| replicaCount | int | `1` |  |
+| replicaCount | int | `1` | Controller (Deployment / Rollout) |
 | resources | object | `{}` |  |
 | restartPolicy | string | `"Always"` |  |
 | revisionHistoryLimit | int | `3` |  |
+| routing.backendTLSPolicy.annotations | object | `{}` |  |
+| routing.backendTLSPolicy.enabled | bool | `false` |  |
+| routing.backendTLSPolicy.targetRefs[0].kind | string | `"Service"` |  |
+| routing.backendTLSPolicy.targetRefs[0].name | string | `"http"` |  |
+| routing.backendTLSPolicy.targetRefs[0].port | int | `80` |  |
+| routing.backendTLSPolicy.validation.trust.secret.name | string | `"backend-tls-secret"` |  |
+| routing.hosts[0] | string | `"sample.domain.com"` |  |
+| routing.httpRoute.annotations | object | `{}` |  |
+| routing.httpRoute.enabled | bool | `false` |  |
+| routing.httpRoute.parentRefs[0].name | string | `"infra-gateway"` |  |
+| routing.httpRoute.parentRefs[0].namespace | string | `"istio-system"` |  |
+| routing.ingress.annotations | object | `{}` |  |
+| routing.ingress.className | string | `""` |  |
+| routing.ingress.enabled | bool | `false` |  |
+| routing.ingress.tls | list | `[]` |  |
+| routing.istio.annotations | object | `{}` |  |
+| routing.istio.enabled | bool | `false` |  |
+| routing.istio.gateway.selector.istio | string | `"default-ingress-gateway"` |  |
+| routing.path | string | `"/"` |  |
+| routing.pathType | string | `"Prefix"` |  |
 | secret.data | object | `{}` |  |
 | secret.enabled | bool | `false` |  |
 | securityContext | object | `{}` |  |
-| service.annotations | object | `{}` |  |
-| service.port | int | `80` |  |
-| service.targetPort | int | `3000` |  |
-| service.type | string | `"ClusterIP"` |  |
-| serviceAccount.annotations | object | `{}` |  |
-| serviceAccount.create | bool | `false` |  |
-| serviceAccount.name | string | `""` |  |
-| serviceMonitor.enabled | bool | `false` |  |
-| serviceMonitor.endpoints[0].interval | string | `"10s"` |  |
-| serviceMonitor.endpoints[0].path | string | `"/metrics"` |  |
-| serviceMonitor.endpoints[0].port | string | `"http"` |  |
-| serviceMonitor.selector.release | string | `"prometheus-operator"` |  |
+| service | object | `{"annotations":{},"name":"http","port":80,"protocol":"TCP","targetPort":3000,"type":"ClusterIP"}` | Service & Networking |
+| serviceAccount | object | `{"annotations":{},"create":false,"name":""}` | ServiceAccount, RBAC & IAM |
+| serviceMonitor | object | `{"enabled":false,"endpoints":[{"interval":"10s","path":"/metrics","port":"http"}],"labels":{"release":"prometheus-operator"}}` | Monitoring |
+| sidecars | list | `[]` |  |
+| startupProbe | object | `{}` |  |
+| terminationGracePeriodSeconds | int | `30` |  |
 | tolerations | list | `[]` |  |
 | topologySpreadConstraints | list | `[]` |  |
 
-## Maintainers
-
-| Name | Email | Url |
-| ---- | ------ | --- |
-| Jungyoul Yu | <me@nalbam.com> |  |
+----------------------------------------------
+Autogenerated from chart metadata using [helm-docs v1.14.2](https://github.com/norwoodj/helm-docs/releases/v1.14.2)

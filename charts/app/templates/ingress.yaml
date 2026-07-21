@@ -1,28 +1,24 @@
-{{- if .Values.ingress.enabled }}
-{{- $ingressApiIsStable := eq (include "app.ingress.isStable" .) "true" -}}
-{{- $ingressSupportsIngressClassName := eq (include "app.ingress.supportsIngressClassName" .) "true" -}}
-{{- $ingressSupportsPathType := eq (include "app.ingress.supportsPathType" .) "true" -}}
+{{- if .Values.routing.ingress.enabled }}
 {{- $fullName := include "app.fullname" . -}}
 {{- $servicePort := .Values.service.port -}}
-{{- $ingressPath := .Values.ingress.path -}}
-{{- $ingressPathType := .Values.ingress.pathType -}}
-apiVersion: {{ include "app.ingress.apiVersion" . }}
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ $fullName }}
+  namespace: {{ include "app.namespace" . }}
   labels:
     {{- include "app.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
+  {{- with .Values.routing.ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  {{- if and $ingressSupportsIngressClassName .Values.ingress.className }}
-  ingressClassName: {{ .Values.ingress.className }}
+  {{- with .Values.routing.ingress.className }}
+  ingressClassName: {{ . }}
   {{- end }}
-  {{- if .Values.ingress.tls }}
+  {{- if .Values.routing.ingress.tls }}
   tls:
-    {{- range .Values.ingress.tls }}
+    {{- range .Values.routing.ingress.tls }}
     - hosts:
         {{- range .hosts }}
         - {{ . | quote }}
@@ -31,23 +27,16 @@ spec:
     {{- end }}
   {{- end }}
   rules:
-    {{- range .Values.ingress.hosts }}
+    {{- range .Values.routing.hosts }}
     - host: {{ . | quote }}
       http:
         paths:
-          - path: {{ $ingressPath }}
-            {{- if $ingressSupportsPathType }}
-            pathType: {{ $ingressPathType }}
-            {{- end }}
+          - path: {{ $.Values.routing.path }}
+            pathType: {{ $.Values.routing.pathType }}
             backend:
-              {{- if $ingressApiIsStable }}
               service:
                 name: {{ $fullName }}
                 port:
                   number: {{ $servicePort }}
-              {{- else }}
-              serviceName: {{ $fullName }}
-              servicePort: {{ $servicePort }}
-              {{- end }}
     {{- end }}
 {{- end }}

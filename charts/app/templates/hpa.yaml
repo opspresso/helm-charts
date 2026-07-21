@@ -1,8 +1,12 @@
 {{- if .Values.autoscaling.enabled }}
+{{- if not .Values.autoscaling.metrics }}
+{{- fail "autoscaling.enabled requires at least one metric in autoscaling.metrics." }}
+{{- end }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "app.fullname" . }}
+  namespace: {{ include "app.namespace" . }}
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:

@@ -3,6 +3,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ include "app.fullname" . }}
+  namespace: {{ include "app.namespace" . }}
   labels:
     {{- include "app.labels" . | nindent 4 }}
 spec:
@@ -19,6 +20,6 @@ spec:
   {{- with .Values.persistence.selectorLabels }}
   selector:
     matchLabels:
-      {{- toYaml . | indent 6 }}
+      {{- toYaml . | nindent 6 }}
   {{- end }}
 {{- end }}
