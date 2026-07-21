@@ -108,6 +108,11 @@
       "current": "3.12.2",
       "version": "3.13.1"
     },
+    "oauth2-proxy": {
+      "app_version": "7.15.3",
+      "chart": "oauth2-proxy/oauth2-proxy",
+      "version": "10.7.0"
+    },
     "prometheus-stack": {
       "app_version": "v0.92.1",
       "chart": "prometheus/kube-prometheus-stack",
