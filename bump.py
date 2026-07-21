@@ -273,7 +273,7 @@ def update_version_in_readme(version_content: str, file_path: str = "README.md",
     )
 
     if dry_run:
-        logger.info("DRY RUN: Would update README.md")
+        logger.info(f"DRY RUN: Would update {file_path}")
         return True
 
     try:
@@ -468,6 +468,10 @@ def main() -> int:
 
     # Update README
     update_version_in_readme("\n".join(version_contents), dry_run=args.dry_run)
+
+    # Update README in local charts repository
+    local_readme = os.path.join(os.path.dirname(args.local_chart_path.rstrip("/")), "README.md")
+    update_version_in_readme("\n".join(version_contents), file_path=local_readme, dry_run=args.dry_run)
 
     # Summary
     print(f"\n{GREEN}Summary:{RESET}")
