@@ -29,36 +29,11 @@
       "current": "6.9.3",
       "version": "6.9.3"
     },
-    "aws-ebs-csi-driver": {
-      "app_version": "1.62.0",
-      "chart": "aws-ebs-csi-driver/aws-ebs-csi-driver",
-      "current": "2.62.0",
-      "version": "2.62.0"
-    },
-    "aws-load-balancer-controller": {
-      "app_version": "v3.4.2",
-      "chart": "eks/aws-load-balancer-controller",
-      "current": "3.4.2",
-      "version": "3.4.2"
-    },
-    "aws-node-termination-handler": {
-      "app_version": "1.25.6",
-      "chart": "public.ecr.aws/aws-ec2/helm",
-      "current": "0.27.6",
-      "type": "oci",
-      "version": "0.27.6"
-    },
     "cert-manager": {
       "app_version": "v1.21.0",
       "chart": "jetstack/cert-manager",
       "current": "v1.21.0",
       "version": "v1.21.0"
-    },
-    "cluster-autoscaler": {
-      "app_version": "1.35.0",
-      "chart": "autoscaler/cluster-autoscaler",
-      "current": "9.58.0",
-      "version": "9.58.0"
     },
     "cost-analyzer": {
       "app_version": "2.9.7",
