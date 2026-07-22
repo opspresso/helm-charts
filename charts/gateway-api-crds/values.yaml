@@ -1,0 +1,5 @@
+# Gateway API CRDs Chart
+# This chart installs the Kubernetes Gateway API CRDs
+# Source: https://github.com/kubernetes-sigs/gateway-api
+
+# No configurable values - CRDs are installed as-is
