@@ -55,7 +55,7 @@ python3 bump.py
 | loki-stack | ✅ | 2.10.3 | 2.10.3 (v2.9.3) |
 | metrics-server | ✅ | 3.13.1 | 3.13.1 (0.8.1) |
 | oauth2-proxy | ✅ | 10.7.0 | 10.7.0 (7.15.3) |
-| prometheus-stack |  | 87.18.0 | 87.19.0 (v0.92.1) |
+| prometheus-stack | ✅ | 87.19.0 | 87.19.0 (v0.92.1) |
 | promtail | ✅ | 6.17.1 | 6.17.1 (3.5.1) |
 | raw |  |  | 0.2.5 (0.2.3) |
 <!--- END_VERSION --->
