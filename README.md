@@ -46,12 +46,7 @@ python3 bump.py
 | argo-rollouts | ✅ | 2.41.1 | 2.41.1 (v1.9.1) |
 | argo-workflows | ✅ | 1.0.20 | 1.0.20 (v4.0.7) |
 | atlantis | ✅ | 6.9.3 | 6.9.3 (v0.46.0) |
-| aws-ebs-csi-driver | ✅ | 2.62.0 | 2.62.0 (1.62.0) |
-| aws-load-balancer-controller | ✅ | 3.4.2 | 3.4.2 (v3.4.2) |
-| aws-node-termination-handler | ✅ | 0.27.6 | 0.27.6 (1.25.6) |
 | cert-manager | ✅ | v1.21.0 | v1.21.0 (v1.21.0) |
-| cluster-autoscaler | ✅ | 9.58.0 | 9.58.0 (1.35.0) |
-| cost-analyzer |  |  | 2.9.7 (2.9.7) |
 | external-dns | ✅ | 1.21.1 | 1.21.1 (0.21.0) |
 | external-secrets | ✅ | 2.8.0 | 2.8.0 (v2.8.0) |
 | grafana | ✅ | 10.5.15 | 10.5.15 (12.3.1) |
@@ -60,7 +55,7 @@ python3 bump.py
 | loki-stack | ✅ | 2.10.3 | 2.10.3 (v2.9.3) |
 | metrics-server | ✅ | 3.13.1 | 3.13.1 (0.8.1) |
 | oauth2-proxy | ✅ | 10.7.0 | 10.7.0 (7.15.3) |
-| prometheus-stack | ✅ | 87.18.0 | 87.18.0 (v0.92.1) |
+| prometheus-stack |  | 87.18.0 | 87.19.0 (v0.92.1) |
 | promtail | ✅ | 6.17.1 | 6.17.1 (3.5.1) |
 | raw |  |  | 0.2.5 (0.2.3) |
 <!--- END_VERSION --->
