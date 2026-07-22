@@ -35,11 +35,6 @@
       "current": "v1.21.0",
       "version": "v1.21.0"
     },
-    "cost-analyzer": {
-      "app_version": "2.9.7",
-      "chart": "kubecost/cost-analyzer",
-      "version": "2.9.7"
-    },
     "external-dns": {
       "app_version": "0.21.0",
       "chart": "external-dns/external-dns",
@@ -93,7 +88,7 @@
       "app_version": "v0.92.1",
       "chart": "prometheus/kube-prometheus-stack",
       "current": "87.18.0",
-      "version": "87.18.0"
+      "version": "87.19.0"
     },
     "promtail": {
       "app_version": "3.5.1",
