@@ -7,6 +7,7 @@ aws-secrets-manager https://aws.github.io/secrets-store-csi-driver-provider-aws
 codecentric https://codecentric.github.io/cluster-overprovisioner
 dashboard https://kubernetes.github.io/dashboard
 datadog https://helm.datadoghq.com
+datahub https://helm.datahubproject.io
 deliveryhero https://charts.deliveryhero.io
 eks https://aws.github.io/eks-charts
 external-dns https://kubernetes-sigs.github.io/external-dns

@@ -35,6 +35,12 @@
       "current": "v1.21.0",
       "version": "v1.21.0"
     },
+    "datahub": {
+      "app_version": "v1.6.0",
+      "chart": "datahub/datahub",
+      "current": "0.8.0",
+      "version": "1.0.3"
+    },
     "external-dns": {
       "app_version": "0.21.0",
       "chart": "external-dns/external-dns",

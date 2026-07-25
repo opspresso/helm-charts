@@ -47,6 +47,7 @@ python3 bump.py
 | argo-workflows |  | 1.0.20 | 1.0.23 (v4.0.8) |
 | atlantis |  | 6.9.3 | 6.10.0 (v0.46.0) |
 | cert-manager | ✅ | v1.21.0 | v1.21.0 (v1.21.0) |
+| datahub |  | 0.8.0 | 1.0.3 (v1.6.0) |
 | external-dns | ✅ | 1.21.1 | 1.21.1 (0.21.0) |
 | external-secrets | ✅ | 2.8.0 | 2.8.0 (v2.8.0) |
 | grafana | ✅ | 10.5.15 | 10.5.15 (12.3.1) |
