@@ -4,7 +4,7 @@
       "app_version": "v3.4.5",
       "chart": "argo/argo-cd",
       "current": "10.1.4",
-      "version": "10.1.4"
+      "version": "10.2.1"
     },
     "argo-events": {
       "app_version": "v1.9.11",
@@ -18,16 +18,16 @@
       "version": "2.41.1"
     },
     "argo-workflows": {
-      "app_version": "v4.0.7",
+      "app_version": "v4.0.8",
       "chart": "argo/argo-workflows",
       "current": "1.0.20",
-      "version": "1.0.20"
+      "version": "1.0.23"
     },
     "atlantis": {
       "app_version": "v0.46.0",
       "chart": "atlantis/atlantis",
       "current": "6.9.3",
-      "version": "6.9.3"
+      "version": "6.10.0"
     },
     "cert-manager": {
       "app_version": "v1.21.0",
@@ -84,11 +84,17 @@
       "current": "10.7.0",
       "version": "10.7.0"
     },
+    "prometheus-adapter": {
+      "app_version": "v0.12.0",
+      "chart": "prometheus/prometheus-adapter",
+      "current": "5.3.0",
+      "version": "5.3.0"
+    },
     "prometheus-stack": {
       "app_version": "v0.92.1",
       "chart": "prometheus/kube-prometheus-stack",
       "current": "87.19.0",
-      "version": "87.19.0"
+      "version": "87.19.1"
     },
     "promtail": {
       "app_version": "3.5.1",
