@@ -3,13 +3,8 @@
     "argo-cd": {
       "app_version": "v3.4.5",
       "chart": "argo/argo-cd",
-      "current": "10.1.4",
+      "current": "10.2.1",
       "version": "10.2.1"
-    },
-    "argo-events": {
-      "app_version": "v1.9.11",
-      "chart": "argo/argo-events",
-      "version": "2.4.23"
     },
     "argo-rollouts": {
       "app_version": "v1.9.1",
@@ -20,26 +15,14 @@
     "argo-workflows": {
       "app_version": "v4.0.8",
       "chart": "argo/argo-workflows",
-      "current": "1.0.20",
+      "current": "1.0.23",
       "version": "1.0.23"
     },
     "atlantis": {
       "app_version": "v0.46.0",
       "chart": "atlantis/atlantis",
-      "current": "6.9.3",
+      "current": "6.10.0",
       "version": "6.10.0"
-    },
-    "cert-manager": {
-      "app_version": "v1.21.1",
-      "chart": "jetstack/cert-manager",
-      "current": "v1.21.0",
-      "version": "v1.21.1"
-    },
-    "datahub": {
-      "app_version": "v1.6.0",
-      "chart": "datahub/datahub",
-      "current": "0.8.0",
-      "version": "1.0.3"
     },
     "external-dns": {
       "app_version": "0.21.0",
@@ -99,7 +82,7 @@
     "prometheus-stack": {
       "app_version": "v0.92.1",
       "chart": "prometheus/kube-prometheus-stack",
-      "current": "87.19.0",
+      "current": "87.21.0",
       "version": "87.21.0"
     },
     "promtail": {

@@ -41,13 +41,10 @@ python3 bump.py
 <!--- BEGIN_VERSION --->
 | NAME | | CURRENT | LATEST |
 | --- | - | --- | --- |
-| argo-cd |  | 10.1.4 | 10.2.1 (v3.4.5) |
-| argo-events |  |  | 2.4.23 (v1.9.11) |
+| argo-cd | ✅ | 10.2.1 | 10.2.1 (v3.4.5) |
 | argo-rollouts | ✅ | 2.41.1 | 2.41.1 (v1.9.1) |
-| argo-workflows |  | 1.0.20 | 1.0.23 (v4.0.8) |
-| atlantis |  | 6.9.3 | 6.10.0 (v0.46.0) |
-| cert-manager |  | v1.21.0 | v1.21.1 (v1.21.1) |
-| datahub |  | 0.8.0 | 1.0.3 (v1.6.0) |
+| argo-workflows | ✅ | 1.0.23 | 1.0.23 (v4.0.8) |
+| atlantis | ✅ | 6.10.0 | 6.10.0 (v0.46.0) |
 | external-dns | ✅ | 1.21.1 | 1.21.1 (0.21.0) |
 | external-secrets | ✅ | 2.8.0 | 2.8.0 (v2.8.0) |
 | grafana | ✅ | 10.5.15 | 10.5.15 (12.3.1) |
@@ -57,7 +54,7 @@ python3 bump.py
 | metrics-server | ✅ | 3.13.1 | 3.13.1 (0.8.1) |
 | oauth2-proxy | ✅ | 10.7.0 | 10.7.0 (7.15.3) |
 | prometheus-adapter | ✅ | 5.3.0 | 5.3.0 (v0.12.0) |
-| prometheus-stack |  | 87.19.0 | 87.21.0 (v0.92.1) |
+| prometheus-stack | ✅ | 87.21.0 | 87.21.0 (v0.92.1) |
 | promtail | ✅ | 6.17.1 | 6.17.1 (3.5.1) |
 | raw |  |  | 0.2.5 (0.2.3) |
 <!--- END_VERSION --->
