@@ -30,10 +30,10 @@
       "version": "6.10.0"
     },
     "cert-manager": {
-      "app_version": "v1.21.0",
+      "app_version": "v1.21.1",
       "chart": "jetstack/cert-manager",
       "current": "v1.21.0",
-      "version": "v1.21.0"
+      "version": "v1.21.1"
     },
     "datahub": {
       "app_version": "v1.6.0",
@@ -100,7 +100,7 @@
       "app_version": "v0.92.1",
       "chart": "prometheus/kube-prometheus-stack",
       "current": "87.19.0",
-      "version": "87.19.1"
+      "version": "87.21.0"
     },
     "promtail": {
       "app_version": "3.5.1",
