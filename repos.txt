@@ -17,6 +17,7 @@ incubator https://charts.helm.sh/incubator
 ingress-nginx https://kubernetes.github.io/ingress-nginx
 istio https://istio-release.storage.googleapis.com/charts
 jetstack https://charts.jetstack.io
+kite https://kite-org.github.io/kite
 kubecost https://kubecost.github.io/cost-analyzer
 metrics-server https://kubernetes-sigs.github.io/metrics-server
 oauth2-proxy https://oauth2-proxy.github.io/manifests
