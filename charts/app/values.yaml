@@ -2,14 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# -- Chart Identity
+## Chart Identity
 nameOverride: ""
   # nameOverride: "my-app"
 fullnameOverride: ""
   # fullnameOverride: "my-app-fullname"
 namespaceOverride: ""
 
-# -- Controller (Deployment / Rollout)
+## Controller (Deployment / Rollout)
 replicaCount: 1
 
 revisionHistoryLimit: 3
@@ -34,7 +34,7 @@ controller:
       # - pause:
       #     duration: 60
 
-# -- Container Image
+## Container Image
 image:
   repository: nginx
   pullPolicy: IfNotPresent
@@ -44,7 +44,7 @@ image:
 imagePullSecrets: []
   # - name: my-registry-secret
 
-# -- Container Spec
+## Container Spec
 command: []
   # - "aws"
   # - "s3"
@@ -111,7 +111,7 @@ lifecycle: {}
   #   exec:
   #     command: ["/bin/sh", "-c", "echo started"]
 
-# -- Init & Sidecar Containers
+## Init & Sidecar Containers
 initContainers: []
   # - name: init-data
   #   image: busybox
@@ -124,7 +124,7 @@ sidecars: []
   #     - name: logs
   #       mountPath: /var/log
 
-# -- Pod Metadata & Spec
+## Pod Metadata & Spec
 additionalLabels: {}
   # team: backend
   # environment: production
@@ -143,11 +143,11 @@ podSecurityContext: {}
 
 dnsPolicy: ClusterFirst # ClusterFirst, Default
 
-restartPolicy: Always # Always, OnFailure, Never
+restartPolicy: Always # Deployment/Rollout pods only accept Always
 
 terminationGracePeriodSeconds: 30
 
-# -- Storage
+## Storage
 persistence:
   enabled: false
   # storageClassName: default
@@ -157,6 +157,7 @@ persistence:
   # existingClaim: ""
   mountPath: "/data"
   # subPath: ""
+  # selectorLabels: {}  # PVC spec.selector.matchLabels, for binding to a pre-provisioned PV
 
 extraVolumes: []
   # - name: extras
@@ -167,7 +168,7 @@ extraVolumeMounts: []
   #   mountPath: /usr/share/extras
   #   readOnly: true
 
-# -- Scheduling
+## Scheduling
 nodeSelector: {}
   # kubernetes.io/os: linux
   # node.kubernetes.io/instance-type: m5.large
@@ -200,7 +201,7 @@ topologySpreadConstraints: []
   #     matchLabels:
   #       app.kubernetes.io/name: my-app
 
-# -- ServiceAccount, RBAC & IAM
+## ServiceAccount, RBAC & IAM
 serviceAccount:
   # Specifies whether a service account should be created
   create: false
@@ -225,7 +226,7 @@ irsa:
   # roleArn: "arn:aws:iam::123456789012:role/my-app-role"
   roleArn: ""
 
-# -- Service & Networking
+## Service & Networking
 service:
   type: ClusterIP
   name: http
@@ -292,7 +293,7 @@ destinationRule:
     #   consistentHash:
     #     httpHeaderName: mcp-session-id
 
-# -- Scaling & Availability
+## Scaling & Availability
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -324,7 +325,7 @@ pdb:
   # maxUnavailable: 1   # default if neither maxUnavailable nor minAvailable is set
   # minAvailable: 1
 
-# -- Configuration & Secrets
+## Configuration & Secrets
 configmap:
   enabled: false
   data: {}
@@ -356,7 +357,7 @@ externalSecrets:
     #   name: admin-password
     #   property: demo/admin-password
 
-# -- Monitoring
+## Monitoring
 serviceMonitor:
   enabled: false
   labels:
