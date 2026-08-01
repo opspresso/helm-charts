@@ -1,0 +1,21 @@
+{{- if .Values.destinationRule.enabled }}
+{{- if not .Values.destinationRule.trafficPolicy }}
+{{- fail "destinationRule.enabled requires a traffic policy in destinationRule.trafficPolicy." }}
+{{- end }}
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: {{ include "app.fullname" . }}
+  namespace: {{ include "app.namespace" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+  {{- with .Values.destinationRule.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  host: {{ include "app.fullname" . }}.{{ include "app.namespace" . }}.svc.cluster.local
+  # No `tls` block on purpose: rendering one would override Istio auto-mTLS.
+  trafficPolicy:
+    {{- toYaml .Values.destinationRule.trafficPolicy | nindent 4 }}
+{{- end }}

@@ -280,6 +280,18 @@ routing:
         secret:
           name: backend-tls-secret
 
+# Istio mesh traffic policy for this Service — applies to in-mesh callers, so it
+# is useful without any gateway or routing (e.g. session affinity for a
+# cluster-internal server). Required when enabled. No TLS settings are rendered,
+# so Istio auto-mTLS stays untouched.
+destinationRule:
+  enabled: false
+  annotations: {}
+  trafficPolicy: {}
+    # loadBalancer:
+    #   consistentHash:
+    #     httpHeaderName: mcp-session-id
+
 # -- Scaling & Availability
 autoscaling:
   enabled: false
