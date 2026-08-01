@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v1.0.2](https://img.shields.io/badge/Version-v1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.1.0](https://img.shields.io/badge/Version-v1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 
@@ -8,7 +8,7 @@ A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Jungyoul Yu (Bruce) | <bruce@daangn.com> |  |
+| Jungyoul Yu | <me@nalbam.com> |  |
 
 ## Values
 
@@ -29,16 +29,13 @@ A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 | cronWorkflow.configs | list | `[]` |  |
 | cronWorkflow.hooks.enabled | bool | `false` |  |
 | cronWorkflow.hooks.failed | bool | `false` |  |
-| cronWorkflow.hooks.image | string | `"314695318048.dkr.ecr.ap-northeast-2.amazonaws.com/daangn/kontrol-runner:latest"` |  |
-| cronWorkflow.hooks.nodeSelector.group | string | `"job"` |  |
+| cronWorkflow.hooks.image | string | `"curlimages/curl:latest"` |  |
+| cronWorkflow.hooks.nodeSelector | object | `{}` |  |
 | cronWorkflow.hooks.payload | string | `"{}"` |  |
 | cronWorkflow.hooks.pending | bool | `false` |  |
 | cronWorkflow.hooks.running | bool | `false` |  |
 | cronWorkflow.hooks.succeeded | bool | `false` |  |
-| cronWorkflow.hooks.tolerations[0].effect | string | `"NoSchedule"` |  |
-| cronWorkflow.hooks.tolerations[0].key | string | `"group"` |  |
-| cronWorkflow.hooks.tolerations[0].operator | string | `"Equal"` |  |
-| cronWorkflow.hooks.tolerations[0].value | string | `"job"` |  |
+| cronWorkflow.hooks.tolerations | list | `[]` |  |
 | cronWorkflow.hooks.url | string | `""` |  |
 | cronWorkflow.hooks.verbose | bool | `false` |  |
 | cronWorkflow.hostNetwork | bool | `false` |  |
@@ -60,6 +57,7 @@ A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"amazon/aws-cli"` |  |
 | image.tag | string | `"latest"` |  |
+| imagePullSecrets | list | `[]` |  |
 | irsa.enabled | bool | `false` |  |
 | irsa.statement | list | `[]` |  |
 | nodeSelector | object | `{}` |  |

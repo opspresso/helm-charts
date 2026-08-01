@@ -1,4 +1,7 @@
 {{- if eq .Values.type "CronWorkflow" }}
+{{- if and .Values.cronWorkflow.hooks.enabled (not .Values.cronWorkflow.hooks.url) }}
+{{- fail "cronWorkflow.hooks.url is required when cronWorkflow.hooks.enabled is true" }}
+{{- end }}
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
@@ -19,6 +22,10 @@ spec:
   workflowSpec:
     entrypoint: cron
     serviceAccountName: {{ include "app.serviceAccountName" . }}
+    {{- with .Values.imagePullSecrets }}
+    imagePullSecrets:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
     {{- if .Values.activeDeadlineSeconds }}
     activeDeadlineSeconds: {{ .Values.activeDeadlineSeconds }}
     {{- end }}
@@ -155,14 +162,15 @@ spec:
           {{- include "app.podLabels" . | nindent 10 }}
       script:
         name: send-event-hook
-        image: {{ .Values.cronWorkflow.hooks.image | default "314695318048.dkr.ecr.ap-northeast-2.amazonaws.com/daangn/kontrol-runner:latest" }}
-        command: [bash]
+        image: {{ .Values.cronWorkflow.hooks.image | default "curlimages/curl:latest" }}
+        command: [sh]
+        env:
+          - name: PAYLOAD
+            value: {{ .Values.cronWorkflow.hooks.payload | default "{}" | quote }}
         resources: {}
         source: |
           set -e
-          PAYLOAD='{{ .Values.cronWorkflow.hooks.payload | default "{}" }}'
-          PAYLOAD=$(echo "$PAYLOAD" | jq -cM '.detail.status = (.detail.status | ascii_upcase)')
           curl --retry 5 --retry-all-errors {{ if .Values.cronWorkflow.hooks.verbose }}-v -i{{ end }} -w '\n' -X POST -H "Content-Type: application/json" \
-          {{ .Values.cronWorkflow.hooks.url | default "${KONTROL_URL}/api/argo-workflows/events" }} -d $PAYLOAD
+          -d "$PAYLOAD" {{ .Values.cronWorkflow.hooks.url | quote }}
     {{- end }}
 {{- end }}

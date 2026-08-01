@@ -1,4 +1,4 @@
-# Default values for sample.
+# Default values for cronjob.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -12,6 +12,9 @@ image:
   # Overrides the image tag whose default is the chart version.
   tag: latest
   pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+  # - name: registry-secret
 
 args: []
   # - --host
@@ -153,10 +156,10 @@ cronWorkflow:
   # Lifecycle hooks for workflow status changes
   hooks:
     enabled: false
-    # Webhook URL for notifications
+    # Webhook URL for notifications (required when enabled)
     url: ""
-    # Container image for hook execution
-    image: "314695318048.dkr.ecr.ap-northeast-2.amazonaws.com/daangn/kontrol-runner:latest"
+    # Container image for hook execution (needs curl and sh)
+    image: "curlimages/curl:latest"
     # Payload template (JSON string)
     payload: "{}"
     # Enable verbose output
@@ -167,11 +170,11 @@ cronWorkflow:
     failed: false
     pending: false
     # Node selector for hook pods
-    nodeSelector:
-      group: job
+    nodeSelector: {}
+      # group: job
     # Tolerations for hook pods
-    tolerations:
-      - effect: NoSchedule
-        key: group
-        operator: Equal
-        value: job
+    tolerations: []
+      # - effect: NoSchedule
+      #   key: group
+      #   operator: Equal
+      #   value: job

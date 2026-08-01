@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
 data:
-{{- with .Values.configmap.data }}
-{{ toYaml . | indent 2 }}
-{{- end }}
+  {{- range $key, $value := .Values.configmap.data }}
+  {{ $key }}: {{ $value | quote }}
+  {{- end }}
 {{- end }}
