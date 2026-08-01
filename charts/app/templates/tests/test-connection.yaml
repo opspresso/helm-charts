@@ -2,10 +2,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: "{{ include "app.fullname" . }}-test-connection"
+  namespace: {{ include "app.namespace" . }}
   labels:
     {{- include "app.labels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": test
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   containers:
     - name: wget

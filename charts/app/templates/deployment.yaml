@@ -2,6 +2,9 @@
 {{- if and (eq .Values.controller.kind "Deployment") (or (eq .Values.controller.strategy.type "BlueGreen") (eq .Values.controller.strategy.type "Canary")) -}}
 {{- fail (printf "Deployment does not support %s strategy. Set controller.kind to Rollout." .Values.controller.strategy.type) -}}
 {{- end -}}
+{{- if and (eq .Values.controller.strategy.type "Canary") (not .Values.controller.strategy.canary.steps) -}}
+{{- fail "Canary strategy requires at least one step in controller.strategy.canary.steps." -}}
+{{- end -}}
 {{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) -}}
 {{- if not .Values.autoscaling.enabled -}}
 {{- if and (gt (int .Values.replicaCount) 1) (has "ReadWriteOnce" .Values.persistence.accessModes) -}}
@@ -52,14 +55,27 @@ spec:
     canary:
       {{- toYaml .Values.controller.strategy.rollingUpdate | nindent 6 }}
     {{- else }}
+    type: {{ .Values.controller.strategy.type }}
+    {{- if eq .Values.controller.strategy.type "RollingUpdate" }}
     rollingUpdate:
       {{- toYaml .Values.controller.strategy.rollingUpdate | nindent 6 }}
     {{- end }}
+    {{- end }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
+      {{- $configChecksum := and .Values.configmap.enabled .Values.configmap.data }}
+      {{- $secretChecksum := and .Values.secret.enabled .Values.secret.data }}
+      {{- if or .Values.podAnnotations $configChecksum $secretChecksum }}
       annotations:
+        {{- if $configChecksum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if $secretChecksum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
+        {{- end }}
       {{- end }}
       labels:
         {{- include "app.podLabels" . | nindent 8 }}
