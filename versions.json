@@ -9,7 +9,7 @@
     "argo-cd": {
       "app_version": "v3.5.0",
       "chart": "argo/argo-cd",
-      "current": "10.2.2",
+      "current": "10.3.2",
       "version": "10.3.2"
     },
     "argo-rollouts": {
@@ -21,13 +21,13 @@
     "argo-workflows": {
       "app_version": "v4.0.8",
       "chart": "argo/argo-workflows",
-      "current": "1.0.23",
+      "current": "1.0.24",
       "version": "1.0.24"
     },
     "atlantis": {
       "app_version": "v0.46.0",
       "chart": "atlantis/atlantis",
-      "current": "6.10.0",
+      "current": "6.11.0",
       "version": "6.11.0"
     },
     "external-dns": {
@@ -39,7 +39,7 @@
     "external-secrets": {
       "app_version": "v2.9.0",
       "chart": "external-secrets/external-secrets",
-      "current": "2.8.0",
+      "current": "2.9.0",
       "version": "2.9.0"
     },
     "grafana": {
@@ -70,7 +70,7 @@
     "loki": {
       "app_version": "3.6.11",
       "chart": "grafana/loki",
-      "current": "6.55.0",
+      "current": "7.2.0",
       "version": "7.2.0"
     },
     "metrics-server": {
@@ -94,7 +94,7 @@
     "prometheus-stack": {
       "app_version": "v0.93.0",
       "chart": "prometheus/kube-prometheus-stack",
-      "current": "88.0.1",
+      "current": "88.2.0",
       "version": "88.2.0"
     },
     "raw": {
