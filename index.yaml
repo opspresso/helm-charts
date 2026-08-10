@@ -3,9 +3,9 @@ entries:
   app:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-08-01T12:58:05.398419794Z"
+    created: "2026-08-10T06:12:59.933009085Z"
     description: A Helm chart for Kubernetes
-    digest: 67410743313ea72efff833a1b77ccc493004d4245b909c781e325237e329c17f
+    digest: 641102cf47fa19f90a90579fc2378f77de3f3dae9b6b0935c52b9dd730efa851
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -17,7 +17,7 @@ entries:
     version: v1.4.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-08-01T12:58:05.397621705Z"
+    created: "2026-08-10T06:12:59.932212505Z"
     description: A Helm chart for Kubernetes
     digest: 0bb9ecdaaaa42c36c9c9637491383a9ef6c4ceb4484b51ff0e2b44cb9ebb674b
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -31,7 +31,7 @@ entries:
     version: v1.3.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-08-01T12:58:05.39681907Z"
+    created: "2026-08-10T06:12:59.931187354Z"
     description: A Helm chart for Kubernetes
     digest: 8337099ad3a2a57c410b90f94081f07c18577df7e0347a9b82c23151b34909e0
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -46,9 +46,9 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-08-01T12:58:05.399734422Z"
+    created: "2026-08-10T06:12:59.934356668Z"
     description: A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
-    digest: b9914391467ac36c3e95024e79f2e52075f7dd1f5fc75e294ca31e6b1230b6a5
+    digest: a96f09cb56316bb3ce348328ff7f4bd214569d44aa4233d5ce1b138942e07496
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -60,7 +60,7 @@ entries:
     version: v1.1.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-08-01T12:58:05.399241258Z"
+    created: "2026-08-10T06:12:59.933887167Z"
     description: A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
     digest: 3828d7d7634381ee03192871edb9eaa8cf9f4a4dde2bbd8ff74b514395c20641
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -74,7 +74,7 @@ entries:
     version: v1.0.2
   - apiVersion: v2
     appVersion: latest
-    created: "2026-08-01T12:58:05.398788804Z"
+    created: "2026-08-10T06:12:59.933402864Z"
     description: A Helm chart for Kubernetes
     digest: 1c6387d10faf7bd96da65518374375ef07a08f432ccb855e7db139e4d7e8ec42
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -89,9 +89,9 @@ entries:
   gateway-api-crds:
   - apiVersion: v2
     appVersion: v1.6.1
-    created: "2026-08-01T12:58:05.405168832Z"
+    created: "2026-08-10T06:12:59.939122658Z"
     description: Kubernetes Gateway API CRDs
-    digest: 7faec9f5030e85b842d72a42f73b3bcf75dc0d60bd3b2373b4aa56c100693145
+    digest: 7174298820790f29d72da56dd2d22e3ca1c1ef8655a82b1dc89345a2c77e9dfe
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -106,9 +106,9 @@ entries:
   tgbs:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-08-01T12:58:05.405740834Z"
+    created: "2026-08-10T06:12:59.939588214Z"
     description: A Helm chart for Kubernetes
-    digest: 287d266fb2b00c9eafcd7dea2681a524f7b2dcd23fe0856c426388de6dcbbace
+    digest: 0bee8cf48709de2c55800a43149c7b9ab53ce2a926947a0d19f99f8987c27f5e
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -120,7 +120,7 @@ entries:
     version: v1.0.1
   - apiVersion: v2
     appVersion: latest
-    created: "2026-08-01T12:58:05.405606354Z"
+    created: "2026-08-10T06:12:59.939453412Z"
     description: A Helm chart for Kubernetes
     digest: e506af8547595a3ec683d43102b9bf49f724204585c731bf10cc3f4192e95316
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -133,7 +133,7 @@ entries:
     - tgbs-v1.0.0.tgz
     version: v1.0.0
   - apiVersion: v2
-    created: "2026-08-01T12:58:05.405455759Z"
+    created: "2026-08-10T06:12:59.939309517Z"
     description: A Helm chart for Kubernetes
     digest: 05527500ce54454dd2782dab9d045c4ef9eb2b524043b35715d44b2b76e5a4ad
     icon: https://avatars.githubusercontent.com/u/12152522
@@ -145,4 +145,4 @@ entries:
     urls:
     - tgbs-v0.2.3.tgz
     version: v0.2.3
-generated: "2026-08-01T12:58:05.391297305Z"
+generated: "2026-08-10T06:12:59.924704259Z"
