@@ -1,10 +1,10 @@
 {
   "versions": {
     "argo-cd": {
-      "app_version": "v3.4.6",
+      "app_version": "v3.5.0",
       "chart": "argo/argo-cd",
       "current": "10.2.2",
-      "version": "10.2.2"
+      "version": "10.3.0"
     },
     "argo-rollouts": {
       "app_version": "v1.9.1",
@@ -22,7 +22,7 @@
       "app_version": "v0.46.0",
       "chart": "atlantis/atlantis",
       "current": "6.10.0",
-      "version": "6.10.0"
+      "version": "6.11.0"
     },
     "external-dns": {
       "app_version": "0.21.0",
@@ -31,10 +31,10 @@
       "version": "1.21.1"
     },
     "external-secrets": {
-      "app_version": "v2.8.0",
+      "app_version": "v2.9.0",
       "chart": "external-secrets/external-secrets",
       "current": "2.8.0",
-      "version": "2.8.0"
+      "version": "2.9.0"
     },
     "grafana": {
       "app_version": "12.3.1",
@@ -58,6 +58,7 @@
     "kite": {
       "app_version": "v0.14.1",
       "chart": "kite/kite",
+      "current": "0.14.1",
       "version": "0.14.1"
     },
     "loki-stack": {
@@ -87,8 +88,8 @@
     "prometheus-stack": {
       "app_version": "v0.93.0",
       "chart": "prometheus/kube-prometheus-stack",
-      "current": "87.21.0",
-      "version": "88.0.1"
+      "current": "88.0.1",
+      "version": "88.2.0"
     },
     "promtail": {
       "app_version": "3.5.1",
