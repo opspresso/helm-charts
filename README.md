@@ -41,9 +41,10 @@ python3 bump.py
 <!--- BEGIN_VERSION --->
 | NAME | | CURRENT | LATEST |
 | --- | - | --- | --- |
-| argo-cd |  | 10.2.2 | 10.3.0 (v3.5.0) |
+| alloy | ✅ | 1.11.1 | 1.11.1 (v1.18.1) |
+| argo-cd |  | 10.2.2 | 10.3.2 (v3.5.0) |
 | argo-rollouts | ✅ | 2.41.1 | 2.41.1 (v1.9.1) |
-| argo-workflows | ✅ | 1.0.23 | 1.0.23 (v4.0.8) |
+| argo-workflows |  | 1.0.23 | 1.0.24 (v4.0.8) |
 | atlantis |  | 6.10.0 | 6.11.0 (v0.46.0) |
 | external-dns | ✅ | 1.21.1 | 1.21.1 (0.21.0) |
 | external-secrets |  | 2.8.0 | 2.9.0 (v2.9.0) |
@@ -51,12 +52,11 @@ python3 bump.py
 | istio | ✅ | 1.30.3 | 1.30.3 (1.30.3) |
 | karpenter |  |  | 1.14.0 (1.14.0) |
 | kite | ✅ | 0.14.1 | 0.14.1 (v0.14.1) |
-| loki-stack | ✅ | 2.10.3 | 2.10.3 (v2.9.3) |
+| loki |  | 6.55.0 | 7.2.0 (3.6.11) |
 | metrics-server | ✅ | 3.13.1 | 3.13.1 (0.8.1) |
 | oauth2-proxy | ✅ | 10.7.0 | 10.7.0 (7.15.3) |
 | prometheus-adapter | ✅ | 5.3.0 | 5.3.0 (v0.12.0) |
 | prometheus-stack |  | 88.0.1 | 88.2.0 (v0.93.0) |
-| promtail | ✅ | 6.17.1 | 6.17.1 (3.5.1) |
 | raw |  |  | 0.2.5 (0.2.3) |
 <!--- END_VERSION --->
 
