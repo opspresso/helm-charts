@@ -8,7 +8,7 @@ A Helm chart for Kubernetes
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Jungyoul Yu (Bruce) | <bruce@daangn.com> |  |
+| Jungyoul Yu | <me@nalbam.com> |  |
 
 ## Values
 
