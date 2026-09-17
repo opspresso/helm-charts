@@ -269,6 +269,22 @@ routing:
       - name: infra-gateway
         namespace: istio-system
 
+  gateway:
+    enabled: false
+    annotations: {}
+    name: ""
+    className: traefik
+    listeners:
+      - name: https
+        protocol: HTTPS
+        port: 443
+        tls:
+          mode: Terminate
+          certificateRefs: []
+        allowedRoutes:
+          namespaces:
+            from: Same
+
   backendTLSPolicy:
     enabled: false
     annotations: {}

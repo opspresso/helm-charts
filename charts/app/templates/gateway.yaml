@@ -1,0 +1,18 @@
+{{- if .Values.routing.gateway.enabled }}
+{{- $fullName := include "app.fullname" . -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ .Values.routing.gateway.name | default (printf "%s-gateway" $fullName) }}
+  namespace: {{ include "app.namespace" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+  {{- with .Values.routing.gateway.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  gatewayClassName: {{ .Values.routing.gateway.className }}
+  listeners:
+    {{- toYaml .Values.routing.gateway.listeners | nindent 4 }}
+{{- end }}

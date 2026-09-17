@@ -76,6 +76,15 @@ A Helm chart for Kubernetes
 | routing.httpRoute.enabled | bool | `false` |  |
 | routing.httpRoute.parentRefs[0].name | string | `"infra-gateway"` |  |
 | routing.httpRoute.parentRefs[0].namespace | string | `"istio-system"` |  |
+| routing.gateway.annotations | object | `{}` |  |
+| routing.gateway.className | string | `"traefik"` |  |
+| routing.gateway.enabled | bool | `false` |  |
+| routing.gateway.listeners[0].allowedRoutes.namespaces.from | string | `"Same"` |  |
+| routing.gateway.listeners[0].name | string | `"https"` |  |
+| routing.gateway.listeners[0].port | int | `443` |  |
+| routing.gateway.listeners[0].protocol | string | `"HTTPS"` |  |
+| routing.gateway.listeners[0].tls.mode | string | `"Terminate"` |  |
+| routing.gateway.name | string | `""` |  |
 | routing.ingress.annotations | object | `{}` |  |
 | routing.ingress.className | string | `""` |  |
 | routing.ingress.enabled | bool | `false` |  |
