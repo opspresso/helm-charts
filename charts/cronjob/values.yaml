@@ -62,6 +62,9 @@ rbac:
 
 schedule: "0 * * * *"
 
+# -- Whether to suspend the Kubernetes CronJob; explicit false restores GitOps ownership after a manual pause.
+suspend: false
+
 # activeDeadlineSeconds: 3600
 
 backoffLimit: 0

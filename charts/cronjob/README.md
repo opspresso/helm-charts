@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v1.1.0](https://img.shields.io/badge/Version-v1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.1.1](https://img.shields.io/badge/Version-v1.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 
@@ -72,6 +72,7 @@ A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 | serviceAccount.create | bool | `false` |  |
 | serviceAccount.name | string | `""` |  |
 | successfulJobsHistoryLimit | int | `3` |  |
+| suspend | bool | `false` | Whether to suspend the Kubernetes CronJob; explicit false restores GitOps ownership after a manual pause. |
 | tolerations | list | `[]` |  |
 | type | string | `"CronJob"` |  |
 
