@@ -62,6 +62,10 @@ rbac:
 
 schedule: "0 * * * *"
 
+# -- Maximum seconds after a missed schedule when the controller may still start that Job.
+# Null retains Kubernetes' default; set a bound before suspending a CronJob for maintenance.
+startingDeadlineSeconds: null
+
 # -- Whether to suspend the Kubernetes CronJob; explicit false restores GitOps ownership after a manual pause.
 suspend: false
 

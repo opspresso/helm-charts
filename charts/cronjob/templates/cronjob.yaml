@@ -7,6 +7,9 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
 spec:
   schedule: {{ .Values.schedule | quote }}
+  {{- with .Values.startingDeadlineSeconds }}
+  startingDeadlineSeconds: {{ . }}
+  {{- end }}
   suspend: {{ .Values.suspend | default false }}
   successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default "3" }}
   failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default "3" }}

@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v1.1.1](https://img.shields.io/badge/Version-v1.1.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.1.2](https://img.shields.io/badge/Version-v1.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 
@@ -66,6 +66,7 @@ A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 | resources | object | `{}` |  |
 | restartPolicy | string | `"Never"` |  |
 | schedule | string | `"0 * * * *"` |  |
+| startingDeadlineSeconds | int/null | `null` | Maximum seconds after a missed schedule when the controller may still start that Job. Null retains Kubernetes' default. |
 | secret.data | object | `{}` |  |
 | secret.enabled | bool | `false` |  |
 | serviceAccount.annotations | object | `{}` |  |
