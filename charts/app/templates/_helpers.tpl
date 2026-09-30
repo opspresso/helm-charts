@@ -33,7 +33,11 @@ Return application version.
 Return application image.
 */}}
 {{- define "app.image" -}}
+{{- if .Values.image.reference -}}
+{{- .Values.image.reference -}}
+{{- else -}}
 {{- printf "%s:%s" .Values.image.repository (include "app.version" .) -}}
+{{- end -}}
 {{- end -}}
 
 {{/*

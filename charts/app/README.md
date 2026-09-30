@@ -1,6 +1,6 @@
 # app
 
-![Version: v1.3.0](https://img.shields.io/badge/Version-v1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.6.0](https://img.shields.io/badge/Version-v1.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -9,6 +9,34 @@ A Helm chart for Kubernetes
 | Name | Email | Url |
 | ---- | ------ | --- |
 | Jungyoul Yu | <me@nalbam.com> |  |
+
+## Workers and parent composition
+
+Set `service.enabled: false` for a worker: this omits the Service, its default
+container port, and the connection test. Explicit `extraPorts` remain available.
+`containerName` defaults to `app`; `automountServiceAccountToken: null` preserves
+Kubernetes defaults, while either boolean is rendered explicitly. `envFrom`
+replaces generated references when nonempty, preserving the supplied order.
+`image.reference` accepts a complete image reference, including a digest, and
+has precedence over `image.repository`/`image.tag`.
+
+A parent chart may set `controller.enabled: false` and call the public
+`app.deployment` template with the corresponding `.Subcharts.<alias>` context.
+Resolve sibling values in the parent after Helm has merged all values files,
+then pass a deep copy of that context with the resolved `Values`. This keeps
+worker images coupled to the main application's GitOps image tag without
+copying the Deployment template. `controller.annotations` applies to the
+Deployment/Rollout metadata; `podAnnotations` applies to the pod template.
+Service and other resources have their own enable flags.
+
+`serviceMonitor.endpoints` preserves all supplied Prometheus Operator endpoint
+fields, including authorization, TLS settings and relabeling.
+
+Run the rendering contracts with Helm and PyYAML installed:
+
+```sh
+python3 -m unittest discover -s tests -v
+```
 
 ## Values
 

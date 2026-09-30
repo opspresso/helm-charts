@@ -1,3 +1,4 @@
+{{- if .Values.service.enabled }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -15,3 +16,4 @@ spec:
       command: ['wget']
       args: ['{{ include "app.fullname" . }}:{{ .Values.service.port }}']
   restartPolicy: Never
+{{- end }}

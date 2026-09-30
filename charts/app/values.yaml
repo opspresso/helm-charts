@@ -15,6 +15,8 @@ replicaCount: 1
 revisionHistoryLimit: 3
 
 controller:
+  enabled: true
+  annotations: {}
   kind: Deployment # Deployment or Rollout
 
   strategy:
@@ -36,6 +38,8 @@ controller:
 
 ## Container Image
 image:
+  # Complete reference (including a digest, if needed); overrides repository/tag.
+  reference: ""
   repository: nginx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart version.
@@ -45,6 +49,10 @@ imagePullSecrets: []
   # - name: my-registry-secret
 
 ## Container Spec
+containerName: app
+
+# Explicit envFrom replaces the generated config/secret references when set.
+envFrom: []
 command: []
   # - "aws"
   # - "s3"
@@ -135,6 +143,8 @@ podLabels: {}
 podAnnotations: {}
   # prometheus.io/scrape: "true"
   # prometheus.io/port: "9090"
+
+automountServiceAccountToken: null
 
 podSecurityContext: {}
   # runAsUser: 1000
@@ -228,6 +238,7 @@ irsa:
 
 ## Service & Networking
 service:
+  enabled: true
   type: ClusterIP
   name: http
   protocol: TCP

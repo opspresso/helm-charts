@@ -11,11 +11,7 @@ metadata:
     {{- end }}
 spec:
   endpoints:
-  {{- range .Values.serviceMonitor.endpoints }}
-    - interval: {{ .interval | quote }}
-      path: {{ .path | quote }}
-      port: {{ .port | quote }}
-  {{- end }}
+    {{- toYaml .Values.serviceMonitor.endpoints | nindent 4 }}
   selector:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}

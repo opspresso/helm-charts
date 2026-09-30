@@ -1,0 +1,250 @@
+{{- define "app.deployment" -}}
+{{- /* Validations */ -}}
+{{- if and (eq .Values.controller.kind "Deployment") (or (eq .Values.controller.strategy.type "BlueGreen") (eq .Values.controller.strategy.type "Canary")) -}}
+{{- fail (printf "Deployment does not support %s strategy. Set controller.kind to Rollout." .Values.controller.strategy.type) -}}
+{{- end -}}
+{{- if and (eq .Values.controller.strategy.type "Canary") (not .Values.controller.strategy.canary.steps) -}}
+{{- fail "Canary strategy requires at least one step in controller.strategy.canary.steps." -}}
+{{- end -}}
+{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) -}}
+{{- if not .Values.autoscaling.enabled -}}
+{{- if and (gt (int .Values.replicaCount) 1) (has "ReadWriteOnce" .Values.persistence.accessModes) -}}
+{{- fail "replicaCount > 1 with ReadWriteOnce PVC is not supported. Use ReadWriteMany or set replicaCount to 1." -}}
+{{- end -}}
+{{- else -}}
+{{- if and (gt (int .Values.autoscaling.maxReplicas) 1) (has "ReadWriteOnce" .Values.persistence.accessModes) -}}
+{{- fail "autoscaling.maxReplicas > 1 with ReadWriteOnce PVC is not supported. Use ReadWriteMany or set maxReplicas to 1." -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+{{- if .Values.podAntiAffinity -}}
+{{- if and .Values.affinity (hasKey .Values.affinity "podAntiAffinity") -}}
+{{- fail "Cannot set both affinity.podAntiAffinity and podAntiAffinity. Use one or the other." -}}
+{{- end -}}
+{{- end -}}
+{{- if eq .Values.controller.kind "Rollout" }}
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+{{- else }}
+apiVersion: apps/v1
+kind: Deployment
+{{- end }}
+metadata:
+  name: {{ include "app.fullname" . }}
+  namespace: {{ include "app.namespace" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+  {{- with .Values.controller.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  strategy:
+    {{- if eq .Values.controller.strategy.type "BlueGreen" }}
+    blueGreen:
+      activeService: {{ include "app.fullname" . }}
+      {{- toYaml .Values.controller.strategy.blueGreen | nindent 6 }}
+    {{- else if eq .Values.controller.strategy.type "Canary" }}
+    canary:
+      stableService: {{ include "app.fullname" . }}
+      steps:
+        {{- toYaml .Values.controller.strategy.canary.steps | nindent 8 }}
+    {{- else if eq .Values.controller.kind "Rollout" }}
+    canary:
+      {{- toYaml .Values.controller.strategy.rollingUpdate | nindent 6 }}
+    {{- else }}
+    type: {{ .Values.controller.strategy.type }}
+    {{- if eq .Values.controller.strategy.type "RollingUpdate" }}
+    rollingUpdate:
+      {{- toYaml .Values.controller.strategy.rollingUpdate | nindent 6 }}
+    {{- end }}
+    {{- end }}
+  template:
+    metadata:
+      {{- $configChecksum := and .Values.configmap.enabled .Values.configmap.data }}
+      {{- $secretChecksum := and .Values.secret.enabled .Values.secret.data }}
+      {{- if or .Values.podAnnotations $configChecksum $secretChecksum }}
+      annotations:
+        {{- if $configChecksum }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- end }}
+        {{- if $secretChecksum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- end }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- end }}
+      labels:
+        {{- include "app.podLabels" . | nindent 8 }}
+      {{- if .Values.podLabels }}
+        {{- toYaml .Values.podLabels | nindent 8 }}
+      {{- end }}
+
+    spec:
+      {{- with .Values.initContainers }}
+      initContainers:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.containerName }}
+          image: {{ include "app.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          {{- with .Values.args }}
+          args:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.command }}
+          command:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.service.enabled }}
+          ports:
+            - name: {{ .Values.service.name }}
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: {{ .Values.service.protocol }}
+            {{- with .Values.extraPorts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- else }}
+          {{- with .Values.extraPorts }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.startupProbe }}
+          startupProbe:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.resources }}
+          resources:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.securityContext }}
+          securityContext:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.lifecycle }}
+          lifecycle:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.env }}
+          env:
+{{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if .Values.envFrom }}
+          envFrom:
+            {{- toYaml .Values.envFrom | nindent 12 }}
+          {{- else if or .Values.configmap.enabled .Values.secret.enabled .Values.externalSecrets.enabled .Values.additionalConfigmap.enabled .Values.additionalSecret.enabled }}
+          envFrom:
+            {{- if .Values.configmap.enabled }}
+            - configMapRef:
+                name: {{ include "app.fullname" . }}
+            {{- end }}
+            {{- if .Values.secret.enabled }}
+            - secretRef:
+                name: {{ include "app.fullname" . }}
+            {{- end }}
+            {{- if .Values.externalSecrets.enabled }}
+            - secretRef:
+                name: {{ include "app.fullname" . }}-external
+            {{- end }}
+            {{- if .Values.additionalConfigmap.enabled }}
+            {{- range .Values.additionalConfigmap.names }}
+            - configMapRef:
+                name: {{ . }}
+            {{- end }}
+            {{- end }}
+            {{- if .Values.additionalSecret.enabled }}
+            {{- range .Values.additionalSecret.names }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
+            {{- end }}
+          {{- end }}
+          {{- if or .Values.persistence.enabled .Values.extraVolumeMounts }}
+          volumeMounts:
+            {{- if .Values.persistence.enabled }}
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath | quote }}
+              {{- if .Values.persistence.subPath }}
+              subPath: {{ .Values.persistence.subPath }}
+              {{- end }}
+            {{- end }}
+            {{- with .Values.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+        {{- with .Values.sidecars }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirst" }}
+      restartPolicy: {{ .Values.restartPolicy | default "Always" }}
+      {{- if kindIs "bool" .Values.automountServiceAccountToken }}
+      automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+{{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if or .Values.affinity .Values.podAntiAffinity }}
+      affinity:
+        {{- with .Values.affinity }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- with .Values.podAntiAffinity }}
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "app.selectorLabels" $ | nindent 20 }}
+                topologyKey: {{ .topologyKey | default "kubernetes.io/hostname" }}
+        {{- end }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+{{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+{{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if or .Values.persistence.enabled .Values.extraVolumes }}
+      volumes:
+        {{- if .Values.persistence.enabled }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "app.fullname" .) }}
+        {{- end }}
+        {{- with .Values.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- end }}
+{{- end -}}
