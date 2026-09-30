@@ -1,0 +1,11 @@
+{{- range $name, $values := .Values.workloads }}
+{{- $overrides := tpl (default "" $values.overrides) $ | fromYaml }}
+{{- if hasKey $overrides "Error" }}{{ fail (index $overrides "Error") }}{{ end }}
+{{- $settings := mergeOverwrite (deepCopy $.Values.workloadDefaults) (deepCopy $values) $overrides }}
+{{- if $settings.enabled }}
+{{- $context := deepCopy $ }}
+{{- $_ := set $context "Values" $settings }}
+---
+{{ include "app.deployment" $context }}
+{{- end }}
+{{- end }}

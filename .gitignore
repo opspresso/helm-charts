@@ -21,3 +21,7 @@ build/
 # JetBrains
 .idea/
 *.iml
+
+# Packaged dependencies are rebuilt from Chart.lock.
+charts/*/charts/
+__pycache__/

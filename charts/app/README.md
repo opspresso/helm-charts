@@ -1,6 +1,6 @@
 # app
 
-![Version: v1.6.0](https://img.shields.io/badge/Version-v1.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.7.0](https://img.shields.io/badge/Version-v1.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -20,14 +20,33 @@ replaces generated references when nonempty, preserving the supplied order.
 `image.reference` accepts a complete image reference, including a digest, and
 has precedence over `image.repository`/`image.tag`.
 
-A parent chart may set `controller.enabled: false` and call the public
-`app.deployment` template with the corresponding `.Subcharts.<alias>` context.
-Resolve sibling values in the parent after Helm has merged all values files,
-then pass a deep copy of that context with the resolved `Values`. This keeps
-worker images coupled to the main application's GitOps image tag without
-copying the Deployment template. `controller.annotations` applies to the
-Deployment/Rollout metadata; `podAnnotations` applies to the pod template.
-Service and other resources have their own enable flags.
+Declare extra workers in `workloads.<name>`, using the same settings as the main
+app. An optional `overrides` YAML template is evaluated against the main app's
+final values, so a worker can reference `.Values.image` without duplicating a
+GitOps image tag. Every worker starts from `workloadDefaults`, independently of
+the main app's probes, scaling, identity and credentials. `enabled: false` omits
+a worker. These entries render only Deployments/Rollouts; use a separate app
+alias for a workload requiring its own Service or other app resources.
+
+```yaml
+workloads:
+  worker:
+    fullnameOverride: example-worker
+    service:
+      enabled: false
+    command: [node, worker.js]
+    overrides: |
+      image: {{ toYaml .Values.image | nindent 2 }}
+```
+
+For additional resources, enable the bundled incubator/raw dependency with
+`raw.enabled: true`. Standard `raw.resources` and `raw.templates` retain their
+upstream behavior. `raw.parentTemplates` is a list of YAML template strings
+that can reference the main app values and produce conditional/multiple YAML
+documents. Empty documents are omitted; malformed YAML fails rendering. This
+keeps wrappers free of Helm templates while retaining one image/config source.
+`controller.annotations` applies to Deployment/Rollout metadata;
+`podAnnotations` applies to the pod template.
 
 `serviceMonitor.endpoints` preserves all supplied Prometheus Operator endpoint
 fields, including authorization, TLS settings and relabeling.
@@ -35,6 +54,7 @@ fields, including authorization, TLS settings and relabeling.
 Run the rendering contracts with Helm and PyYAML installed:
 
 ```sh
+helm dependency build charts/app
 python3 -m unittest discover -s tests -v
 ```
 

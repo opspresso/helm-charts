@@ -1,0 +1,6 @@
+dependencies:
+- name: raw
+  repository: https://charts.helm.sh/incubator
+  version: 0.2.5
+digest: sha256:9822961b69356d5aa2bcbd5de931adf1d1ab10694357a1dd249e4d894077159b
+generated: "2026-10-01T01:05:51.485068+09:00"

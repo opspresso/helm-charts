@@ -4,7 +4,13 @@ icon: https://avatars.githubusercontent.com/u/38965494
 name: app
 type: application
 appVersion: latest
-version: v1.6.0
+version: v1.7.0
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu
+
+dependencies:
+  - name: raw
+    repository: https://charts.helm.sh/incubator
+    version: "0.2.5"
+    condition: raw.enabled

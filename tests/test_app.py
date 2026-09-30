@@ -58,6 +58,34 @@ class AppTests(unittest.TestCase):
     def test_controller_can_be_rendered_by_parent(self):
         self.assertEqual(render({'controller': {'enabled': False}, 'service': {'enabled': False}}), [])
 
+    def test_extra_worker_tracks_image_without_inheriting_web_configuration(self):
+        docs = render({'image': {'repository': 'example/app', 'tag': 'v9'},
+                       'replicaCount': 4, 'configmap': {'enabled': True, 'data': {'WEB_ONLY': 'yes'}},
+                       'readinessProbe': {'httpGet': {'path': '/ready', 'port': 3000}},
+                       'workloads': {'worker': {'fullnameOverride': 'worker',
+                                                'containerName': 'worker', 'service': {'enabled': False},
+                                                'command': ['node', 'worker.js'],
+                                                'overrides': 'image: {{ toYaml .Values.image | nindent 2 }}'}}})
+        worker = next(d for d in docs if d['kind'] == 'Deployment' and d['metadata']['name'] == 'worker')
+        self.assertEqual(worker['spec']['replicas'], 1)
+        container = worker['spec']['template']['spec']['containers'][0]
+        self.assertEqual(container['image'], 'example/app:v9')
+        self.assertEqual(container['command'], ['node', 'worker.js'])
+        self.assertNotIn('envFrom', container)
+        self.assertNotIn('readinessProbe', container)
+        self.assertNotIn('ports', container)
+
+    def test_raw_uses_main_context_and_omits_disabled_documents(self):
+        docs = render({'image': {'tag': 'v9'}, 'raw': {'enabled': True, 'parentTemplates': [
+            'apiVersion: v1\nkind: ConfigMap\nmetadata: {name: extra}\ndata: {version: {{ .Values.image.tag | quote }}}',
+            '{{ if false }}apiVersion: v1\nkind: ConfigMap{{ end }}',
+        ]}})
+        extra = next(d for d in docs if d['kind'] == 'ConfigMap')
+        self.assertEqual(extra['data']['version'], 'v9')
+        self.assertTrue(all('kind' in d and 'apiVersion' in d for d in docs))
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'raw': {'enabled': True, 'parentTemplates': ['broken: [']}})
+
     def test_monitor_keeps_authentication_and_optional_endpoint_fields(self):
         endpoints = [{'port': 'http', 'path': '/metrics', 'interval': '15s',
                       'authorization': {'type': 'Bearer', 'credentials': {'name': 'metrics', 'key': 'token'}},
