@@ -21,6 +21,26 @@ def render(values):
 
 
 class AppTests(unittest.TestCase):
+    def test_connection_probe_reserves_resources_only_on_reserved_platforms(self):
+        resources = {'requests': {'cpu': '100m', 'memory': '128Mi'}, 'limits': {'memory': '256Mi'}}
+        pod = next(d for d in render({'resources': resources}) if d['kind'] == 'Pod')
+        self.assertEqual(pod['spec']['containers'][0]['resources'], {'requests': {'cpu': '10m', 'memory': '16Mi'}, 'limits': {'memory': '64Mi'}})
+        pod = next(d for d in render({'resources': None}) if d['kind'] == 'Pod')
+        self.assertNotIn('resources', pod['spec']['containers'][0])
+
+    def test_additional_config_and_pod_annotations_follow_their_inputs(self):
+        values = {'capacity': 8, 'raw': {'enabled': True, 'parentTemplates': [
+            'apiVersion: v1\nkind: ConfigMap\nmetadata: {name: additional}\ndata: {CAPACITY: {{ .Values.capacity | quote }}}',
+        ]}, 'podAnnotations': {'checksum/capacity': '{{ .Values.capacity | toString | sha256sum }}'}}
+        before = render(values)
+        values['capacity'] = 32
+        after = render(values)
+        config = next(d for d in after if d['kind'] == 'ConfigMap')
+        self.assertEqual(config['data'], {'CAPACITY': '32'})
+        old = next(d for d in before if d['kind'] == 'Deployment')['spec']['template']['metadata']['annotations']
+        new = next(d for d in after if d['kind'] == 'Deployment')['spec']['template']['metadata']['annotations']
+        self.assertNotEqual(old['checksum/capacity'], new['checksum/capacity'])
+
     def test_defaults_preserve_web_app(self):
         docs = render({})
         self.assertEqual({doc['kind'] for doc in docs}, {'Deployment', 'Service', 'Pod'})

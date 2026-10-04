@@ -1,6 +1,6 @@
 # app
 
-![Version: v1.7.0](https://img.shields.io/badge/Version-v1.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.7.1](https://img.shields.io/badge/Version-v1.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -47,6 +47,11 @@ documents. Empty documents are omitted; malformed YAML fails rendering. This
 keeps wrappers free of Helm templates while retaining one image/config source.
 `controller.annotations` applies to Deployment/Rollout metadata;
 `podAnnotations` applies to the pod template.
+
+`podAnnotations` is evaluated as a Helm template against the final app values.
+It can checksum inputs used by `raw.parentTemplates` so changes to additional
+configuration restart the app. Use trusted operator-owned annotation values;
+literal template delimiters must be escaped with Helm template syntax.
 
 `serviceMonitor.endpoints` preserves all supplied Prometheus Operator endpoint
 fields, including authorization, TLS settings and relabeling.
