@@ -21,6 +21,13 @@ def render(values):
 
 
 class AppTests(unittest.TestCase):
+    def test_connection_probe_reserves_resources_only_on_reserved_platforms(self):
+        resources = {'requests': {'cpu': '100m', 'memory': '128Mi'}, 'limits': {'memory': '256Mi'}}
+        pod = next(d for d in render({'resources': resources}) if d['kind'] == 'Pod')
+        self.assertEqual(pod['spec']['containers'][0]['resources'], {'requests': {'cpu': '10m', 'memory': '16Mi'}, 'limits': {'memory': '64Mi'}})
+        pod = next(d for d in render({'resources': None}) if d['kind'] == 'Pod')
+        self.assertNotIn('resources', pod['spec']['containers'][0])
+
     def test_additional_config_and_pod_annotations_follow_their_inputs(self):
         values = {'capacity': 8, 'raw': {'enabled': True, 'parentTemplates': [
             'apiVersion: v1\nkind: ConfigMap\nmetadata: {name: additional}\ndata: {CAPACITY: {{ .Values.capacity | quote }}}',

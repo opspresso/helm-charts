@@ -15,5 +15,10 @@ spec:
       image: busybox
       command: ['wget']
       args: ['{{ include "app.fullname" . }}:{{ .Values.service.port }}']
+      {{- if .Values.resources }}
+      resources:
+        requests: {cpu: 10m, memory: 16Mi}
+        limits: {memory: 64Mi}
+      {{- end }}
   restartPolicy: Never
 {{- end }}
