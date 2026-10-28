@@ -6,7 +6,8 @@
 # `workloads` starts from the same defaults. A worker therefore never inherits
 # the main application's probes, scaling or credentials.
 workloadDefaults: &workloadDefaults
-  # Set false to omit this workload. A parent chart can then render it itself.
+  # Set false to omit every object of this workload. At the root, this omits
+  # the main app; the workers still render.
   enabled: true
 
   ## Chart Identity
@@ -23,7 +24,8 @@ workloadDefaults: &workloadDefaults
 
   ## Controller (Deployment / Rollout)
   controller:
-    # Set false to omit the Deployment or Rollout of the main app.
+    # Set false to omit only the Deployment or Rollout of this workload, for
+    # example when a parent chart renders it.
     enabled: true
     # Annotations of the Deployment or Rollout object, not of its Pods.
     annotations: {}
@@ -484,12 +486,12 @@ workloadDefaults: &workloadDefaults
 ## Release Resources
 # These settings apply once per release. They are not in workloadDefaults.
 
-# Additional worker Deployments. Each item accepts the settings above and an
-# optional overrides YAML template evaluated in the main app context after the
-# values merge. Workers render only a Deployment or Rollout.
+# Extra workloads. Each item accepts the settings above and renders its own
+# objects. The fullname defaults to <main fullname>-<key in kebab-case>.
+# overrides is an optional YAML template evaluated against the final main app
+# values after the merge.
 workloads: {}
   # worker:
-  #   fullnameOverride: my-app-worker
   #   service:
   #     enabled: false
   #   command: [node, worker.js]
@@ -497,7 +499,8 @@ workloads: {}
   #     image: {{ toYaml .Values.image | nindent 2 }}
 
 # Allows only the listed traffic to every Pod of this release: the main app and
-# its workers. Workers must stay in the release namespace. Each direction in policyTypes without rules denies all traffic.
+# its workers. Workers must stay in the release namespace. A direction in
+# policyTypes without rules denies all traffic in that direction.
 networkPolicy:
   enabled: false
   policyTypes: [Ingress] # Ingress, Egress

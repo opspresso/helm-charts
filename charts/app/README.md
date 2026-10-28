@@ -1,10 +1,10 @@
 # app
 
-![Version: v1.8.0](https://img.shields.io/badge/Version-v1.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.8.0](https://img.shields.io/badge/Version-v2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 One application on Kubernetes: a Deployment or Argo Rollout with its Service,
-routing, scaling, configuration and policies. Workers of the same release use
-the same settings.
+routing, scaling, configuration and policies. Each worker of the same release
+accepts the same settings and renders its own objects.
 
 ## Maintainers
 
@@ -24,10 +24,13 @@ the dependency name, for example `app:`.
 
 ## What the chart renders
 
+Each workload renders these objects with its own settings. A workload is the
+main app or one entry in `workloads`.
+
 | Object | Enabled by |
 | --- | --- |
 | Deployment or Rollout | `controller.enabled` (default `true`), `controller.kind` |
-| Service and connection test Pod | `service.enabled` (default `true`) |
+| Service | `service.enabled` (default `true`) |
 | ServiceAccount | `serviceAccount.create` or `irsa.enabled` |
 | ClusterRole and ClusterRoleBinding, or Role and RoleBinding | `rbac.create`, `rbac.namespaced` |
 | ConfigMap, Secret | `configmap.enabled`, `secret.enabled` |
@@ -38,13 +41,19 @@ the dependency name, for example `app:`.
 | HorizontalPodAutoscaler, PodDisruptionBudget | `autoscaling.enabled`, `pdb.enabled` |
 | PersistentVolumeClaim | `persistence.enabled` without `existingClaim` |
 | ServiceMonitor | `serviceMonitor.enabled` and the `monitoring.coreos.com/v1` API |
+
+The release renders these objects once:
+
+| Object | Enabled by |
+| --- | --- |
+| Connection test Pod (Helm test hook) of the main app | `service.enabled` |
 | NetworkPolicy, ResourceQuota | `networkPolicy.enabled`, `resourceQuota.enabled` |
-| Worker Deployments or Rollouts | `workloads.<name>` |
 | Other objects | `raw.enabled` |
 
 The chart stops rendering with an error when values conflict. Examples:
 `BlueGreen` with a Deployment, autoscaling without metrics, a PDB with both
-budgets, or `rbac.create` without a ServiceAccount.
+budgets, `rbac.create` without a ServiceAccount, or two workloads with the
+same fullname.
 
 ## Configuration and secrets
 
@@ -121,29 +130,57 @@ a namespace, so enable it in one release per namespace.
 
 ## Workers
 
-Set `service.enabled: false` for a worker: this omits the Service, its default
-container port and the connection test. Explicit `extraPorts` remain available.
-`containerName` defaults to `app`; `automountServiceAccountToken: null` keeps
-the Kubernetes default, while either boolean is rendered explicitly.
+Declare extra workloads in `workloads.<key>`, for example a queue consumer or a
+scheduler. A worker accepts the same settings as the main app and renders its
+own objects: an HPA, a PDB, a ConfigMap, a ServiceAccount and so on. Each worker
+starts from `workloadDefaults`. It does not inherit the probes, scaling,
+identity or credentials of the main app.
 
-Declare extra workers in `workloads.<name>`, using the same settings as the main
-app. An optional `overrides` YAML template is evaluated against the main app's
-final values, so a worker can reference `.Values.image` without duplicating a
-GitOps image tag. Every worker starts from `workloadDefaults`, independently of
-the main app's probes, scaling, identity and credentials. `enabled: false` omits
-a worker. These entries render only Deployments or Rollouts; use a separate app
-alias for a workload that needs its own Service or other app resources.
+- **Name**: the worker fullname is `<main fullname>-<key in kebab-case>`. Set
+  `fullnameOverride` or `nameOverride` to change it. Two workloads with the same
+  fullname stop the render.
+- **Service**: `service.enabled` defaults to `true`. Set it to `false` for a
+  worker that receives no traffic. This omits the Service and the default
+  container port. Explicit `extraPorts` remain available.
+- **Shared values**: the optional `overrides` YAML template is evaluated
+  against the final values of the main app, after the merge. Use it to reuse
+  the image or other main app values without duplicating a GitOps image tag.
+- **Shared configuration**: a worker that reads the ConfigMap or Secret of the
+  main app references it in `envFrom` or `additionalConfigmap`. A worker
+  `configmap` renders a separate ConfigMap for that worker.
+- `enabled: false` omits a worker. At the root, it omits the main app, and the
+  workers still render.
 
 ```yaml
 workloads:
   worker:
-    fullnameOverride: example-worker
     service:
       enabled: false
     command: [node, worker.js]
+    additionalConfigmap:
+      enabled: true
+      names: [my-app]
     overrides: |
       image: {{ toYaml .Values.image | nindent 2 }}
 ```
+
+With the release name `my-app` and the chart name `app`, this renders the
+Deployment `my-app-app-worker`.
+
+## Upgrade from v1
+
+v2.0.0 changes these contracts:
+
+- A worker renders every object that its settings enable, not only the
+  Deployment. Review worker values that enable `pdb`, `autoscaling`,
+  `configmap`, `secret`, `externalSecrets`, `serviceAccount`, `rbac`,
+  `persistence`, `serviceMonitor` or a route.
+- A worker without `fullnameOverride` or `nameOverride` is named
+  `<main fullname>-<key>`. In v1 it used the fullname of the main app.
+- The `restartPolicy` value is removed. Deployments and Rollouts accept only
+  `Always`, which is the Kubernetes default.
+- `routing.pathType` accepts only `Prefix` or `Exact`.
+- The Istio VirtualService matches `routing.path`.
 
 ## Other resources
 
@@ -185,7 +222,7 @@ apply once per release.
 
 | Key | Default | Description |
 | --- | --- | --- |
-| `enabled` | `true` | Set `false` to omit this workload. |
+| `enabled` | `true` | Set `false` to omit every object of this workload. |
 | `nameOverride` | `""` | Replaces the chart name in the fullname. |
 | `fullnameOverride` | `""` | Name of every rendered object. |
 | `namespaceOverride` | `""` | Namespace of the rendered objects. Defaults to the release namespace. |
@@ -195,7 +232,7 @@ apply once per release.
 
 | Key | Default | Description |
 | --- | --- | --- |
-| `controller.enabled` | `true` | Set `false` to omit the main Deployment or Rollout. |
+| `controller.enabled` | `true` | Set `false` to omit only the Deployment or Rollout of this workload. |
 | `controller.annotations` | `{}` | Annotations of the Deployment or Rollout object. |
 | `controller.kind` | `"Deployment"` | `Deployment` or `Rollout` (Argo Rollouts). |
 | `controller.strategy.type` | `"RollingUpdate"` | `RollingUpdate`. `BlueGreen` and `Canary` require kind `Rollout`. |
@@ -269,7 +306,6 @@ apply once per release.
 | `priorityClassName` | `""` | PriorityClass of the Pod. |
 | `dnsPolicy` | `"ClusterFirst"` | DNS policy. |
 | `dnsConfig` | `{}` | DNS configuration, for example `ndots`. |
-| `restartPolicy` | `"Always"` | Restart policy. Deployments and Rollouts accept only `Always`. |
 | `terminationGracePeriodSeconds` | `30` | Termination grace period. |
 
 ### Storage
@@ -307,16 +343,17 @@ apply once per release.
 
 | Key | Default | Description |
 | --- | --- | --- |
-| `service.enabled` | `true` | Renders the Service, the container port and the connection test. |
+| `service.enabled` | `true` | Renders the Service and the container port. For the main app, also the connection test. |
 | `service.type` | `"ClusterIP"` | Service type. |
 | `service.name` | `"http"` | Port name of the Service and the container. |
 | `service.port` | `80` | Service port. |
 | `service.targetPort` | `3000` | Container port. |
 | `service.protocol` | `"TCP"` | Port protocol. |
+| `service.extraPorts` | `[]` | Service ports in addition to the main port. Declare each `targetPort` in `extraPorts`. |
 | `service.annotations` | `{}` | Service annotations. |
 | `routing.hosts` | `["sample.domain.com"]` | Hosts of every enabled route. |
 | `routing.path` | `"/"` | Route path. |
-| `routing.pathType` | `"Prefix"` | Route path type. `Prefix` becomes `PathPrefix` in an HTTPRoute. |
+| `routing.pathType` | `"Prefix"` | `Prefix` or `Exact`. `Prefix` becomes `PathPrefix` in an HTTPRoute. |
 | `routing.ingress` | `{"enabled":false,"className":"","annotations":{},"tls":[]}` | Ingress. Deprecated: use `httpRoute`. |
 | `routing.istio` | `{"enabled":false,"annotations":{},"gateway":{"selector":{"istio":"default-ingress-gateway"}}}` | Istio Gateway and VirtualService. |
 | `routing.httpRoute` | `{"enabled":false,"annotations":{},"parentRefs":[{"name":"infra-gateway","namespace":"istio-system"}]}` | Gateway API HTTPRoute attached to `parentRefs`. |
@@ -341,7 +378,7 @@ apply once per release.
 
 | Key | Default | Description |
 | --- | --- | --- |
-| `workloads` | `{}` | Worker Deployments. See [Workers](#workers). |
+| `workloads` | `{}` | Extra workloads, each with its own objects. See [Workers](#workers). |
 | `networkPolicy.enabled` | `false` | Renders a NetworkPolicy for every Pod of the release. |
 | `networkPolicy.policyTypes` | `["Ingress"]` | Directions to restrict: `Ingress`, `Egress`. |
 | `networkPolicy.ingress` | `[]` | Allowed ingress rules. |
