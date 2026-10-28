@@ -1,3 +1,4 @@
+{{- define "app.service-monitor" -}}
 {{- if and ( .Capabilities.APIVersions.Has "monitoring.coreos.com/v1" ) ( .Values.serviceMonitor.enabled ) }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
@@ -16,3 +17,5 @@ spec:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
 {{- end }}
+
+{{- end -}}

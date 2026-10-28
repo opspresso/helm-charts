@@ -1,3 +1,4 @@
+{{- define "app.service" -}}
 {{- if .Values.service.enabled }}
 apiVersion: v1
 kind: Service
@@ -17,6 +18,11 @@ spec:
       port: {{ .Values.service.port }}
       protocol: {{ .Values.service.protocol }}
       targetPort: {{ .Values.service.name }}
+    {{- with .Values.service.extraPorts }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
   selector:
     {{- include "app.selectorLabels" . | nindent 4 }}
 {{- end }}
+
+{{- end -}}

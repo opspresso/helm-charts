@@ -1,3 +1,4 @@
+{{- define "app.external-secrets" -}}
 {{- if .Values.externalSecrets.enabled }}
 {{- $store := .Values.externalSecrets.secretStore }}
 {{- if $store.enabled }}
@@ -54,3 +55,5 @@ spec:
     {{- tpl (toYaml .) $ | nindent 4 }}
   {{- end }}
 {{- end }}
+
+{{- end -}}

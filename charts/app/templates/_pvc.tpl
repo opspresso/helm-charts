@@ -1,3 +1,4 @@
+{{- define "app.pvc" -}}
 {{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -23,3 +24,5 @@ spec:
       {{- toYaml . | nindent 6 }}
   {{- end }}
 {{- end }}
+
+{{- end -}}

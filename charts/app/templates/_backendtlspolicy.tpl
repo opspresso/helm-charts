@@ -1,3 +1,4 @@
+{{- define "app.backendtlspolicy" -}}
 {{- if and .Values.routing.httpRoute.enabled .Values.routing.backendTLSPolicy.enabled -}}
 {{- $fullName := include "app.fullname" . -}}
 apiVersion: gateway.networking.k8s.io/v1
@@ -21,3 +22,5 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 {{- end }}
+
+{{- end -}}

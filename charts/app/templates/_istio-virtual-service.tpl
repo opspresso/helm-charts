@@ -1,3 +1,4 @@
+{{- define "app.istio-virtual-service" -}}
 {{- if .Values.routing.istio.enabled }}
 apiVersion: networking.istio.io/v1
 kind: VirtualService
@@ -20,9 +21,26 @@ spec:
     {{- end }}
   http:
     - name: primary
+      {{- $path := .Values.routing.path }}
+      match:
+        {{- if eq .Values.routing.pathType "Exact" }}
+        - uri:
+            exact: {{ $path | quote }}
+        {{- else if eq $path "/" }}
+        - uri:
+            prefix: "/"
+        {{- else }}
+        {{- /* Match whole path elements, like Prefix in Ingress and HTTPRoute: /api and /api/..., not /apix. */}}
+        - uri:
+            exact: {{ trimSuffix "/" $path | quote }}
+        - uri:
+            prefix: {{ printf "%s/" (trimSuffix "/" $path) | quote }}
+        {{- end }}
       route:
         - destination:
             host: {{ include "app.fullname" . }}
             port:
               number: {{ .Values.service.port | default "80" }}
 {{- end }}
+
+{{- end -}}

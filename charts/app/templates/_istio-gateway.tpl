@@ -1,3 +1,4 @@
+{{- define "app.istio-gateway" -}}
 {{- if .Values.routing.istio.enabled }}
 apiVersion: networking.istio.io/v1
 kind: Gateway
@@ -23,3 +24,5 @@ spec:
         number: {{ .Values.service.port | default "80" }}
         protocol: HTTP
 {{- end }}
+
+{{- end -}}

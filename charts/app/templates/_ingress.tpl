@@ -1,3 +1,4 @@
+{{- define "app.ingress" -}}
 {{- if .Values.routing.ingress.enabled }}
 {{- $fullName := include "app.fullname" . -}}
 {{- $servicePort := .Values.service.port -}}
@@ -40,3 +41,5 @@ spec:
                   number: {{ $servicePort }}
     {{- end }}
 {{- end }}
+
+{{- end -}}

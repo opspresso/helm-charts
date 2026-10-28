@@ -95,6 +95,71 @@ class AppTests(unittest.TestCase):
         self.assertNotIn('readinessProbe', container)
         self.assertNotIn('ports', container)
 
+    def test_worker_renders_its_own_objects_under_a_derived_name(self):
+        metrics = [{'type': 'Resource', 'resource': {'name': 'cpu', 'target': {'type': 'Utilization', 'averageUtilization': 60}}}]
+        docs = render({'workloads': {'queueWorker': {
+            'service': {'enabled': False}, 'pdb': {'enabled': True},
+            'configmap': {'enabled': True, 'data': {'QUEUE': 'jobs'}},
+            'autoscaling': {'enabled': True, 'minReplicas': 2, 'maxReplicas': 4, 'metrics': metrics}}}})
+        name = 'test-app-queue-worker'
+        objects = {(d['kind'], d['metadata']['name']) for d in docs}
+        for kind in ('Deployment', 'ConfigMap', 'HorizontalPodAutoscaler', 'PodDisruptionBudget'):
+            self.assertIn((kind, name), objects)
+        self.assertNotIn(('Service', name), objects)
+        worker = next(d for d in docs if d['kind'] == 'Deployment' and d['metadata']['name'] == name)
+        self.assertNotIn('replicas', worker['spec'])
+        self.assertEqual(worker['spec']['template']['spec']['containers'][0]['envFrom'], [{'configMapRef': {'name': name}}])
+        pdb = next(d for d in docs if d['kind'] == 'PodDisruptionBudget')
+        self.assertEqual(pdb['spec']['selector']['matchLabels']['app.kubernetes.io/name'], name)
+
+    def test_workload_names_must_be_unique(self):
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'workloads': {'worker': {'fullnameOverride': 'test-app'}}})
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'workloads': {'a': {'fullnameOverride': 'same'}, 'b': {'fullnameOverride': 'same'}}})
+        shared = {'enabled': True, 'name': 'credentials', 'data': [{'key': '/k', 'name': 'K'}]}
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'service': {'enabled': False}, 'externalSecrets': shared,
+                    'workloads': {'worker': {'service': {'enabled': False}, 'externalSecrets': shared}}})
+        names = {d['metadata']['name'] for d in render({'fullnameOverride': 'x' * 63, 'service': {'enabled': False},
+                                                        'workloads': {'a': {}, 'b': {}}})}
+        self.assertEqual(len(names), 3)
+        self.assertTrue(all(len(n) <= 63 for n in names))
+        self.assertIn('x' * 61 + '-a', names)
+
+    def test_main_app_can_be_omitted_while_workers_render(self):
+        docs = render({'enabled': False, 'workloads': {'worker': {'service': {'enabled': False}}}})
+        self.assertEqual([(d['kind'], d['metadata']['name']) for d in docs], [('Deployment', 'test-app-worker')])
+
+    def test_service_exposes_extra_ports(self):
+        extra = [{'name': 'metrics', 'port': 9090, 'targetPort': 'metrics', 'protocol': 'TCP'}]
+        docs = render({'service': {'extraPorts': extra},
+                       'extraPorts': [{'name': 'metrics', 'containerPort': 9090}]})
+        service = next(d for d in docs if d['kind'] == 'Service')
+        self.assertEqual([p['name'] for p in service['spec']['ports']], ['http', 'metrics'])
+        self.assertEqual(service['spec']['ports'][1], extra[0])
+
+    def test_routes_follow_path_and_reject_unknown_types(self):
+        docs = render({'routing': {'istio': {'enabled': True}, 'path': '/api', 'pathType': 'Exact'}})
+        service = next(d for d in docs if d['kind'] == 'VirtualService')
+        self.assertEqual(service['spec']['http'][0]['match'], [{'uri': {'exact': '/api'}}])
+        docs = render({'routing': {'istio': {'enabled': True}, 'path': '/api/'}})
+        match = next(d for d in docs if d['kind'] == 'VirtualService')['spec']['http'][0]['match']
+        self.assertEqual(match, [{'uri': {'exact': '/api'}}, {'uri': {'prefix': '/api/'}}])
+        docs = render({'routing': {'istio': {'enabled': True}}})
+        match = next(d for d in docs if d['kind'] == 'VirtualService')['spec']['http'][0]['match']
+        self.assertEqual(match, [{'uri': {'prefix': '/'}}])
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'routing': {'httpRoute': {'enabled': True}, 'pathType': 'ImplementationSpecific'}})
+
+    def test_connection_test_runs_unprivileged(self):
+        pod = next(d for d in render({}) if d['kind'] == 'Pod')
+        self.assertIs(pod['spec']['securityContext']['runAsNonRoot'], True)
+        container = pod['spec']['containers'][0]
+        self.assertEqual(container['image'], 'busybox:1.37')
+        self.assertEqual(container['args'][-1], 'http://test-app:80')
+        self.assertIs(container['securityContext']['readOnlyRootFilesystem'], True)
+
     def test_raw_uses_main_context_and_omits_disabled_documents(self):
         docs = render({'image': {'tag': 'v9'}, 'raw': {'enabled': True, 'parentTemplates': [
             'apiVersion: v1\nkind: ConfigMap\nmetadata: {name: extra}\ndata: {version: {{ .Values.image.tag | quote }}}',

@@ -1,3 +1,4 @@
+{{- define "app.serviceaccount" -}}
 {{- if or .Values.serviceAccount.create .Values.irsa.enabled }}
 apiVersion: v1
 kind: ServiceAccount
@@ -16,3 +17,5 @@ metadata:
     {{- end }}
   {{- end }}
 {{- end }}
+
+{{- end -}}

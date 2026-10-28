@@ -1,3 +1,4 @@
+{{- define "app.hpa" -}}
 {{- if .Values.autoscaling.enabled }}
 {{- if not .Values.autoscaling.metrics }}
 {{- fail "autoscaling.enabled requires at least one metric in autoscaling.metrics." }}
@@ -33,3 +34,5 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 {{- end }}
+
+{{- end -}}

@@ -1,3 +1,4 @@
+{{- define "app.configmap" -}}
 {{- if and .Values.configmap.enabled .Values.configmap.data }}
 apiVersion: v1
 kind: ConfigMap
@@ -13,3 +14,5 @@ data:
   {{ $key }}: {{ $value | quote }}
   {{- end }}
 {{- end }}
+
+{{- end -}}

@@ -1,4 +1,4 @@
-{{- if .Values.service.enabled }}
+{{- if and .Values.enabled .Values.service.enabled }}
 apiVersion: v1
 kind: Pod
 metadata:
@@ -10,11 +10,21 @@ metadata:
     "helm.sh/hook": test
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    seccompProfile:
+      type: RuntimeDefault
   containers:
     - name: wget
-      image: busybox
+      image: busybox:1.37
       command: ['wget']
-      args: ['{{ include "app.fullname" . }}:{{ .Values.service.port }}']
+      args: ['-q', '-O', '/dev/null', 'http://{{ include "app.fullname" . }}:{{ .Values.service.port }}']
+      securityContext:
+        allowPrivilegeEscalation: false
+        readOnlyRootFilesystem: true
+        capabilities:
+          drop: [ALL]
       {{- if .Values.resources }}
       resources:
         requests: {cpu: 10m, memory: 16Mi}

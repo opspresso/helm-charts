@@ -1,3 +1,0 @@
-{{- if .Values.controller.enabled }}
-{{ include "app.deployment" . }}
-{{- end }}

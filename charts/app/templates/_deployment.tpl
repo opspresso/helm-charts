@@ -206,7 +206,6 @@ spec:
       {{- with .Values.priorityClassName }}
       priorityClassName: {{ . | quote }}
       {{- end }}
-      restartPolicy: {{ .Values.restartPolicy | default "Always" }}
       {{- if kindIs "bool" .Values.automountServiceAccountToken }}
       automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
       {{- end }}
