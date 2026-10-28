@@ -205,6 +205,12 @@ class AppTests(unittest.TestCase):
         docs = render({'externalSecrets': {'enabled': True, 'name': '123', 'data': [{'key': 'k', 'name': 'K'}]}})
         self.assertEqual(next(d for d in docs if d['kind'] == 'ExternalSecret')['metadata']['name'], '123')
 
+    def test_external_secret_annotations_keep_the_sync_wave(self):
+        docs = render({'externalSecrets': {'enabled': True, 'annotations': {'force-sync': 'delivery-1'},
+                                           'data': [{'key': '/k8s/demo', 'name': 'TOKEN'}]}})
+        secret = next(d for d in docs if d['kind'] == 'ExternalSecret')
+        self.assertEqual(secret['metadata']['annotations'], {'argocd.argoproj.io/sync-wave': '-1', 'force-sync': 'delivery-1'})
+
     def test_external_secrets_keep_the_cluster_store_and_default_name(self):
         docs = render({'externalSecrets': {'enabled': True, 'data': [{'key': '/k8s/demo', 'name': 'TOKEN'}]}})
         self.assertNotIn('SecretStore', {d['kind'] for d in docs})

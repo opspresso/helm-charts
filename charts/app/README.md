@@ -1,6 +1,6 @@
 # app
 
-![Version: v1.8.0](https://img.shields.io/badge/Version-v2.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v2.0.1](https://img.shields.io/badge/Version-v2.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 One application on Kubernetes: a Deployment or Argo Rollout with its Service,
 routing, scaling, configuration and policies. Each worker of the same release
@@ -291,6 +291,7 @@ apply once per release.
 | `externalSecrets.enabled` | `false` | Renders an ExternalSecret and adds its Secret to `envFrom`. |
 | `externalSecrets.name` | `""` | ExternalSecret and target Secret name. Defaults to `<fullname>-external`. |
 | `externalSecrets.refreshInterval` | `"1h"` | Refresh interval. |
+| `externalSecrets.annotations` | `{}` | ExternalSecret annotations. Change `force-sync` to refresh the Secret immediately. |
 | `externalSecrets.secretStoreRef` | `{"kind":"ClusterSecretStore","name":"parameter-store"}` | Store to read when `secretStore.enabled` is `false`. |
 | `externalSecrets.secretStore.enabled` | `false` | Renders a namespaced SecretStore and reads from it. |
 | `externalSecrets.secretStore.name` | `""` | SecretStore name. Defaults to the fullname. |

@@ -185,6 +185,9 @@ workloadDefaults: &workloadDefaults
     # ExternalSecret and target Secret name. Defaults to <fullname>-external.
     name: ""
     refreshInterval: 1h
+    # ExternalSecret annotations. A changed `force-sync` value makes External
+    # Secrets refresh the Secret now instead of at the next refreshInterval.
+    annotations: {}
     secretStoreRef:
       kind: ClusterSecretStore
       name: parameter-store
