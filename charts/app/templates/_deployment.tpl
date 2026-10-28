@@ -162,7 +162,10 @@ spec:
             {{- end }}
             {{- if .Values.externalSecrets.enabled }}
             - secretRef:
-                name: {{ include "app.fullname" . }}-external
+                name: {{ include "app.externalSecretName" . }}
+                {{- if .Values.externalSecrets.optional }}
+                optional: true
+                {{- end }}
             {{- end }}
             {{- if .Values.additionalConfigmap.enabled }}
             {{- range .Values.additionalConfigmap.names }}
@@ -195,6 +198,13 @@ spec:
         {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       dnsPolicy: {{ .Values.dnsPolicy | default "ClusterFirst" }}
+      {{- with .Values.dnsConfig }}
+      dnsConfig:
+{{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
       restartPolicy: {{ .Values.restartPolicy | default "Always" }}
       {{- if kindIs "bool" .Values.automountServiceAccountToken }}
       automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}

@@ -1,0 +1,39 @@
+{{- if .Values.networkPolicy.enabled }}
+{{- $policy := .Values.networkPolicy }}
+{{- if not $policy.policyTypes }}
+{{- fail "networkPolicy.enabled requires at least one entry in networkPolicy.policyTypes." }}
+{{- end }}
+{{- range $policy.policyTypes }}
+{{- if not (has . (list "Ingress" "Egress")) }}
+{{- fail (printf "networkPolicy.policyTypes accepts Ingress and Egress, not %q." .) }}
+{{- end }}
+{{- end }}
+{{- if and $policy.ingress (not (has "Ingress" $policy.policyTypes)) }}
+{{- fail "networkPolicy.ingress requires Ingress in networkPolicy.policyTypes." }}
+{{- end }}
+{{- if and $policy.egress (not (has "Egress" $policy.policyTypes)) }}
+{{- fail "networkPolicy.egress requires Egress in networkPolicy.policyTypes." }}
+{{- end }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "app.fullname" . }}
+  namespace: {{ include "app.namespace" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  # The instance label also selects the workers in `workloads`.
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+  policyTypes:
+    {{- toYaml $policy.policyTypes | nindent 4 }}
+  {{- with $policy.ingress }}
+  ingress:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $policy.egress }}
+  egress:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}

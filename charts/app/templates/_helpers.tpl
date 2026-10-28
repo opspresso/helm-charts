@@ -96,3 +96,17 @@ Allow the release namespace to be overridden for multi-namespace deployments in 
 {{- .Release.Namespace -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Return the ExternalSecret and target Secret name.
+*/}}
+{{- define "app.externalSecretName" -}}
+{{- .Values.externalSecrets.name | default (printf "%s-external" (include "app.fullname" .)) -}}
+{{- end -}}
+
+{{/*
+Return the name of the SecretStore owned by this release.
+*/}}
+{{- define "app.secretStoreName" -}}
+{{- .Values.externalSecrets.secretStore.name | default (include "app.fullname" .) -}}
+{{- end -}}
