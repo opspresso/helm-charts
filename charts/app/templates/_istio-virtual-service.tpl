@@ -21,6 +21,9 @@ spec:
     {{- end }}
   http:
     - name: primary
+      match:
+        - uri:
+            {{ eq .Values.routing.pathType "Exact" | ternary "exact" "prefix" }}: {{ .Values.routing.path | quote }}
       route:
         - destination:
             host: {{ include "app.fullname" . }}

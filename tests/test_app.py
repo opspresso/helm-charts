@@ -122,6 +122,29 @@ class AppTests(unittest.TestCase):
         docs = render({'enabled': False, 'workloads': {'worker': {'service': {'enabled': False}}}})
         self.assertEqual([(d['kind'], d['metadata']['name']) for d in docs], [('Deployment', 'test-app-worker')])
 
+    def test_service_exposes_extra_ports(self):
+        extra = [{'name': 'metrics', 'port': 9090, 'targetPort': 'metrics', 'protocol': 'TCP'}]
+        docs = render({'service': {'extraPorts': extra},
+                       'extraPorts': [{'name': 'metrics', 'containerPort': 9090}]})
+        service = next(d for d in docs if d['kind'] == 'Service')
+        self.assertEqual([p['name'] for p in service['spec']['ports']], ['http', 'metrics'])
+        self.assertEqual(service['spec']['ports'][1], extra[0])
+
+    def test_routes_follow_path_and_reject_unknown_types(self):
+        docs = render({'routing': {'istio': {'enabled': True}, 'path': '/api', 'pathType': 'Exact'}})
+        service = next(d for d in docs if d['kind'] == 'VirtualService')
+        self.assertEqual(service['spec']['http'][0]['match'], [{'uri': {'exact': '/api'}}])
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'routing': {'httpRoute': {'enabled': True}, 'pathType': 'ImplementationSpecific'}})
+
+    def test_connection_test_runs_unprivileged(self):
+        pod = next(d for d in render({}) if d['kind'] == 'Pod')
+        self.assertIs(pod['spec']['securityContext']['runAsNonRoot'], True)
+        container = pod['spec']['containers'][0]
+        self.assertEqual(container['image'], 'busybox:1.37')
+        self.assertEqual(container['args'][-1], 'http://test-app:80')
+        self.assertIs(container['securityContext']['readOnlyRootFilesystem'], True)
+
     def test_raw_uses_main_context_and_omits_disabled_documents(self):
         docs = render({'image': {'tag': 'v9'}, 'raw': {'enabled': True, 'parentTemplates': [
             'apiVersion: v1\nkind: ConfigMap\nmetadata: {name: extra}\ndata: {version: {{ .Values.image.tag | quote }}}',

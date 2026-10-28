@@ -241,8 +241,6 @@ workloadDefaults: &workloadDefaults
     #   - name: ndots
     #     value: "2"
 
-  restartPolicy: Always # Deployment/Rollout pods only accept Always
-
   terminationGracePeriodSeconds: 30
 
   ## Storage
@@ -346,6 +344,13 @@ workloadDefaults: &workloadDefaults
     targetPort: 3000
     # Service port.
     port: 80
+    # Service ports in addition to the main port. Declare each targetPort in
+    # extraPorts so that the container exposes it.
+    extraPorts: []
+      # - name: metrics
+      #   port: 9090
+      #   targetPort: metrics
+      #   protocol: TCP
     # Annotations to add to the service
     annotations: {}
       # service.kubernetes.io/topology-aware-hints: auto
@@ -355,7 +360,7 @@ workloadDefaults: &workloadDefaults
     hosts:
       - sample.domain.com
     path: /
-    pathType: Prefix
+    pathType: Prefix # Prefix or Exact; HTTPRoute renders Prefix as PathPrefix
 
     ingress:                    # deprecated
       enabled: false

@@ -3,6 +3,10 @@ Render every object of one workload: the main app or one worker.
 The context is the release context with .Values set to the workload settings.
 */}}
 {{- define "app.workload" -}}
+{{- $routing := .Values.routing -}}
+{{- if and (or $routing.ingress.enabled $routing.istio.enabled $routing.httpRoute.enabled) (not (has $routing.pathType (list "Prefix" "Exact"))) -}}
+{{- fail (printf "routing.pathType accepts Prefix or Exact, not %q." $routing.pathType) -}}
+{{- end -}}
 {{- $docs := list -}}
 {{- $templates := list "configmap" "secret" "external-secrets" "serviceaccount" "rbac" "pvc" "service" "hpa" "pdb" "service-monitor" "ingress" "httproute" "gateway" "backendtlspolicy" "istio-gateway" "istio-virtual-service" "destinationrule" -}}
 {{- if .Values.controller.enabled -}}
