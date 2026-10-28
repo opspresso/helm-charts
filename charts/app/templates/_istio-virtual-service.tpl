@@ -21,9 +21,21 @@ spec:
     {{- end }}
   http:
     - name: primary
+      {{- $path := .Values.routing.path }}
       match:
+        {{- if eq .Values.routing.pathType "Exact" }}
         - uri:
-            {{ eq .Values.routing.pathType "Exact" | ternary "exact" "prefix" }}: {{ .Values.routing.path | quote }}
+            exact: {{ $path | quote }}
+        {{- else if eq $path "/" }}
+        - uri:
+            prefix: "/"
+        {{- else }}
+        {{- /* Match whole path elements, like Prefix in Ingress and HTTPRoute: /api and /api/..., not /apix. */}}
+        - uri:
+            exact: {{ trimSuffix "/" $path | quote }}
+        - uri:
+            prefix: {{ printf "%s/" (trimSuffix "/" $path) | quote }}
+        {{- end }}
       route:
         - destination:
             host: {{ include "app.fullname" . }}

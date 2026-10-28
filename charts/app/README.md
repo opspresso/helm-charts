@@ -53,7 +53,7 @@ The release renders these objects once:
 The chart stops rendering with an error when values conflict. Examples:
 `BlueGreen` with a Deployment, autoscaling without metrics, a PDB with both
 budgets, `rbac.create` without a ServiceAccount, or two workloads with the
-same fullname.
+same fullname or the same object.
 
 ## Configuration and secrets
 
@@ -138,7 +138,8 @@ identity or credentials of the main app.
 
 - **Name**: the worker fullname is `<main fullname>-<key in kebab-case>`. Set
   `fullnameOverride` or `nameOverride` to change it. Two workloads with the same
-  fullname stop the render.
+  fullname stop the render. Two workloads that render the same object, for
+  example through one `externalSecrets.name`, also stop the render.
 - **Service**: `service.enabled` defaults to `true`. Set it to `false` for a
   worker that receives no traffic. This omits the Service and the default
   container port. Explicit `extraPorts` remain available.
@@ -159,13 +160,15 @@ workloads:
     command: [node, worker.js]
     additionalConfigmap:
       enabled: true
-      names: [my-app]
+      names: [my-app-app]
     overrides: |
       image: {{ toYaml .Values.image | nindent 2 }}
 ```
 
-With the release name `my-app` and the chart name `app`, this renders the
-Deployment `my-app-app-worker`.
+With the release name `my-app` and the chart name `app`, the main fullname is
+`my-app-app`. This example renders the Deployment `my-app-app-worker`, which
+reads the ConfigMap `my-app-app` of the main app. That ConfigMap exists only
+when the main app sets `configmap.enabled: true` and nonempty `configmap.data`.
 
 ## Upgrade from v1
 
@@ -180,7 +183,8 @@ v2.0.0 changes these contracts:
 - The `restartPolicy` value is removed. Deployments and Rollouts accept only
   `Always`, which is the Kubernetes default.
 - `routing.pathType` accepts only `Prefix` or `Exact`.
-- The Istio VirtualService matches `routing.path`.
+- The Istio VirtualService matches `routing.path`. `Prefix` matches whole path
+  elements: `/api` matches `/api` and `/api/...`, not `/apix`.
 
 ## Other resources
 

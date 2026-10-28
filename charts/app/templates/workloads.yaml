@@ -10,7 +10,10 @@
 {{- if hasKey $overrides "Error" }}{{ fail (index $overrides "Error") }}{{ end }}
 {{- $settings := mergeOverwrite (deepCopy $.Values.workloadDefaults) (deepCopy $values) $overrides }}
 {{- if not (or $settings.fullnameOverride $settings.nameOverride) }}
-{{- $_ := set $settings "fullnameOverride" (printf "%s-%s" $mainName (kebabcase $key) | trunc 63 | trimSuffix "-") }}
+{{- /* Truncate the base, not the key suffix, so the name stays distinct. */}}
+{{- $suffix := kebabcase $key }}
+{{- $base := $mainName | trunc (max 1 (sub 62 (len $suffix)) | int) | trimSuffix "-" }}
+{{- $_ := set $settings "fullnameOverride" (printf "%s-%s" $base $suffix | trunc 63 | trimSuffix "-") }}
 {{- end }}
 {{- if $settings.enabled }}
 {{- if and $.Values.networkPolicy.enabled (ne (default $.Release.Namespace $settings.namespaceOverride) (include "app.namespace" $)) }}
@@ -26,8 +29,20 @@
 {{- $units = append $units $context }}
 {{- end }}
 {{- end }}
+{{- /* Two workloads must not render the same object, for example through one externalSecrets.name. */}}
+{{- $objects := dict }}
 {{- range $units }}
 {{- $doc := include "app.workload" . }}
+{{- range regexSplit "(?m)^---[ \t]*$" $doc -1 }}
+{{- if trim . }}
+{{- $meta := (fromYaml .).metadata | default dict }}
+{{- $id := printf "%s %s/%s" ((fromYaml .).kind) (default "" $meta.namespace) $meta.name }}
+{{- if hasKey $objects $id }}
+{{- fail (printf "two workloads render %s; give each workload its own object name." $id) }}
+{{- end }}
+{{- $_ := set $objects $id true }}
+{{- end }}
+{{- end }}
 {{- if $doc }}
 ---
 {{ $doc }}

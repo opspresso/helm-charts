@@ -117,6 +117,15 @@ class AppTests(unittest.TestCase):
             render({'workloads': {'worker': {'fullnameOverride': 'test-app'}}})
         with self.assertRaises(subprocess.CalledProcessError):
             render({'workloads': {'a': {'fullnameOverride': 'same'}, 'b': {'fullnameOverride': 'same'}}})
+        shared = {'enabled': True, 'name': 'credentials', 'data': [{'key': '/k', 'name': 'K'}]}
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'service': {'enabled': False}, 'externalSecrets': shared,
+                    'workloads': {'worker': {'service': {'enabled': False}, 'externalSecrets': shared}}})
+        names = {d['metadata']['name'] for d in render({'fullnameOverride': 'x' * 63, 'service': {'enabled': False},
+                                                        'workloads': {'a': {}, 'b': {}}})}
+        self.assertEqual(len(names), 3)
+        self.assertTrue(all(len(n) <= 63 for n in names))
+        self.assertIn('x' * 61 + '-a', names)
 
     def test_main_app_can_be_omitted_while_workers_render(self):
         docs = render({'enabled': False, 'workloads': {'worker': {'service': {'enabled': False}}}})
@@ -134,6 +143,12 @@ class AppTests(unittest.TestCase):
         docs = render({'routing': {'istio': {'enabled': True}, 'path': '/api', 'pathType': 'Exact'}})
         service = next(d for d in docs if d['kind'] == 'VirtualService')
         self.assertEqual(service['spec']['http'][0]['match'], [{'uri': {'exact': '/api'}}])
+        docs = render({'routing': {'istio': {'enabled': True}, 'path': '/api/'}})
+        match = next(d for d in docs if d['kind'] == 'VirtualService')['spec']['http'][0]['match']
+        self.assertEqual(match, [{'uri': {'exact': '/api'}}, {'uri': {'prefix': '/api/'}}])
+        docs = render({'routing': {'istio': {'enabled': True}}})
+        match = next(d for d in docs if d['kind'] == 'VirtualService')['spec']['http'][0]['match']
+        self.assertEqual(match, [{'uri': {'prefix': '/'}}])
         with self.assertRaises(subprocess.CalledProcessError):
             render({'routing': {'httpRoute': {'enabled': True}, 'pathType': 'ImplementationSpecific'}})
 
