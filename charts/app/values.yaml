@@ -1,30 +1,37 @@
-# Standalone workloads and extra workers use the same defaults. The YAML merge
-# copies these into the root before Helm merges user values; worker defaults
-# therefore never inherit a main application's probes, scaling or credentials.
+# Values of one application: a Deployment or Argo Rollout with its Service,
+# routing, scaling, configuration and policies.
+#
+# workloadDefaults holds the settings of one workload. The YAML merge below
+# copies them into the root before Helm merges user values, and every worker in
+# `workloads` starts from the same defaults. A worker therefore never inherits
+# the main application's probes, scaling or credentials.
 workloadDefaults: &workloadDefaults
-  # Default values for sample.
-  # This is a YAML-formatted file.
-  # Declare variables to be passed into your templates.
+  # Set false to omit this workload. A parent chart can then render it itself.
+  enabled: true
 
   ## Chart Identity
   nameOverride: ""
     # nameOverride: "my-app"
   fullnameOverride: ""
     # fullnameOverride: "my-app-fullname"
+  # Namespace of the rendered objects. Defaults to the release namespace.
   namespaceOverride: ""
+  # Labels added to every object and Pod of this workload.
+  additionalLabels: {}
+    # team: backend
+    # environment: production
 
   ## Controller (Deployment / Rollout)
-  replicaCount: 1
-
-  revisionHistoryLimit: 3
-
   controller:
+    # Set false to omit the Deployment or Rollout of the main app.
     enabled: true
+    # Annotations of the Deployment or Rollout object, not of its Pods.
     annotations: {}
+      # argocd.argoproj.io/sync-wave: "1"
     kind: Deployment # Deployment or Rollout
 
     strategy:
-      type: RollingUpdate # RollingUpdate or BlueGreen or Canary
+      type: RollingUpdate # RollingUpdate; BlueGreen or Canary need kind Rollout
       rollingUpdate:
         maxSurge: 25%
         maxUnavailable: 0
@@ -40,13 +47,19 @@ workloadDefaults: &workloadDefaults
         # - pause:
         #     duration: 60
 
+  # Ignored when autoscaling.enabled is true: the HPA owns the replica count.
+  replicaCount: 1
+
+  revisionHistoryLimit: 3
+
   ## Container Image
   image:
     # Complete reference (including a digest, if needed); overrides repository/tag.
     reference: ""
+      # reference: "registry.example.com/my-app@sha256:..."
     repository: nginx
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart version.
+    # Overrides the image tag whose default is the chart appVersion.
     tag: ""
 
   imagePullSecrets: []
@@ -55,8 +68,6 @@ workloadDefaults: &workloadDefaults
   ## Container Spec
   containerName: app
 
-  # Explicit envFrom replaces the generated config/secret references when set.
-  envFrom: []
   command: []
     # - "aws"
     # - "s3"
@@ -70,44 +81,52 @@ workloadDefaults: &workloadDefaults
     # - name: MESSAGE
     #   value: "hello world"
 
+  # Explicit envFrom replaces the generated configmap, secret and
+  # externalSecrets references when set.
+  envFrom: []
+    # - secretRef:
+    #     name: shared-secret
+    #     optional: true
+
+  # Container ports in addition to the Service port.
   extraPorts: []
     # - name: metrics
     #   containerPort: 9090
     #   protocol: TCP
 
-  livenessProbe: {}
+  startupProbe: {}
     # httpGet:
     #   path: /
-    #   port: 3000
-    # initialDelaySeconds: 3
+    #   port: http
+    # initialDelaySeconds: 0
     # periodSeconds: 10
-    # failureThreshold: 3
+    # failureThreshold: 30
 
   readinessProbe: {}
     # httpGet:
     #   path: /
-    #   port: 3000
+    #   port: http
     # initialDelaySeconds: 3
     # periodSeconds: 10
     # failureThreshold: 3
 
-  startupProbe: {}
+  livenessProbe: {}
     # httpGet:
     #   path: /
-    #   port: 3000
-    # initialDelaySeconds: 0
+    #   port: http
+    # initialDelaySeconds: 3
     # periodSeconds: 10
-    # failureThreshold: 30
+    # failureThreshold: 3
 
   resources: {}
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
     # limits:
-    #   cpu: 100m
     #   memory: 128Mi
 
   securityContext: {}
+    # allowPrivilegeEscalation: false
     # capabilities:
     #   drop:
     #   - ALL
@@ -119,9 +138,6 @@ workloadDefaults: &workloadDefaults
     # preStop:
     #   exec:
     #     command: ["/bin/sh", "-c", "sleep 15"]
-    # postStart:
-    #   exec:
-    #     command: ["/bin/sh", "-c", "echo started"]
 
   ## Init & Sidecar Containers
   initContainers: []
@@ -136,26 +152,94 @@ workloadDefaults: &workloadDefaults
     #     - name: logs
     #       mountPath: /var/log
 
-  ## Pod Metadata & Spec
-  additionalLabels: {}
-    # team: backend
-    # environment: production
+  ## Configuration & Secrets
+  # Each enabled source is added to the container envFrom unless envFrom is set.
+  # A ConfigMap or Secret owned by this chart also restarts the Pods on change.
+  configmap:
+    enabled: false
+    data: {}
+      # MESSAGE: "hello world"
 
+  # Values must be base64 encoded.
+  secret:
+    enabled: false
+    data: {}
+      # SECRET_MESSAGE: "c2VjcmV0IG1lc3NhZ2U="
+
+  # ConfigMaps and Secrets that other charts or operators create.
+  additionalConfigmap:
+    enabled: false
+    names: []
+      # - "additional-configmap"
+
+  additionalSecret:
+    enabled: false
+    names: []
+      # - "additional-secret"
+
+  # External Secrets Operator ExternalSecret.
+  externalSecrets:
+    enabled: false
+    # ExternalSecret and target Secret name. Defaults to <fullname>-external.
+    name: ""
+    refreshInterval: 1h
+    secretStoreRef:
+      kind: ClusterSecretStore
+      name: parameter-store
+    # A namespaced SecretStore owned by this release. When enabled, the
+    # ExternalSecret reads from it and secretStoreRef is not used.
+    secretStore:
+      enabled: false
+      # Defaults to the fullname.
+      name: ""
+      # SecretStore spec.provider, evaluated as a Helm template.
+      provider: {}
+        # aws:
+        #   service: ParameterStore
+        #   region: ap-northeast-2
+        #   role: arn:aws:iam::123456789012:role/my-app-secrets
+    # One Secret key per remote value.
+    data: []
+      # - key: /k8s/common/demo
+      #   name: admin-password
+      #   property: demo/admin-password
+    # ExternalSecret spec.dataFrom, evaluated as a Helm template.
+    dataFrom: []
+      # - find:
+      #     path: /k8s/common/demo
+      #     name:
+      #       regexp: ".*"
+    # Marks the generated envFrom reference optional. Use it when dataFrom can
+    # match no keys: External Secrets then creates no Secret.
+    optional: false
+
+  ## Pod Metadata & Spec
   podLabels: {}
     # app.kubernetes.io/component: api
 
+  # Evaluated as a Helm template against the final values.
   podAnnotations: {}
     # prometheus.io/scrape: "true"
-    # prometheus.io/port: "9090"
+    # checksum/extra: '{{ .Values.extra | toJson | sha256sum }}'
 
+  # null keeps the Kubernetes default; true or false is rendered explicitly.
   automountServiceAccountToken: null
 
   podSecurityContext: {}
     # runAsUser: 1000
     # runAsGroup: 3000
     # fsGroup: 2000
+    # seccompProfile:
+    #   type: RuntimeDefault
+
+  priorityClassName: ""
 
   dnsPolicy: ClusterFirst # ClusterFirst, Default
+
+  dnsConfig: {}
+    # options:
+    #   - name: ndots
+    #     value: "2"
 
   restartPolicy: Always # Deployment/Rollout pods only accept Always
 
@@ -204,6 +288,8 @@ workloadDefaults: &workloadDefaults
     #               - ap-northeast-2a
     #               - ap-northeast-2c
 
+  # Preferred anti-affinity between Pods of this workload. Do not combine with
+  # affinity.podAntiAffinity.
   podAntiAffinity: {}
     # topologyKey: "topology.kubernetes.io/zone"
 
@@ -221,37 +307,50 @@ workloadDefaults: &workloadDefaults
     create: false
     # Annotations to add to the service account
     annotations: {}
+      # eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/my-app-role
     # The name of the service account to use.
     # If not set and create is true, a name is generated using the fullname template
     name: ""
 
+  # Grants the rules to the ServiceAccount. Requires a ServiceAccount from
+  # serviceAccount.create, serviceAccount.name or irsa.enabled.
   rbac:
     create: false
+    # false: ClusterRole and ClusterRoleBinding.
+    # true: Role and RoleBinding in the release namespace only.
+    namespaced: false
     rules: []
       # - apiGroups:
       #     - ""
       #   resources:
-      #     - "*"
+      #     - "configmaps"
       #   verbs:
-      #     - "*"
+      #     - "get"
 
+  # Creates the ServiceAccount with the IRSA role annotation.
   irsa:
     enabled: false
-    # roleArn: "arn:aws:iam::123456789012:role/my-app-role"
     roleArn: ""
+      # roleArn: "arn:aws:iam::123456789012:role/my-app-role"
 
   ## Service & Networking
   service:
+    # Set false for a worker: this omits the Service, its container port and
+    # the connection test.
     enabled: true
     type: ClusterIP
+    # Port name of the Service and the container.
     name: http
     protocol: TCP
+    # Container port.
     targetPort: 3000
+    # Service port.
     port: 80
     # Annotations to add to the service
     annotations: {}
       # service.kubernetes.io/topology-aware-hints: auto
 
+  # External routes to the Service. Enable one of ingress, istio or httpRoute.
   routing:
     hosts:
       - sample.domain.com
@@ -270,6 +369,7 @@ workloadDefaults: &workloadDefaults
       #    hosts:
       #      - sample.domain.com
 
+    # Istio Gateway and VirtualService.
     istio:
       enabled: false
       annotations: {}
@@ -277,6 +377,7 @@ workloadDefaults: &workloadDefaults
         selector:
           istio: default-ingress-gateway
 
+    # Gateway API HTTPRoute attached to an existing Gateway.
     httpRoute:
       enabled: false
       annotations: {}
@@ -284,9 +385,11 @@ workloadDefaults: &workloadDefaults
         - name: infra-gateway
           namespace: istio-system
 
+    # Gateway API Gateway owned by this release.
     gateway:
       enabled: false
       annotations: {}
+      # Defaults to <fullname>-gateway.
       name: ""
       className: traefik
       listeners:
@@ -300,6 +403,7 @@ workloadDefaults: &workloadDefaults
             namespaces:
               from: Same
 
+    # Gateway API BackendTLSPolicy. Requires httpRoute.enabled.
     backendTLSPolicy:
       enabled: false
       annotations: {}
@@ -325,6 +429,7 @@ workloadDefaults: &workloadDefaults
       #     httpHeaderName: mcp-session-id
 
   ## Scaling & Availability
+  # Requires at least one metric. The HPA owns the replica count.
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -351,44 +456,15 @@ workloadDefaults: &workloadDefaults
       #       type: Utilization
       #       averageUtilization: 60
 
+  # Set minAvailable or maxUnavailable, not both. Without either, maxUnavailable is 1.
   pdb:
     enabled: false
-    # maxUnavailable: 1   # default if neither maxUnavailable nor minAvailable is set
+    # maxUnavailable: 1
     # minAvailable: 1
 
-  ## Configuration & Secrets
-  configmap:
-    enabled: false
-    data: {}
-      # MESSAGE: "hello world"
-
-  secret:
-    enabled: false
-    data: {}
-      # SECRET_MESSAGE: "c2VjcmV0IG1lc3NhZ2U="
-
-  additionalConfigmap:
-    enabled: false
-    names: []
-      # - "additional-configmap"
-
-  additionalSecret:
-    enabled: false
-    names: []
-      # - "additional-secret"
-
-  externalSecrets:
-    enabled: false
-    refreshInterval: 1h
-    secretStoreRef:
-      kind: ClusterSecretStore
-      name: parameter-store
-    data: []
-      # - key: /k8s/common/demo
-      #   name: admin-password
-      #   property: demo/admin-password
-
   ## Monitoring
+  # Prometheus Operator ServiceMonitor. Rendered only when the cluster serves
+  # monitoring.coreos.com/v1.
   serviceMonitor:
     enabled: false
     labels:
@@ -397,16 +473,64 @@ workloadDefaults: &workloadDefaults
     - interval: 10s
       path: /metrics
       port: http
-  enabled: true
 
 <<: *workloadDefaults
 
-# Additional worker Deployments. Each item accepts app values and an optional
-# overrides YAML template evaluated in the main app context after values merge.
-workloads: {}
+## Release Resources
+# These settings apply once per release. They are not in workloadDefaults.
 
-# Plain resources/templates are rendered by incubator/raw. parentTemplates may
-# refer to the app's final image/config and contain conditional YAML documents.
+# Additional worker Deployments. Each item accepts the settings above and an
+# optional overrides YAML template evaluated in the main app context after the
+# values merge. Workers render only a Deployment or Rollout.
+workloads: {}
+  # worker:
+  #   fullnameOverride: my-app-worker
+  #   service:
+  #     enabled: false
+  #   command: [node, worker.js]
+  #   overrides: |
+  #     image: {{ toYaml .Values.image | nindent 2 }}
+
+# Allows only the listed traffic to every Pod of this release: the main app and
+# its workers. Workers must stay in the release namespace. Each direction in policyTypes without rules denies all traffic.
+networkPolicy:
+  enabled: false
+  policyTypes: [Ingress] # Ingress, Egress
+  ingress: []
+    # - from:
+    #     - namespaceSelector:
+    #         matchLabels:
+    #           kubernetes.io/metadata.name: istio-system
+    #   ports:
+    #     - protocol: TCP
+    #       port: 3000
+  egress: []
+    # - to:
+    #     - namespaceSelector:
+    #         matchLabels:
+    #           kubernetes.io/metadata.name: kube-system
+    #   ports:
+    #     - {protocol: UDP, port: 53}
+
+# Bounds the namespace of this release. Kubernetes enforces every ResourceQuota
+# of a namespace, so enable it in one release per namespace.
+resourceQuota:
+  enabled: false
+  hard: {}
+    # requests.cpu: "4"
+    # requests.memory: 8Gi
+    # pods: "12"
+
+# Other objects, rendered by incubator/raw. raw.resources and raw.templates keep
+# their upstream behavior. Each raw.parentTemplates entry is a YAML template
+# evaluated against the final app values; it may contain several documents.
 raw:
   enabled: false
   parentTemplates: []
+    # - |
+    #   apiVersion: v1
+    #   kind: ConfigMap
+    #   metadata:
+    #     name: {{ include "app.fullname" . }}-extra
+    #   data:
+    #     image: {{ include "app.image" . | quote }}

@@ -117,6 +117,117 @@ class AppTests(unittest.TestCase):
         service = next(d for d in docs if d['kind'] == 'Service')
         self.assertLessEqual(monitor['spec']['selector']['matchLabels'].items(), service['metadata']['labels'].items())
 
+    def test_external_secrets_read_a_release_store_and_find_paths(self):
+        values = {'path': '/apps/demo', 'externalSecrets': {
+            'enabled': True, 'name': 'app-env', 'optional': True, 'refreshInterval': '5m',
+            'secretStore': {'enabled': True, 'name': 'tenant', 'provider': {
+                'aws': {'service': 'ParameterStore', 'region': '{{ .Values.region }}'}}},
+            'dataFrom': [{'find': {'path': '{{ .Values.path }}', 'name': {'regexp': '.*'}}}]}, 'region': 'us-east-1'}
+        docs = render(values)
+        store = next(d for d in docs if d['kind'] == 'SecretStore')
+        self.assertEqual(store['metadata']['name'], 'tenant')
+        self.assertEqual(store['spec']['provider']['aws']['region'], 'us-east-1')
+        secret = next(d for d in docs if d['kind'] == 'ExternalSecret')
+        self.assertEqual(secret['metadata']['name'], 'app-env')
+        self.assertEqual(secret['spec']['secretStoreRef'], {'kind': 'SecretStore', 'name': 'tenant'})
+        self.assertEqual(secret['spec']['target'], {'name': 'app-env'})
+        self.assertEqual(secret['spec']['dataFrom'][0]['find']['path'], '/apps/demo')
+        self.assertNotIn('data', secret['spec'])
+        container = next(d for d in docs if d['kind'] == 'Deployment')['spec']['template']['spec']['containers'][0]
+        self.assertEqual(container['envFrom'], [{'secretRef': {'name': 'app-env', 'optional': True}}])
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'externalSecrets': {'enabled': True, 'secretStore': {'enabled': True}}})
+        docs = render({'externalSecrets': {'enabled': True, 'name': '123', 'data': [{'key': 'k', 'name': 'K'}]}})
+        self.assertEqual(next(d for d in docs if d['kind'] == 'ExternalSecret')['metadata']['name'], '123')
+
+    def test_external_secrets_keep_the_cluster_store_and_default_name(self):
+        docs = render({'externalSecrets': {'enabled': True, 'data': [{'key': '/k8s/demo', 'name': 'TOKEN'}]}})
+        self.assertNotIn('SecretStore', {d['kind'] for d in docs})
+        secret = next(d for d in docs if d['kind'] == 'ExternalSecret')
+        self.assertEqual(secret['metadata']['name'], 'test-app-external')
+        self.assertEqual(secret['spec']['secretStoreRef'], {'kind': 'ClusterSecretStore', 'name': 'parameter-store'})
+        self.assertEqual(secret['spec']['data'], [{'remoteRef': {'key': '/k8s/demo'}, 'secretKey': 'TOKEN'}])
+        container = next(d for d in docs if d['kind'] == 'Deployment')['spec']['template']['spec']['containers'][0]
+        self.assertEqual(container['envFrom'], [{'secretRef': {'name': 'test-app-external'}}])
+
+    def test_network_policy_selects_the_release_and_checks_directions(self):
+        ingress = [{'from': [{'podSelector': {}}]}]
+        egress = [{'to': [{'ipBlock': {'cidr': '0.0.0.0/0'}}], 'ports': [{'protocol': 'TCP', 'port': 443}]}]
+        docs = render({'networkPolicy': {'enabled': True, 'policyTypes': ['Ingress', 'Egress'],
+                                         'ingress': ingress, 'egress': egress},
+                       'workloads': {'worker': {'service': {'enabled': False}}}})
+        policy = next(d for d in docs if d['kind'] == 'NetworkPolicy')
+        self.assertEqual(policy['spec']['podSelector'], {'matchLabels': {'app.kubernetes.io/instance': 'test'}})
+        self.assertEqual(policy['spec']['ingress'], ingress)
+        self.assertEqual(policy['spec']['egress'], egress)
+        for deployment in (d for d in docs if d['kind'] == 'Deployment'):
+            self.assertEqual(deployment['spec']['template']['metadata']['labels']['app.kubernetes.io/instance'], 'test')
+        deny = next(d for d in render({'networkPolicy': {'enabled': True, 'policyTypes': ['Egress']}}) if d['kind'] == 'NetworkPolicy')
+        self.assertEqual(deny['spec']['policyTypes'], ['Egress'])
+        self.assertNotIn('egress', deny['spec'])
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'networkPolicy': {'enabled': True},
+                    'workloads': {'worker': {'service': {'enabled': False}, 'namespaceOverride': 'other'}}})
+        for policy in ({'egress': egress}, {'policyTypes': ['Ingress', 'Other']}, {'policyTypes': []}):
+            with self.assertRaises(subprocess.CalledProcessError):
+                render({'networkPolicy': {'enabled': True, **policy}})
+
+    def test_resource_quota_requires_limits(self):
+        hard = {'requests.cpu': '4', 'pods': '12'}
+        quota = next(d for d in render({'resourceQuota': {'enabled': True, 'hard': hard}}) if d['kind'] == 'ResourceQuota')
+        self.assertEqual(quota['spec']['hard'], hard)
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'resourceQuota': {'enabled': True}})
+
+    def test_rbac_scope_follows_namespaced(self):
+        rules = [{'apiGroups': [''], 'resources': ['configmaps'], 'verbs': ['get']}]
+        account = {'serviceAccount': {'create': True}, 'rbac': {'create': True, 'rules': rules}}
+        cluster = render(account)
+        self.assertEqual({d['kind'] for d in cluster} & {'ClusterRole', 'ClusterRoleBinding', 'Role'}, {'ClusterRole', 'ClusterRoleBinding'})
+        account['rbac']['namespaced'] = True
+        docs = render(account)
+        role = next(d for d in docs if d['kind'] == 'Role')
+        binding = next(d for d in docs if d['kind'] == 'RoleBinding')
+        self.assertEqual(role['rules'], rules)
+        self.assertEqual(binding['roleRef'], {'apiGroup': 'rbac.authorization.k8s.io', 'kind': 'Role', 'name': 'test-app'})
+        self.assertEqual(binding['subjects'][0]['name'], 'test-app')
+        self.assertNotIn('ClusterRole', {d['kind'] for d in docs})
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'rbac': {'create': True, 'rules': rules}})
+
+    def test_pdb_accepts_zero_and_one_budget(self):
+        pdb = next(d for d in render({'pdb': {'enabled': True, 'minAvailable': 0}}) if d['kind'] == 'PodDisruptionBudget')
+        self.assertEqual(pdb['spec']['minAvailable'], 0)
+        pdb = next(d for d in render({'pdb': {'enabled': True}}) if d['kind'] == 'PodDisruptionBudget')
+        self.assertEqual(pdb['spec']['maxUnavailable'], 1)
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'pdb': {'enabled': True, 'minAvailable': 1, 'maxUnavailable': 1}})
+
+    def test_autoscaling_rejects_inverted_bounds(self):
+        metrics = [{'type': 'Resource', 'resource': {'name': 'cpu', 'target': {'type': 'Utilization', 'averageUtilization': 60}}}]
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'autoscaling': {'enabled': True, 'minReplicas': 4, 'maxReplicas': 2, 'metrics': metrics}})
+
+    def test_pod_dns_and_priority_are_optional(self):
+        dns = {'options': [{'name': 'ndots', 'value': '2'}]}
+        pod = next(d for d in render({'dnsConfig': dns, 'priorityClassName': 'high'}) if d['kind'] == 'Deployment')['spec']['template']['spec']
+        self.assertEqual(pod['dnsConfig'], dns)
+        self.assertEqual(pod['priorityClassName'], 'high')
+        pod = next(d for d in render({'priorityClassName': '123'}) if d['kind'] == 'Deployment')['spec']['template']['spec']
+        self.assertEqual(pod['priorityClassName'], '123')
+        pod = next(d for d in render({}) if d['kind'] == 'Deployment')['spec']['template']['spec']
+        self.assertNotIn('dnsConfig', pod)
+        self.assertNotIn('priorityClassName', pod)
+
+    def test_config_checksums_follow_only_the_data(self):
+        def annotations(values):
+            return next(d for d in render(values) if d['kind'] == 'Deployment')['spec']['template']['metadata']['annotations']
+        base = {'configmap': {'enabled': True, 'data': {'A': '1'}}, 'secret': {'enabled': True, 'data': {'B': 'Mg=='}}}
+        before = annotations(base)
+        self.assertEqual(before, annotations({**base, 'additionalLabels': {'team': 'x'}}))
+        after = annotations({**base, 'configmap': {'enabled': True, 'data': {'A': '2'}}})
+        self.assertNotEqual(before['checksum/config'], after['checksum/config'])
+        self.assertEqual(before['checksum/secret'], after['checksum/secret'])
 
 if __name__ == '__main__':
     unittest.main()

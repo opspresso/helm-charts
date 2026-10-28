@@ -3,6 +3,9 @@
 {{- if hasKey $overrides "Error" }}{{ fail (index $overrides "Error") }}{{ end }}
 {{- $settings := mergeOverwrite (deepCopy $.Values.workloadDefaults) (deepCopy $values) $overrides }}
 {{- if $settings.enabled }}
+{{- if and $.Values.networkPolicy.enabled (ne (default $.Release.Namespace $settings.namespaceOverride) (include "app.namespace" $)) }}
+{{- fail (printf "workloads.%s: networkPolicy covers only the release namespace; remove namespaceOverride or disable networkPolicy." $name) }}
+{{- end }}
 {{- $context := deepCopy $ }}
 {{- $_ := set $context "Values" $settings }}
 ---

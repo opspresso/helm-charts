@@ -1,0 +1,15 @@
+{{- if .Values.resourceQuota.enabled }}
+{{- if not .Values.resourceQuota.hard }}
+{{- fail "resourceQuota.enabled requires at least one limit in resourceQuota.hard." }}
+{{- end }}
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ include "app.fullname" . }}
+  namespace: {{ include "app.namespace" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  hard:
+    {{- toYaml .Values.resourceQuota.hard | nindent 4 }}
+{{- end }}
