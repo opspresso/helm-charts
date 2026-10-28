@@ -1,3 +1,4 @@
+{{- define "app.gateway" -}}
 {{- if .Values.routing.gateway.enabled }}
 {{- $fullName := include "app.fullname" . -}}
 apiVersion: gateway.networking.k8s.io/v1
@@ -16,3 +17,5 @@ spec:
   listeners:
     {{- toYaml .Values.routing.gateway.listeners | nindent 4 }}
 {{- end }}
+
+{{- end -}}

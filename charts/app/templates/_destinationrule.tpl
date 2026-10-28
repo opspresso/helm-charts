@@ -1,3 +1,4 @@
+{{- define "app.destinationrule" -}}
 {{- if .Values.destinationRule.enabled }}
 {{- if not .Values.destinationRule.trafficPolicy }}
 {{- fail "destinationRule.enabled requires a traffic policy in destinationRule.trafficPolicy." }}
@@ -19,3 +20,5 @@ spec:
   trafficPolicy:
     {{- toYaml .Values.destinationRule.trafficPolicy | nindent 4 }}
 {{- end }}
+
+{{- end -}}

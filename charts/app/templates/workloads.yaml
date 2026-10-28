@@ -1,14 +1,35 @@
-{{- range $name, $values := .Values.workloads }}
+{{- /* The main app and each worker render the same set of objects. */}}
+{{- $mainName := include "app.fullname" . }}
+{{- $names := dict $mainName "the main app" }}
+{{- $units := list }}
+{{- if .Values.enabled }}
+{{- $units = append $units . }}
+{{- end }}
+{{- range $key, $values := .Values.workloads }}
 {{- $overrides := tpl (default "" $values.overrides) $ | fromYaml }}
 {{- if hasKey $overrides "Error" }}{{ fail (index $overrides "Error") }}{{ end }}
 {{- $settings := mergeOverwrite (deepCopy $.Values.workloadDefaults) (deepCopy $values) $overrides }}
+{{- if not (or $settings.fullnameOverride $settings.nameOverride) }}
+{{- $_ := set $settings "fullnameOverride" (printf "%s-%s" $mainName (kebabcase $key) | trunc 63 | trimSuffix "-") }}
+{{- end }}
 {{- if $settings.enabled }}
 {{- if and $.Values.networkPolicy.enabled (ne (default $.Release.Namespace $settings.namespaceOverride) (include "app.namespace" $)) }}
-{{- fail (printf "workloads.%s: networkPolicy covers only the release namespace; remove namespaceOverride or disable networkPolicy." $name) }}
+{{- fail (printf "workloads.%s: networkPolicy covers only the release namespace; remove namespaceOverride or disable networkPolicy." $key) }}
 {{- end }}
 {{- $context := deepCopy $ }}
 {{- $_ := set $context "Values" $settings }}
+{{- $name := include "app.fullname" $context }}
+{{- if hasKey $names $name }}
+{{- fail (printf "workloads.%s: fullname %q is already used by %s." $key $name (index $names $name)) }}
+{{- end }}
+{{- $_ := set $names $name (printf "workloads.%s" $key) }}
+{{- $units = append $units $context }}
+{{- end }}
+{{- end }}
+{{- range $units }}
+{{- $doc := include "app.workload" . }}
+{{- if $doc }}
 ---
-{{ include "app.deployment" $context }}
+{{ $doc }}
 {{- end }}
 {{- end }}

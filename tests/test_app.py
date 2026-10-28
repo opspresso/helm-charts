@@ -95,6 +95,33 @@ class AppTests(unittest.TestCase):
         self.assertNotIn('readinessProbe', container)
         self.assertNotIn('ports', container)
 
+    def test_worker_renders_its_own_objects_under_a_derived_name(self):
+        metrics = [{'type': 'Resource', 'resource': {'name': 'cpu', 'target': {'type': 'Utilization', 'averageUtilization': 60}}}]
+        docs = render({'workloads': {'queueWorker': {
+            'service': {'enabled': False}, 'pdb': {'enabled': True},
+            'configmap': {'enabled': True, 'data': {'QUEUE': 'jobs'}},
+            'autoscaling': {'enabled': True, 'minReplicas': 2, 'maxReplicas': 4, 'metrics': metrics}}}})
+        name = 'test-app-queue-worker'
+        objects = {(d['kind'], d['metadata']['name']) for d in docs}
+        for kind in ('Deployment', 'ConfigMap', 'HorizontalPodAutoscaler', 'PodDisruptionBudget'):
+            self.assertIn((kind, name), objects)
+        self.assertNotIn(('Service', name), objects)
+        worker = next(d for d in docs if d['kind'] == 'Deployment' and d['metadata']['name'] == name)
+        self.assertNotIn('replicas', worker['spec'])
+        self.assertEqual(worker['spec']['template']['spec']['containers'][0]['envFrom'], [{'configMapRef': {'name': name}}])
+        pdb = next(d for d in docs if d['kind'] == 'PodDisruptionBudget')
+        self.assertEqual(pdb['spec']['selector']['matchLabels']['app.kubernetes.io/name'], name)
+
+    def test_workload_names_must_be_unique(self):
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'workloads': {'worker': {'fullnameOverride': 'test-app'}}})
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'workloads': {'a': {'fullnameOverride': 'same'}, 'b': {'fullnameOverride': 'same'}}})
+
+    def test_main_app_can_be_omitted_while_workers_render(self):
+        docs = render({'enabled': False, 'workloads': {'worker': {'service': {'enabled': False}}}})
+        self.assertEqual([(d['kind'], d['metadata']['name']) for d in docs], [('Deployment', 'test-app-worker')])
+
     def test_raw_uses_main_context_and_omits_disabled_documents(self):
         docs = render({'image': {'tag': 'v9'}, 'raw': {'enabled': True, 'parentTemplates': [
             'apiVersion: v1\nkind: ConfigMap\nmetadata: {name: extra}\ndata: {version: {{ .Values.image.tag | quote }}}',

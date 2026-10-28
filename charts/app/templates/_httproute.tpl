@@ -1,3 +1,4 @@
+{{- define "app.httproute" -}}
 {{- if .Values.routing.httpRoute.enabled }}
 {{- $fullName := include "app.fullname" . -}}
 {{- $servicePort := .Values.service.port | default 80 -}}
@@ -28,3 +29,5 @@ spec:
         - name: {{ $fullName }}
           port: {{ $servicePort }}
 {{- end }}
+
+{{- end -}}

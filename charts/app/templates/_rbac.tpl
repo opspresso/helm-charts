@@ -1,3 +1,4 @@
+{{- define "app.rbac" -}}
 {{- if .Values.rbac.create }}
 {{- if not (or .Values.serviceAccount.create .Values.irsa.enabled .Values.serviceAccount.name) }}
 {{- fail "rbac.create requires a ServiceAccount: set serviceAccount.create, serviceAccount.name or irsa.enabled." }}
@@ -35,3 +36,5 @@ roleRef:
   kind: {{ $kind }}
   name: {{ include "app.fullname" . }}
 {{- end }}
+
+{{- end -}}

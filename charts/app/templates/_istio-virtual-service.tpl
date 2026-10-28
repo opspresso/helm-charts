@@ -1,3 +1,4 @@
+{{- define "app.istio-virtual-service" -}}
 {{- if .Values.routing.istio.enabled }}
 apiVersion: networking.istio.io/v1
 kind: VirtualService
@@ -26,3 +27,5 @@ spec:
             port:
               number: {{ .Values.service.port | default "80" }}
 {{- end }}
+
+{{- end -}}

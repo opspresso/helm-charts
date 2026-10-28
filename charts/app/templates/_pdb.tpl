@@ -1,3 +1,4 @@
+{{- define "app.pdb" -}}
 {{- if .Values.pdb.enabled }}
 {{- $min := hasKey .Values.pdb "minAvailable" }}
 {{- $max := hasKey .Values.pdb "maxUnavailable" }}
@@ -21,3 +22,5 @@ spec:
     matchLabels:
       {{- include "app.selectorLabels" . | nindent 6 }}
 {{- end }}
+
+{{- end -}}

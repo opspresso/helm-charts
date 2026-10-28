@@ -1,3 +1,4 @@
+{{- define "app.secret" -}}
 {{- if and .Values.secret.enabled .Values.secret.data }}
 apiVersion: v1
 kind: Secret
@@ -14,3 +15,5 @@ data:
   {{ $key }}: {{ $value | quote }}
   {{- end }}
 {{- end }}
+
+{{- end -}}

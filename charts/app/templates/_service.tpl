@@ -1,3 +1,4 @@
+{{- define "app.service" -}}
 {{- if .Values.service.enabled }}
 apiVersion: v1
 kind: Service
@@ -20,3 +21,5 @@ spec:
   selector:
     {{- include "app.selectorLabels" . | nindent 4 }}
 {{- end }}
+
+{{- end -}}
