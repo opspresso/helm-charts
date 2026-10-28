@@ -28,6 +28,9 @@ metadata:
     {{- include "app.labels" . | nindent 4 }}
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
+    {{- with .Values.externalSecrets.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   refreshInterval: {{ .Values.externalSecrets.refreshInterval | default "1h" }}
   secretStoreRef:
