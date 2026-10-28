@@ -137,6 +137,8 @@ class AppTests(unittest.TestCase):
         self.assertEqual(container['envFrom'], [{'secretRef': {'name': 'app-env', 'optional': True}}])
         with self.assertRaises(subprocess.CalledProcessError):
             render({'externalSecrets': {'enabled': True, 'secretStore': {'enabled': True}}})
+        docs = render({'externalSecrets': {'enabled': True, 'name': '123', 'data': [{'key': 'k', 'name': 'K'}]}})
+        self.assertEqual(next(d for d in docs if d['kind'] == 'ExternalSecret')['metadata']['name'], '123')
 
     def test_external_secrets_keep_the_cluster_store_and_default_name(self):
         docs = render({'externalSecrets': {'enabled': True, 'data': [{'key': '/k8s/demo', 'name': 'TOKEN'}]}})
@@ -163,6 +165,9 @@ class AppTests(unittest.TestCase):
         deny = next(d for d in render({'networkPolicy': {'enabled': True, 'policyTypes': ['Egress']}}) if d['kind'] == 'NetworkPolicy')
         self.assertEqual(deny['spec']['policyTypes'], ['Egress'])
         self.assertNotIn('egress', deny['spec'])
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'networkPolicy': {'enabled': True},
+                    'workloads': {'worker': {'service': {'enabled': False}, 'namespaceOverride': 'other'}}})
         for policy in ({'egress': egress}, {'policyTypes': ['Ingress', 'Other']}, {'policyTypes': []}):
             with self.assertRaises(subprocess.CalledProcessError):
                 render({'networkPolicy': {'enabled': True, **policy}})
@@ -208,9 +213,21 @@ class AppTests(unittest.TestCase):
         pod = next(d for d in render({'dnsConfig': dns, 'priorityClassName': 'high'}) if d['kind'] == 'Deployment')['spec']['template']['spec']
         self.assertEqual(pod['dnsConfig'], dns)
         self.assertEqual(pod['priorityClassName'], 'high')
+        pod = next(d for d in render({'priorityClassName': '123'}) if d['kind'] == 'Deployment')['spec']['template']['spec']
+        self.assertEqual(pod['priorityClassName'], '123')
         pod = next(d for d in render({}) if d['kind'] == 'Deployment')['spec']['template']['spec']
         self.assertNotIn('dnsConfig', pod)
         self.assertNotIn('priorityClassName', pod)
+
+    def test_config_checksums_follow_only_the_data(self):
+        def annotations(values):
+            return next(d for d in render(values) if d['kind'] == 'Deployment')['spec']['template']['metadata']['annotations']
+        base = {'configmap': {'enabled': True, 'data': {'A': '1'}}, 'secret': {'enabled': True, 'data': {'B': 'Mg=='}}}
+        before = annotations(base)
+        self.assertEqual(before, annotations({**base, 'additionalLabels': {'team': 'x'}}))
+        after = annotations({**base, 'configmap': {'enabled': True, 'data': {'A': '2'}}})
+        self.assertNotEqual(before['checksum/config'], after['checksum/config'])
+        self.assertEqual(before['checksum/secret'], after['checksum/secret'])
 
 if __name__ == '__main__':
     unittest.main()

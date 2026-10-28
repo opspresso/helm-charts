@@ -3,9 +3,14 @@
 {{- range $host := .Values.routing.hosts }}
   http{{ if $.Values.routing.ingress.tls }}s{{ end }}://{{ . }}{{ $.Values.routing.path }}
 {{- end }}
-{{- else if or .Values.routing.httpRoute.enabled .Values.routing.istio.enabled }}
+{{- else if .Values.routing.istio.enabled }}
 {{- range $host := .Values.routing.hosts }}
-  https://{{ . }}{{ $.Values.routing.path }}
+  http://{{ . }}{{ $.Values.routing.path }}
+{{- end }}
+{{- else if .Values.routing.httpRoute.enabled }}
+  The HTTPRoute serves these hosts; the scheme follows the listener of its parent Gateway:
+{{- range $host := .Values.routing.hosts }}
+  {{ . }}{{ $.Values.routing.path }}
 {{- end }}
 {{- else if contains "NodePort" .Values.service.type }}
   export NODE_PORT=$(kubectl get --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" services {{ include "app.fullname" . }})

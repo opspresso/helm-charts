@@ -72,11 +72,12 @@ spec:
       {{- $secretChecksum := and .Values.secret.enabled .Values.secret.data }}
       {{- if or .Values.podAnnotations $configChecksum $secretChecksum }}
       annotations:
+        {{- /* Hash only the data, so a chart upgrade alone does not restart the Pods. */}}
         {{- if $configChecksum }}
-        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/config: {{ toJson .Values.configmap.data | sha256sum }}
         {{- end }}
         {{- if $secretChecksum }}
-        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        checksum/secret: {{ toJson .Values.secret.data | sha256sum }}
         {{- end }}
         {{- with .Values.podAnnotations }}
         {{- tpl (toYaml .) $ | nindent 8 }}
@@ -162,7 +163,7 @@ spec:
             {{- end }}
             {{- if .Values.externalSecrets.enabled }}
             - secretRef:
-                name: {{ include "app.externalSecretName" . }}
+                name: {{ include "app.externalSecretName" . | quote }}
                 {{- if .Values.externalSecrets.optional }}
                 optional: true
                 {{- end }}
@@ -203,7 +204,7 @@ spec:
 {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.priorityClassName }}
-      priorityClassName: {{ . }}
+      priorityClassName: {{ . | quote }}
       {{- end }}
       restartPolicy: {{ .Values.restartPolicy | default "Always" }}
       {{- if kindIs "bool" .Values.automountServiceAccountToken }}

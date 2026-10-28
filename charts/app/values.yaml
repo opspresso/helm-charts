@@ -492,7 +492,7 @@ workloads: {}
   #     image: {{ toYaml .Values.image | nindent 2 }}
 
 # Allows only the listed traffic to every Pod of this release: the main app and
-# its workers. Each direction in policyTypes without rules denies all traffic.
+# its workers. Workers must stay in the release namespace. Each direction in policyTypes without rules denies all traffic.
 networkPolicy:
   enabled: false
   policyTypes: [Ingress] # Ingress, Egress

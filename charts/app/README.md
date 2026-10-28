@@ -90,7 +90,9 @@ and ExternalSecret `-1`, then the workload.
 ## Network and namespace policies
 
 `networkPolicy` selects every Pod of the release with the
-`app.kubernetes.io/instance` label: the main app and its workers. Each
+`app.kubernetes.io/instance` label: the main app and its workers. A worker in
+another namespace (`namespaceOverride`) stops the render, because the policy
+exists only in the release namespace. Each
 direction in `policyTypes` denies all traffic except its rules. A direction
 without rules therefore denies all traffic in that direction. Rules for a
 direction that is not in `policyTypes` stop the render.
@@ -174,7 +176,9 @@ python3 -m unittest discover -s tests -v
 ## Values
 
 `workloadDefaults` holds the settings of one workload; the chart copies them to
-the root, and every worker starts from them. Keys in **Release Resources**
+the root, and every worker starts from them. The copy happens before Helm merges
+user values, so a user override of `workloadDefaults.*` changes only the
+workers. Set the main app values at the root. Keys in **Release Resources**
 apply once per release.
 
 ### Chart Identity
@@ -272,7 +276,7 @@ apply once per release.
 
 | Key | Default | Description |
 | --- | --- | --- |
-| `persistence` | `{"enabled":false,"accessModes":["ReadWriteOnce"],"size":"10Gi","mountPath":"/data"}` | PVC `<fullname>` mounted at `mountPath`. `existingClaim` uses a PVC that exists. A `ReadWriteOnce` claim allows one replica. |
+| `persistence` | `{"enabled":false,"accessModes":["ReadWriteOnce"],"size":"10Gi","mountPath":"/data"}` | PVC `<fullname>` mounted at `mountPath`. `existingClaim` uses a PVC that exists. The chart refuses more than one replica with a new `ReadWriteOnce` claim: only Pods on one node can mount it. `ReadWriteOncePod` limits the claim to one Pod. |
 | `extraVolumes` | `[]` | Pod volumes. |
 | `extraVolumeMounts` | `[]` | Main container volume mounts. |
 
