@@ -1,0 +1,10 @@
+# Copy of the archived incubator/raw 0.2.5 chart from helm/charts (Apache-2.0, see LICENSE).
+# Templates are unchanged. Keep name and version so rendered labels (chart: raw-0.2.5) stay identical.
+apiVersion: v1
+appVersion: 0.2.3
+description: A place for all the Kubernetes resources which don't already have a home.
+home: https://github.com/opspresso/helm-charts/tree/main/charts/raw
+name: raw
+version: 0.2.5
+sources:
+  - https://github.com/helm/charts/tree/master/incubator/raw
