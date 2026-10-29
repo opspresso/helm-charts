@@ -1,6 +1,6 @@
 # app
 
-![Version: v2.0.2](https://img.shields.io/badge/Version-v2.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v2.1.0](https://img.shields.io/badge/Version-v2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 One application on Kubernetes: a Deployment or Argo Rollout with its Service,
 routing, scaling, configuration and policies. Each worker of the same release
@@ -298,6 +298,7 @@ apply once per release.
 | `externalSecrets.secretStore.provider` | `{}` | SecretStore `spec.provider`. Evaluated as a template. Required when enabled. |
 | `externalSecrets.data` | `[]` | Remote values: `key`, Secret key `name` and optional `property`. |
 | `externalSecrets.dataFrom` | `[]` | ExternalSecret `spec.dataFrom`. Evaluated as a template. |
+| `externalSecrets.deletionPolicy` | `""` | Target `deletionPolicy` when the store returns no values. Empty keeps the External Secrets default `Retain`. `Delete` removes the Secret; set `optional: true` with it. |
 | `externalSecrets.optional` | `false` | Marks the `envFrom` reference optional, for a `dataFrom` that can match no keys. |
 
 ### Pod Metadata & Spec

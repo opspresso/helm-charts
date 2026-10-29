@@ -42,6 +42,9 @@ spec:
     {{- end }}
   target:
     name: {{ include "app.externalSecretName" . | quote }}
+    {{- with .Values.externalSecrets.deletionPolicy }}
+    deletionPolicy: {{ . }}
+    {{- end }}
   {{- with .Values.externalSecrets.data }}
   data:
     {{- range . }}

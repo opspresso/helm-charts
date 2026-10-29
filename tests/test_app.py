@@ -211,6 +211,14 @@ class AppTests(unittest.TestCase):
         secret = next(d for d in docs if d['kind'] == 'ExternalSecret')
         self.assertEqual(secret['metadata']['annotations'], {'argocd.argoproj.io/sync-wave': '-1', 'force-sync': 'delivery-1'})
 
+    def test_external_secret_deletion_policy_is_set_only_when_given(self):
+        values = {'enabled': True, 'data': [{'key': '/k8s/demo', 'name': 'TOKEN'}]}
+        secret = next(d for d in render({'externalSecrets': values}) if d['kind'] == 'ExternalSecret')
+        self.assertNotIn('deletionPolicy', secret['spec']['target'])
+        docs = render({'externalSecrets': {**values, 'deletionPolicy': 'Delete'}})
+        secret = next(d for d in docs if d['kind'] == 'ExternalSecret')
+        self.assertEqual(secret['spec']['target']['deletionPolicy'], 'Delete')
+
     def test_external_secrets_keep_the_cluster_store_and_default_name(self):
         docs = render({'externalSecrets': {'enabled': True, 'data': [{'key': '/k8s/demo', 'name': 'TOKEN'}]}})
         self.assertNotIn('SecretStore', {d['kind'] for d in docs})

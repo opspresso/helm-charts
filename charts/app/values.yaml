@@ -214,6 +214,11 @@ workloadDefaults: &workloadDefaults
       #     path: /k8s/common/demo
       #     name:
       #       regexp: ".*"
+    # What External Secrets does with the Secret when the store returns no
+    # values, for example after the last key under a dataFrom path is removed.
+    # Empty keeps the External Secrets default (Retain: the last values stay).
+    # Delete removes the Secret; pair it with optional: true.
+    deletionPolicy: ""
     # Marks the generated envFrom reference optional. Use it when dataFrom can
     # match no keys: External Secrets then creates no Secret.
     optional: false
