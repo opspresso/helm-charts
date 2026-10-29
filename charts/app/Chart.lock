@@ -1,6 +1,6 @@
 dependencies:
 - name: raw
-  repository: https://charts.helm.sh/incubator
+  repository: https://opspresso.github.io/helm-charts/
   version: 0.2.5
-digest: sha256:9822961b69356d5aa2bcbd5de931adf1d1ab10694357a1dd249e4d894077159b
-generated: "2026-10-01T01:05:51.485068+09:00"
+digest: sha256:6cebcf3f67e1a98401569f1bec3fe3fe39300fcd0f095156a09bb58e96ae10ca
+generated: "2026-10-29T09:34:34.212237+09:00"

@@ -13,7 +13,6 @@ eks https://aws.github.io/eks-charts
 external-dns https://kubernetes-sigs.github.io/external-dns
 external-secrets https://charts.external-secrets.io
 grafana https://grafana.github.io/helm-charts
-incubator https://charts.helm.sh/incubator
 ingress-nginx https://kubernetes.github.io/ingress-nginx
 istio https://istio-release.storage.googleapis.com/charts
 jetstack https://charts.jetstack.io
