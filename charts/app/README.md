@@ -1,6 +1,6 @@
 # app
 
-![Version: v2.0.1](https://img.shields.io/badge/Version-v2.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v2.0.2](https://img.shields.io/badge/Version-v2.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 One application on Kubernetes: a Deployment or Argo Rollout with its Service,
 routing, scaling, configuration and policies. Each worker of the same release
@@ -189,7 +189,7 @@ v2.0.0 changes these contracts:
 ## Other resources
 
 Use a chart setting when one exists. For other objects, set `raw.enabled: true`
-to use the bundled incubator/raw dependency. `raw.resources` and
+to use the bundled opspresso/raw dependency (a copy of the archived incubator/raw). `raw.resources` and
 `raw.templates` keep their upstream behavior. `raw.parentTemplates` is a list
 of YAML template strings evaluated against the main app values. A string can
 contain several documents and conditions. Empty documents are omitted, and
@@ -209,7 +209,7 @@ fields, including authorization, TLS settings and relabeling.
 Run the rendering contracts with Helm and PyYAML installed:
 
 ```sh
-helm repo add incubator https://charts.helm.sh/incubator
+helm repo add opspresso https://opspresso.github.io/helm-charts
 helm dependency build charts/app
 python3 -m unittest discover -s tests -v
 ```
@@ -390,5 +390,5 @@ apply once per release.
 | `networkPolicy.egress` | `[]` | Allowed egress rules. |
 | `resourceQuota.enabled` | `false` | Renders a ResourceQuota for the namespace. |
 | `resourceQuota.hard` | `{}` | Quota limits. Required when enabled. |
-| `raw.enabled` | `false` | Renders other objects with incubator/raw. |
+| `raw.enabled` | `false` | Renders other objects with opspresso/raw. |
 | `raw.parentTemplates` | `[]` | YAML templates evaluated against the final app values. See [Other resources](#other-resources). |
