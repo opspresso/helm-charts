@@ -3,8 +3,8 @@ description: Kubernetes Gateway API CRDs
 icon: https://avatars.githubusercontent.com/u/38965494
 name: gateway-api-crds
 type: application
-appVersion: v1.6.1
-version: 1.6.1
+appVersion: v1.6.3
+version: 1.6.3
 maintainers:
   - email: me@nalbam.com
     name: Jungyoul Yu

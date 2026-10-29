@@ -4,7 +4,7 @@ Kubernetes Gateway API CRD를 설치하는 Helm 차트입니다.
 
 ## 개요
 
-이 차트는 [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api) v1.6.1의 Standard Channel CRD를 설치합니다.
+이 차트는 [kubernetes-sigs/gateway-api](https://github.com/kubernetes-sigs/gateway-api) v1.6.3의 Standard Channel CRD를 설치합니다.
 
 ### 포함된 CRD
 
@@ -24,7 +24,7 @@ Kubernetes Gateway API CRD를 설치하는 Helm 차트입니다.
 1. [Gateway API Releases](https://github.com/kubernetes-sigs/gateway-api/releases) 확인
 2. CRD 다운로드:
 ```bash
-curl -sL https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.1/standard-install.yaml \
+curl -sL https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.6.3/standard-install.yaml \
   -o charts/gateway-api-crds/templates/crds.yaml
 ```
 3. `Chart.yaml`의 `version`과 `appVersion` 업데이트
