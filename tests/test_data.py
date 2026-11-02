@@ -32,14 +32,19 @@ class DataChartTests(unittest.TestCase):
             with self.subTest(chart), self.assertRaises(subprocess.CalledProcessError):
                 render(chart)
 
-    def test_peer_policy_exists_only_when_enabled(self):
+    def test_policy_allows_the_namespace_and_only_the_named_peer(self):
         for chart, port in (('postgres', 5432), ('valkey', 6379)):
             with self.subTest(chart):
-                self.assertNotIn('NetworkPolicy', render(chart, 'passwordSecret.key=K'))
-                policy = render(chart, 'passwordSecret.key=K', 'peer.enabled=true', 'peer.namespace=sandboxes')['NetworkPolicy']
+                policy = render(chart, 'passwordSecret.key=K')['NetworkPolicy']
+                self.assertEqual(policy['spec']['policyTypes'], ['Ingress', 'Egress'])
+                self.assertEqual(policy['spec']['egress'], [])
                 ingress = policy['spec']['ingress'][0]
                 self.assertEqual(ingress['ports'], [{'protocol': 'TCP', 'port': port}])
-                self.assertEqual(ingress['from'][0]['namespaceSelector']['matchLabels'], {'kubernetes.io/metadata.name': 'sandboxes'})
+                self.assertEqual(ingress['from'], [{'podSelector': {}}])
+                policy = render(chart, 'passwordSecret.key=K', 'peer.enabled=true', 'peer.namespace=sandboxes')['NetworkPolicy']
+                peers = policy['spec']['ingress'][0]['from']
+                self.assertEqual(peers[0], {'podSelector': {}}, 'the app in the namespace stays allowed')
+                self.assertEqual(peers[1]['namespaceSelector']['matchLabels'], {'kubernetes.io/metadata.name': 'sandboxes'})
 
 
 if __name__ == '__main__':
