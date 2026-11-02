@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+  labels: {{- include "valkey.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ .Release.Name }}
+  replicas: 1
+  selector:
+    matchLabels: {{- include "valkey.labels" . | nindent 6 }}
+  # Deleting the release deletes the data. Scaling never does.
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+    whenScaled: Retain
+  template:
+    metadata:
+      labels: {{- include "valkey.labels" . | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 1000
+        runAsNonRoot: true
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: valkey
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: [sh, -ec]
+          # The password stays out of the Pod spec, and exec keeps the server as the process that receives SIGTERM.
+          args:
+            - exec valkey-server --dir /data --appendonly yes --maxmemory {{ .Values.maxMemoryMiB }}mb --requirepass "$VALKEY_PASSWORD"
+          ports:
+            - name: valkey
+              containerPort: 6379
+          env:
+            - name: VALKEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.passwordSecret.name | quote }}
+                  key: {{ required "passwordSecret.key is required" .Values.passwordSecret.key | quote }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
+          readinessProbe:
+            exec:
+              command: [sh, -ec, 'REDISCLI_AUTH="$VALKEY_PASSWORD" valkey-cli ping | grep -q PONG']
+            periodSeconds: 5
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ReadWriteOnce]
+        {{- with .Values.persistence.storageClass }}
+        storageClassName: {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.storageGiB }}Gi

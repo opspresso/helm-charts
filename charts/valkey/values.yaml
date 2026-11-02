@@ -1,0 +1,29 @@
+image:
+  repository: valkey/valkey
+  tag: ""  # Default: the chart appVersion.
+  pullPolicy: IfNotPresent
+
+# The Secret key that holds the password. The password must exist before the Pod can start.
+passwordSecret:
+  name: app-env
+  key: ""  # Required.
+
+# Data limit of the server. The container limit adds room for the append-only rewrite.
+maxMemoryMiB: 128
+
+persistence:
+  storageGiB: 1
+  storageClass: ""  # Default: the cluster default class.
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    memory: 256Mi
+
+# Opens the server port to Pods of one other namespace. Use it only for a development environment.
+peer:
+  enabled: false
+  namespace: ""
+  podLabels: {}

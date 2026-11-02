@@ -1,0 +1,22 @@
+{{- if .Values.peer.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Release.Name }}-peer
+  labels: {{- include "valkey.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels: {{- include "valkey.labels" . | nindent 6 }}
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ required "peer.namespace is required" .Values.peer.namespace | quote }}
+          {{- with .Values.peer.podLabels }}
+          podSelector:
+            matchLabels: {{- toYaml . | nindent 14 }}
+          {{- end }}
+      ports:
+        - {protocol: TCP, port: 6379}
+{{- end }}
