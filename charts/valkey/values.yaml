@@ -22,7 +22,7 @@ resources:
   limits:
     memory: 256Mi
 
-# Opens the server port to Pods of one other namespace. Use it only for a development environment.
+# Also opens the server port to Pods of one other namespace, beside its own namespace. Use it only for a development environment.
 peer:
   enabled: false
   namespace: ""

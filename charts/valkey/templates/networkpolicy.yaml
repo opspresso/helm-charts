@@ -1,15 +1,17 @@
-{{- if .Values.peer.enabled }}
+# The server accepts only Pods of its namespace and the optional peer, and starts no connection of its own.
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ .Release.Name }}-peer
+  name: {{ .Release.Name }}
   labels: {{- include "valkey.labels" . | nindent 4 }}
 spec:
   podSelector:
     matchLabels: {{- include "valkey.labels" . | nindent 6 }}
-  policyTypes: [Ingress]
+  policyTypes: [Ingress, Egress]
   ingress:
     - from:
+        - podSelector: {}
+        {{- if .Values.peer.enabled }}
         - namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: {{ required "peer.namespace is required" .Values.peer.namespace | quote }}
@@ -17,6 +19,7 @@ spec:
           podSelector:
             matchLabels: {{- toYaml . | nindent 14 }}
           {{- end }}
+        {{- end }}
       ports:
         - {protocol: TCP, port: 6379}
-{{- end }}
+  egress: []
