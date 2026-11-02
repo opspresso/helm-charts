@@ -1,0 +1,10 @@
+apiVersion: v2
+description: One dedicated Valkey server with persistence for one application environment
+icon: https://avatars.githubusercontent.com/u/38965494
+name: valkey
+type: application
+appVersion: 9.0.7-alpine3.24
+version: 1.0.0
+maintainers:
+  - email: me@nalbam.com
+    name: Jungyoul Yu

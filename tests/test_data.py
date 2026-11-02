@@ -1,0 +1,46 @@
+"""Render the postgres and valkey charts with Helm; run with unittest and PyYAML installed."""
+from pathlib import Path
+import subprocess
+import unittest
+
+import yaml
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def render(chart, *settings):
+    arguments = ['helm', 'template', 'main', str(ROOT / 'charts' / chart), '--namespace', 'app-todo-dev']
+    for setting in settings:
+        arguments += ['--set', setting]
+    result = subprocess.run(arguments, check=True, capture_output=True, text=True)
+    return {doc['kind']: doc for doc in yaml.safe_load_all(result.stdout) if doc}
+
+
+class DataChartTests(unittest.TestCase):
+    def test_server_keeps_the_password_out_of_the_pod_spec_and_deletes_data_with_the_release(self):
+        for chart, key in (('postgres', 'MAIN_PGPASSWORD'), ('valkey', 'MAIN_VALKEY_PASSWORD')):
+            with self.subTest(chart):
+                server = render(chart, f'passwordSecret.key={key}')['StatefulSet']
+                self.assertEqual(server['spec']['persistentVolumeClaimRetentionPolicy']['whenDeleted'], 'Delete')
+                pod = server['spec']['template']['spec']
+                self.assertFalse(pod['automountServiceAccountToken'])
+                sources = [e['valueFrom']['secretKeyRef'] for e in pod['containers'][0]['env'] if 'valueFrom' in e]
+                self.assertEqual(sources, [{'name': 'app-env', 'key': key}])
+
+    def test_password_key_is_required(self):
+        for chart in ('postgres', 'valkey'):
+            with self.subTest(chart), self.assertRaises(subprocess.CalledProcessError):
+                render(chart)
+
+    def test_peer_policy_exists_only_when_enabled(self):
+        for chart, port in (('postgres', 5432), ('valkey', 6379)):
+            with self.subTest(chart):
+                self.assertNotIn('NetworkPolicy', render(chart, 'passwordSecret.key=K'))
+                policy = render(chart, 'passwordSecret.key=K', 'peer.enabled=true', 'peer.namespace=sandboxes')['NetworkPolicy']
+                ingress = policy['spec']['ingress'][0]
+                self.assertEqual(ingress['ports'], [{'protocol': 'TCP', 'port': port}])
+                self.assertEqual(ingress['from'][0]['namespaceSelector']['matchLabels'], {'kubernetes.io/metadata.name': 'sandboxes'})
+
+
+if __name__ == '__main__':
+    unittest.main()

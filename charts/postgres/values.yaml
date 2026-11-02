@@ -1,0 +1,29 @@
+image:
+  repository: pgvector/pgvector
+  tag: ""  # Default: the chart appVersion.
+  pullPolicy: IfNotPresent
+
+database: app
+username: app
+
+# The Secret key that holds the password. The password must exist before the Pod can start.
+passwordSecret:
+  name: app-env
+  key: ""  # Required.
+
+persistence:
+  storageGiB: 5
+  storageClass: ""  # Default: the cluster default class.
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    memory: 512Mi
+
+# Opens the server port to Pods of one other namespace. Use it only for a development environment.
+peer:
+  enabled: false
+  namespace: ""
+  podLabels: {}
