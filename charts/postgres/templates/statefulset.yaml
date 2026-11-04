@@ -29,6 +29,14 @@ spec:
         - name: postgres
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- with .Values.config }}
+          args:
+            - postgres
+            {{- range $key, $value := . }}
+            - -c
+            - {{ printf "%s=%v" $key $value | quote }}
+            {{- end }}
+          {{- end }}
           ports:
             - name: postgres
               containerPort: 5432
