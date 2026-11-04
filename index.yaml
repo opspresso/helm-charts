@@ -3,7 +3,7 @@ entries:
   app:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.928551001Z"
+    created: "2026-11-04T03:55:05.756970538Z"
     dependencies:
     - condition: raw.enabled
       name: raw
@@ -11,7 +11,7 @@ entries:
       version: 0.2.5
     description: One application on Kubernetes with its Service, routing, scaling,
       configuration and policies
-    digest: a108858d959ce31c2e69505cd3fc5d4941ca8ce681f8bcf243b52ba47b49ddf4
+    digest: 2373657f3f7d1e551038cdcdb8ca970102c65f0125877fc83b928f973c7eb981
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -23,7 +23,7 @@ entries:
     version: v2.2.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.925913937Z"
+    created: "2026-11-04T03:55:05.755344947Z"
     dependencies:
     - condition: raw.enabled
       name: raw
@@ -43,7 +43,7 @@ entries:
     version: v2.1.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.923944172Z"
+    created: "2026-11-04T03:55:05.753757898Z"
     dependencies:
     - condition: raw.enabled
       name: raw
@@ -63,7 +63,7 @@ entries:
     version: v2.0.2
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.922304595Z"
+    created: "2026-11-04T03:55:05.752080049Z"
     dependencies:
     - condition: raw.enabled
       name: raw
@@ -83,7 +83,7 @@ entries:
     version: v2.0.1
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.920808627Z"
+    created: "2026-11-04T03:55:05.749494765Z"
     dependencies:
     - condition: raw.enabled
       name: raw
@@ -103,7 +103,7 @@ entries:
     version: v2.0.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.919154692Z"
+    created: "2026-11-04T03:55:05.747939895Z"
     dependencies:
     - condition: raw.enabled
       name: raw
@@ -123,7 +123,7 @@ entries:
     version: v1.8.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.916237285Z"
+    created: "2026-11-04T03:55:05.746171218Z"
     dependencies:
     - condition: raw.enabled
       name: raw
@@ -142,7 +142,7 @@ entries:
     version: v1.7.1
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.914902348Z"
+    created: "2026-11-04T03:55:05.744758172Z"
     dependencies:
     - condition: raw.enabled
       name: raw
@@ -161,7 +161,7 @@ entries:
     version: v1.7.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.913539278Z"
+    created: "2026-11-04T03:55:05.742281953Z"
     description: A Helm chart for Kubernetes
     digest: 2054e5c4433d016cad4b32d1aec5e7cc197bb21abd38e6f76715a411faf159b2
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -175,7 +175,7 @@ entries:
     version: v1.6.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.912672346Z"
+    created: "2026-11-04T03:55:05.741422035Z"
     description: A Helm chart for Kubernetes
     digest: ad10308ea9cedc20eb02b3ada1bed49fac93d8bace81ec3e05eec31a872103bd
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -189,7 +189,7 @@ entries:
     version: v1.5.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.911792249Z"
+    created: "2026-11-04T03:55:05.740534215Z"
     description: A Helm chart for Kubernetes
     digest: f5fe4b844fd18c2996f3f65b945f999d94c207f00053e18fbcb43cac57903a35
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -203,7 +203,7 @@ entries:
     version: v1.4.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.910944243Z"
+    created: "2026-11-04T03:55:05.739741372Z"
     description: A Helm chart for Kubernetes
     digest: 0bb9ecdaaaa42c36c9c9637491383a9ef6c4ceb4484b51ff0e2b44cb9ebb674b
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -217,7 +217,7 @@ entries:
     version: v1.3.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.909617671Z"
+    created: "2026-11-04T03:55:05.738929884Z"
     description: A Helm chart for Kubernetes
     digest: 8337099ad3a2a57c410b90f94081f07c18577df7e0347a9b82c23151b34909e0
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -232,9 +232,9 @@ entries:
   cronjob:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.930963013Z"
+    created: "2026-11-04T03:55:05.76021122Z"
     description: A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
-    digest: 2e83900812a60c4c185a60a50550a76c18abf3eb7a581c0d3d8966b182d636d6
+    digest: 2a5c8e4f7e3508a3cd1485e990ae18b3bc9364b4503b405dda6dd1bc523cb35c
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -246,7 +246,7 @@ entries:
     version: v1.1.2
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.930466003Z"
+    created: "2026-11-04T03:55:05.759758259Z"
     description: A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
     digest: 89cddc17aa00636f9212059f67da1c6a1a2205315d2555bdbd8010bc46b21f49
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -260,7 +260,7 @@ entries:
     version: v1.1.1
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.930006824Z"
+    created: "2026-11-04T03:55:05.758910734Z"
     description: A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
     digest: 3bca86bee6e11330d979f2820f43fdf12ebd846bc1ed566a1d79e4ad027d2d43
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -274,7 +274,7 @@ entries:
     version: v1.1.0
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.9294648Z"
+    created: "2026-11-04T03:55:05.757808746Z"
     description: A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
     digest: 3828d7d7634381ee03192871edb9eaa8cf9f4a4dde2bbd8ff74b514395c20641
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -288,7 +288,7 @@ entries:
     version: v1.0.2
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.928931413Z"
+    created: "2026-11-04T03:55:05.757330547Z"
     description: A Helm chart for Kubernetes
     digest: 1c6387d10faf7bd96da65518374375ef07a08f432ccb855e7db139e4d7e8ec42
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -303,9 +303,9 @@ entries:
   gateway-api-crds:
   - apiVersion: v2
     appVersion: v1.6.3
-    created: "2026-11-04T01:06:10.945087377Z"
+    created: "2026-11-04T03:55:05.772716213Z"
     description: Kubernetes Gateway API CRDs
-    digest: 0ffaca867ebf12bb4ecb19d86a3ca9f3cf5290a6d47fea71937a73e8cdf81bba
+    digest: e8e8f3ce50199e12156bdb9f21cf65cae219d4605dedb61142b41187e375e92e
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -319,7 +319,7 @@ entries:
     version: 1.6.3
   - apiVersion: v2
     appVersion: v1.6.1
-    created: "2026-11-04T01:06:10.938300513Z"
+    created: "2026-11-04T03:55:05.767439306Z"
     description: Kubernetes Gateway API CRDs
     digest: e1c45c59e355994153319950407f906a97e439d238b39396b88eb0b699350f70
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -336,7 +336,22 @@ entries:
   postgres:
   - apiVersion: v2
     appVersion: 0.8.6-pg18-trixie
-    created: "2026-11-04T01:06:10.945586771Z"
+    created: "2026-11-04T03:55:05.773390977Z"
+    description: One dedicated PostgreSQL server with the pgvector extension for one
+      application environment
+    digest: b161de72a56a38a42fa5e7ac47792ad34e88d7fa0ef288209597ceaea4076e07
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: postgres
+    type: application
+    urls:
+    - postgres-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 0.8.6-pg18-trixie
+    created: "2026-11-04T03:55:05.773176518Z"
     description: One dedicated PostgreSQL server with the pgvector extension for one
       application environment
     digest: 0c35000798ba554e4c827156dcd3f94d56b471b33acda1b0e452983ec5410b5f
@@ -351,7 +366,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 0.8.6-pg18-trixie
-    created: "2026-11-04T01:06:10.945331303Z"
+    created: "2026-11-04T03:55:05.772958363Z"
     description: One dedicated PostgreSQL server with the pgvector extension for one
       application environment
     digest: e172e4b02eba598a0723892a37ac752217bb3fd6dfdfed94c8417bf9160a2953
@@ -367,10 +382,10 @@ entries:
   raw:
   - apiVersion: v1
     appVersion: 0.2.3
-    created: "2026-11-04T01:06:10.945900037Z"
+    created: "2026-11-04T03:55:05.774028171Z"
     description: A place for all the Kubernetes resources which don't already have
       a home.
-    digest: 13c3715d0216cf6322fd3ab142212b3bbad708e20502c909e02b7acab8289844
+    digest: ff0dc72ff21ef683a7d54414288a0d496be054ca177f195dfb2d9711ccabbf63
     home: https://github.com/opspresso/helm-charts/tree/main/charts/raw
     name: raw
     sources:
@@ -381,9 +396,9 @@ entries:
   tgbs:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.946376538Z"
+    created: "2026-11-04T03:55:05.775021317Z"
     description: A Helm chart for Kubernetes
-    digest: 11b5e7855ddf8596df9f6a5e7cdba22018d9f188cfda2650003973ad34d0c6dc
+    digest: b8e891a8356e2151b6afd18b378d235063aec62d7027d454d2bc81c544db4251
     icon: https://avatars.githubusercontent.com/u/38965494
     maintainers:
     - email: me@nalbam.com
@@ -395,7 +410,7 @@ entries:
     version: v1.0.1
   - apiVersion: v2
     appVersion: latest
-    created: "2026-11-04T01:06:10.946223552Z"
+    created: "2026-11-04T03:55:05.774826455Z"
     description: A Helm chart for Kubernetes
     digest: e506af8547595a3ec683d43102b9bf49f724204585c731bf10cc3f4192e95316
     icon: https://avatars.githubusercontent.com/u/38965494
@@ -408,7 +423,7 @@ entries:
     - tgbs-v1.0.0.tgz
     version: v1.0.0
   - apiVersion: v2
-    created: "2026-11-04T01:06:10.946065266Z"
+    created: "2026-11-04T03:55:05.774365027Z"
     description: A Helm chart for Kubernetes
     digest: 05527500ce54454dd2782dab9d045c4ef9eb2b524043b35715d44b2b76e5a4ad
     icon: https://avatars.githubusercontent.com/u/12152522
@@ -423,7 +438,22 @@ entries:
   valkey:
   - apiVersion: v2
     appVersion: 9.0.7-alpine3.24
-    created: "2026-11-04T01:06:10.946857117Z"
+    created: "2026-11-04T03:55:05.77567435Z"
+    description: One dedicated Valkey server with persistence for one application
+      environment
+    digest: 92a287bef75ed907c9a931788c58fe0b51a15b49cd68e91db1b52b79c341ca05
+    icon: https://avatars.githubusercontent.com/u/38965494
+    maintainers:
+    - email: me@nalbam.com
+      name: Jungyoul Yu
+    name: valkey
+    type: application
+    urls:
+    - valkey-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v2
+    appVersion: 9.0.7-alpine3.24
+    created: "2026-11-04T03:55:05.775462927Z"
     description: One dedicated Valkey server with persistence for one application
       environment
     digest: 05cefc2e36918cfbbc6b52e1350123c603047b289cc2411a0044f5cdcfcc2c41
@@ -438,7 +468,7 @@ entries:
     version: 1.1.0
   - apiVersion: v2
     appVersion: 9.0.7-alpine3.24
-    created: "2026-11-04T01:06:10.946636845Z"
+    created: "2026-11-04T03:55:05.775243019Z"
     description: One dedicated Valkey server with persistence for one application
       environment
     digest: 0c19bfbef620b2d88cf61fdefea614be79044179a2ea165d691ecb88119edc2a
@@ -451,4 +481,4 @@ entries:
     urls:
     - valkey-1.0.0.tgz
     version: 1.0.0
-generated: "2026-11-04T01:06:10.908076682Z"
+generated: "2026-11-04T03:55:05.738079063Z"
