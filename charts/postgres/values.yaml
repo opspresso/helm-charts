@@ -6,6 +6,10 @@ image:
   tag: ""  # Default: the chart appVersion.
   pullPolicy: IfNotPresent
 
+# Server settings, passed as `postgres -c <key>=<value>`.
+config: {}
+  # max_locks_per_transaction: 128
+
 database: app
 username: app
 

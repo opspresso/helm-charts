@@ -59,6 +59,12 @@ class DataChartTests(unittest.TestCase):
                 self.assertEqual(selector['app.kubernetes.io/instance'], f'main-{chart}')
                 self.assertEqual(docs['Service']['spec']['selector'], selector)
 
+    def test_postgres_config_becomes_server_options(self):
+        container = render('postgres', 'passwordSecret.key=K')['StatefulSet']['spec']['template']['spec']['containers'][0]
+        self.assertNotIn('args', container, 'the image default command stays')
+        container = render('postgres', 'passwordSecret.key=K', 'config.max_locks_per_transaction=128')['StatefulSet']['spec']['template']['spec']['containers'][0]
+        self.assertEqual(container['args'], ['postgres', '-c', 'max_locks_per_transaction=128'])
+
 
 if __name__ == '__main__':
     unittest.main()
