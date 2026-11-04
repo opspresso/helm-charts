@@ -1,3 +1,6 @@
+# Name of the StatefulSet, Service and NetworkPolicy. Empty: the release name.
+fullnameOverride: ""
+
 image:
   repository: valkey/valkey
   tag: ""  # Default: the chart appVersion.
