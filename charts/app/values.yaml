@@ -528,6 +528,13 @@ networkPolicy:
     #   ports:
     #     - {protocol: UDP, port: 53}
 
+# The release namespace as an object of this release, for a namespace that the
+# release owns: Argo CD deletes it with the Application, and everything in it.
+# Enable it in one release per namespace.
+namespace:
+  create: false
+  labels: {}
+
 # Bounds the namespace of this release. Kubernetes enforces every ResourceQuota
 # of a namespace, so enable it in one release per namespace.
 resourceQuota:

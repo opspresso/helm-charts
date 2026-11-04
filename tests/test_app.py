@@ -251,6 +251,13 @@ class AppTests(unittest.TestCase):
             with self.assertRaises(subprocess.CalledProcessError):
                 render({'networkPolicy': {'enabled': True, **policy}})
 
+    def test_namespace_is_rendered_only_when_the_release_owns_it(self):
+        self.assertFalse([d for d in render({}) if d['kind'] == 'Namespace'])
+        labels = {'opspresso.com/delivery-tenant': 'true', 'pod-security.kubernetes.io/enforce': 'baseline'}
+        namespace = next(d for d in render({'namespace': {'create': True, 'labels': labels}}) if d['kind'] == 'Namespace')
+        self.assertEqual(namespace['metadata']['name'], 'default')
+        self.assertLessEqual(labels.items(), namespace['metadata']['labels'].items())
+
     def test_resource_quota_requires_limits(self):
         hard = {'requests.cpu': '4', 'pods': '12'}
         quota = next(d for d in render({'resourceQuota': {'enabled': True, 'hard': hard}}) if d['kind'] == 'ResourceQuota')

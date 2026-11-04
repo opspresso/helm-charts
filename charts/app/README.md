@@ -48,6 +48,7 @@ The release renders these objects once:
 | --- | --- |
 | Connection test Pod (Helm test hook) of the main app | `service.enabled` |
 | NetworkPolicy, ResourceQuota | `networkPolicy.enabled`, `resourceQuota.enabled` |
+| Namespace | `namespace.create` |
 | Other objects | `raw.enabled` |
 
 The chart stops rendering with an error when values conflict. Examples:
@@ -127,6 +128,12 @@ networkPolicy:
 
 `resourceQuota` bounds the whole namespace. Kubernetes enforces every quota of
 a namespace, so enable it in one release per namespace.
+
+`namespace.create` renders the release namespace with `namespace.labels`. Use it
+when the release owns its namespace: Argo CD then deletes the namespace, and
+everything in it, with the Application. A namespace from the Argo CD
+`CreateNamespace` sync option stays after its Application is deleted. Enable it
+in one release per namespace.
 
 ## Workers
 
@@ -389,6 +396,8 @@ apply once per release.
 | `networkPolicy.policyTypes` | `["Ingress"]` | Directions to restrict: `Ingress`, `Egress`. |
 | `networkPolicy.ingress` | `[]` | Allowed ingress rules. |
 | `networkPolicy.egress` | `[]` | Allowed egress rules. |
+| `namespace.create` | `false` | Renders the release namespace as an object of this release. |
+| `namespace.labels` | `{}` | Labels of that namespace. |
 | `resourceQuota.enabled` | `false` | Renders a ResourceQuota for the namespace. |
 | `resourceQuota.hard` | `{}` | Quota limits. Required when enabled. |
 | `raw.enabled` | `false` | Renders other objects with opspresso/raw. |
