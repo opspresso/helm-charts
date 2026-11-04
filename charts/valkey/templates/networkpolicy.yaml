@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ include "valkey.fullname" . }}
   labels: {{- include "valkey.labels" . | nindent 4 }}
 spec:
   podSelector:

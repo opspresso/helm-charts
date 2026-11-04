@@ -46,6 +46,19 @@ class DataChartTests(unittest.TestCase):
                 self.assertEqual(peers[0], {'podSelector': {}}, 'the app in the namespace stays allowed')
                 self.assertEqual(peers[1]['namespaceSelector']['matchLabels'], {'kubernetes.io/metadata.name': 'sandboxes'})
 
+    def test_fullname_override_names_every_object_and_selects_only_its_pods(self):
+        for chart in ('postgres', 'valkey'):
+            with self.subTest(chart):
+                default = render(chart, 'passwordSecret.key=K')
+                self.assertEqual({d['metadata']['name'] for d in default.values()}, {'main'})
+                docs = render(chart, 'passwordSecret.key=K', f'fullnameOverride=main-{chart}')
+                self.assertEqual({d['metadata']['name'] for d in docs.values()}, {f'main-{chart}'})
+                server = docs['StatefulSet']['spec']
+                self.assertEqual(server['serviceName'], f'main-{chart}')
+                selector = server['selector']['matchLabels']
+                self.assertEqual(selector['app.kubernetes.io/instance'], f'main-{chart}')
+                self.assertEqual(docs['Service']['spec']['selector'], selector)
+
 
 if __name__ == '__main__':
     unittest.main()
