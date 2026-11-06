@@ -1,6 +1,6 @@
 # app
 
-![Version: v2.1.0](https://img.shields.io/badge/Version-v2.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v2.3.0](https://img.shields.io/badge/Version-v2.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 One application on Kubernetes: a Deployment or Argo Rollout with its Service,
 routing, scaling, configuration and policies. Each worker of the same release
@@ -208,6 +208,10 @@ It can checksum inputs of `raw.parentTemplates`, so a change to those objects
 restarts the app. Use only trusted, operator-owned values: escape literal
 template delimiters with Helm template syntax.
 
+`checksum/external-secrets` hashes `externalSecrets.data` and `dataFrom`, so an added, removed or moved
+variable restarts the Pods. Helm never sees the values: a value rotated in the store reaches the Pods only on their
+next restart. Upgrading to v2.3.0 restarts once every Pod that uses `externalSecrets`, because the annotation is new.
+
 `serviceMonitor.endpoints` keeps all supplied Prometheus Operator endpoint
 fields, including authorization, TLS settings and relabeling.
 
@@ -303,8 +307,8 @@ apply once per release.
 | `externalSecrets.secretStore.enabled` | `false` | Renders a namespaced SecretStore and reads from it. |
 | `externalSecrets.secretStore.name` | `""` | SecretStore name. Defaults to the fullname. |
 | `externalSecrets.secretStore.provider` | `{}` | SecretStore `spec.provider`. Evaluated as a template. Required when enabled. |
-| `externalSecrets.data` | `[]` | Remote values: `key`, Secret key `name` and optional `property`. |
-| `externalSecrets.dataFrom` | `[]` | ExternalSecret `spec.dataFrom`. Evaluated as a template. |
+| `externalSecrets.data` | `[]` | Remote values: `key`, Secret key `name` and optional `property`. A change restarts the Pods. |
+| `externalSecrets.dataFrom` | `[]` | ExternalSecret `spec.dataFrom`. Evaluated as a template. A change restarts the Pods. |
 | `externalSecrets.deletionPolicy` | `""` | Target `deletionPolicy` when the store returns no values. Empty keeps the External Secrets default `Retain`. `Delete` removes the Secret; set `optional: true` with it. |
 | `externalSecrets.optional` | `false` | Marks the `envFrom` reference optional, for a `dataFrom` that can match no keys. |
 

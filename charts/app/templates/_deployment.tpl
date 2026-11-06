@@ -70,7 +70,8 @@ spec:
     metadata:
       {{- $configChecksum := and .Values.configmap.enabled .Values.configmap.data }}
       {{- $secretChecksum := and .Values.secret.enabled .Values.secret.data }}
-      {{- if or .Values.podAnnotations $configChecksum $secretChecksum }}
+      {{- $externalChecksum := and .Values.externalSecrets.enabled (or .Values.externalSecrets.data .Values.externalSecrets.dataFrom) }}
+      {{- if or .Values.podAnnotations $configChecksum $secretChecksum $externalChecksum }}
       annotations:
         {{- /* Hash only the data, so a chart upgrade alone does not restart the Pods. */}}
         {{- if $configChecksum }}
@@ -78,6 +79,11 @@ spec:
         {{- end }}
         {{- if $secretChecksum }}
         checksum/secret: {{ toJson .Values.secret.data | sha256sum }}
+        {{- end }}
+        {{- /* The variable names and their sources, not the values, which Helm never sees. A value rotated in the
+               store reaches the Pods only on their next restart. */}}
+        {{- if $externalChecksum }}
+        checksum/external-secrets: {{ toJson (dict "data" .Values.externalSecrets.data "dataFrom" .Values.externalSecrets.dataFrom) | sha256sum }}
         {{- end }}
         {{- with .Values.podAnnotations }}
         {{- tpl (toYaml .) $ | nindent 8 }}

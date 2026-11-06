@@ -315,5 +315,28 @@ class AppTests(unittest.TestCase):
         self.assertNotEqual(before['checksum/config'], after['checksum/config'])
         self.assertEqual(before['checksum/secret'], after['checksum/secret'])
 
+    def test_external_secret_entries_roll_the_pods(self):
+        def template(values):
+            return next(d for d in render(values) if d['kind'] == 'Deployment')['spec']['template']
+        store = {'kind': 'ClusterSecretStore', 'name': 'parameter-store'}
+        base = {'externalSecrets': {'enabled': True, 'secretStoreRef': store,
+                                    'data': [{'key': '/app/db-url', 'name': 'DATABASE_URL'}]}}
+        before = template(base)['metadata']['annotations']['checksum/external-secrets']
+        added = {'externalSecrets': {**base['externalSecrets'], 'data': base['externalSecrets']['data'] + [
+            {'key': '/app/metrics-token', 'name': 'METRICS_BEARER_TOKEN'}]}}
+        self.assertNotEqual(before, template(added)['metadata']['annotations']['checksum/external-secrets'])
+        moved = {'externalSecrets': {**base['externalSecrets'], 'data': [{'key': '/other/db-url', 'name': 'DATABASE_URL'}]}}
+        self.assertNotEqual(before, template(moved)['metadata']['annotations']['checksum/external-secrets'])
+        # Only the entries count: a refresh setting does not restart the Pods.
+        refresh = {'externalSecrets': {**base['externalSecrets'], 'refreshInterval': '5m'}}
+        self.assertEqual(before, template(refresh)['metadata']['annotations']['checksum/external-secrets'])
+        # Workers hash their own entries.
+        worker = {**base, 'workloads': {'worker': {'enabled': True, 'service': {'enabled': False},
+                                                   'externalSecrets': {**base['externalSecrets'], 'name': 'worker-secrets'}}}}
+        docs = [d for d in render(worker) if d['kind'] == 'Deployment']
+        self.assertEqual(len(docs), 2)
+        self.assertTrue(all('checksum/external-secrets' in d['spec']['template']['metadata']['annotations'] for d in docs))
+        self.assertNotIn('annotations', template({})['metadata'])
+
 if __name__ == '__main__':
     unittest.main()
