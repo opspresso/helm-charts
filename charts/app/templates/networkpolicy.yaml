@@ -27,7 +27,7 @@
 {{- range $app.namespaces }}
 {{- $from = append $from (dict "namespaceSelector" (dict "matchLabels" (dict "kubernetes.io/metadata.name" .))) }}
 {{- end }}
-{{- $ingress = append $ingress (dict "from" $from "ports" (list (dict "protocol" "TCP" "port" .Values.service.targetPort))) }}
+{{- $ingress = append $ingress (dict "from" $from "ports" (list (dict "protocol" (.Values.service.protocol | default "TCP") "port" .Values.service.targetPort))) }}
 {{- end }}
 {{- if and $policy.ingress (not (has "Ingress" $policy.policyTypes)) }}
 {{- fail "networkPolicy.ingress requires Ingress in networkPolicy.policyTypes." }}

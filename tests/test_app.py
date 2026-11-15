@@ -261,6 +261,10 @@ class AppTests(unittest.TestCase):
         studio = {'namespaceSelector': {'matchLabels': {'kubernetes.io/metadata.name': 'studio'}}}
         self.assertEqual(policy['spec']['ingress'], [
             {'from': [{'podSelector': {}}, *peers, studio], 'ports': [{'protocol': 'TCP', 'port': 3400}]}, *extra])
+        # The rule follows the Service protocol, like the container port.
+        udp = next(d for d in render({'service': {'targetPort': 3400, 'protocol': 'UDP'}, 'networkPolicy': {
+            'enabled': True, 'appPort': {'sameNamespace': True}}}) if d['kind'] == 'NetworkPolicy')
+        self.assertEqual(udp['spec']['ingress'], [{'from': [{'podSelector': {}}], 'ports': [{'protocol': 'UDP', 'port': 3400}]}])
         # Unset, appPort adds no rule, so an existing policy keeps exactly its rules.
         policy = next(d for d in render({'networkPolicy': {'enabled': True, 'ingress': extra}}) if d['kind'] == 'NetworkPolicy')
         self.assertEqual(policy['spec']['ingress'], extra)

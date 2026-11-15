@@ -146,7 +146,7 @@ networkPolicy:
 ```
 
 `networkPolicy.appPort` writes the common first rule: who may reach the app
-port `service.targetPort`. `sameNamespace` admits every Pod of the release
+port `service.targetPort` over `service.protocol`. `sameNamespace` admits every Pod of the release
 namespace, `from` adds NetworkPolicyPeer objects, and `namespaces` adds one
 namespaceSelector per namespace name. When any of them is set, the chart renders
 this rule before the rules in `ingress`. A cluster values file can then replace

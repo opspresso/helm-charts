@@ -512,7 +512,7 @@ workloads: {}
 networkPolicy:
   enabled: false
   policyTypes: [Ingress] # Ingress, Egress
-  # Who may reach the app port (service.targetPort). When any field is set, the
+  # Who may reach the app port (service.targetPort, service.protocol). When any field is set, the
   # chart renders this rule as the first ingress rule, before `ingress`.
   appPort:
     sameNamespace: false # Admits every Pod of the release namespace.
