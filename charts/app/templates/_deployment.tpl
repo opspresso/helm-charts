@@ -75,7 +75,7 @@ spec:
       annotations:
         {{- /* Hash only the data, so a chart upgrade alone does not restart the Pods. */}}
         {{- if $configChecksum }}
-        checksum/config: {{ toJson .Values.configmap.data | sha256sum }}
+        checksum/config: {{ include "app.configmapChecksum" . }}
         {{- end }}
         {{- if $secretChecksum }}
         checksum/secret: {{ toJson .Values.secret.data | sha256sum }}

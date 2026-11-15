@@ -159,8 +159,12 @@ workloadDefaults: &workloadDefaults
   # A ConfigMap or Secret owned by this chart also restarts the Pods on change.
   configmap:
     enabled: false
+    # tpl: true evaluates each string value as a Helm template against the
+    # final values, for a value derived from others, such as an image of the
+    # same release. Unset, a value is written as given.
     data: {}
       # MESSAGE: "hello world"
+      # SANDBOX_IMAGE: '{{ .Values.image.repository }}:sandbox-{{ .Values.image.tag }}'
 
   # Values must be base64 encoded.
   secret:
@@ -544,6 +548,54 @@ ecrPullSecret:
   generatorName: "" # Name of the ECRAuthorizationToken. Defaults to <fullname>-ecr.
   region: "" # AWS region of the registry. Required when enabled.
   refreshInterval: 1h
+  releaseNamespace: true # Renders the Secret in the release namespace.
+  namespaces: [] # Other namespaces that get the same Secret, such as one where the app starts Pods.
+
+# ExternalSecrets besides the one of the app. Each key names an ExternalSecret
+# and the Secret it writes, which the app does not read through envFrom. data
+# entries take the same fields as externalSecrets.data.
+extraExternalSecrets: {}
+  # my-app-metrics:
+  #   namespace: "" # Defaults to the release namespace.
+  #   annotations: {}
+  #   refreshInterval: 1h
+  #   secretStoreRef: {} # Defaults to externalSecrets.secretStoreRef.
+  #   target: {} # ExternalSecret spec.target, such as a template. name and creationPolicy: Owner are set.
+  #   data:
+  #     - key: /k8s/common/my-app/metrics-token
+  #       name: token
+  #   dataFrom: []
+
+# Jobs of this release, such as an Argo CD hook. Each key renders the Job
+# <fullname>-<key in kebab-case>. The container runs the app image and the
+# Pod uses the app imagePullSecrets unless the Job sets its own.
+jobs: {}
+  # schema-check:
+  #   enabled: true
+  #   namespace: "" # Defaults to the release namespace.
+  #   annotations:
+  #     argocd.argoproj.io/hook: PreSync
+  #     argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+  #   backoffLimit: 2
+  #   activeDeadlineSeconds: 300
+  #   ttlSecondsAfterFinished: 3600
+  #   podLabels: {}
+  #   podAnnotations: {}
+  #   restartPolicy: Never
+  #   serviceAccountName: ""
+  #   automountServiceAccountToken: false
+  #   imagePullSecrets: [] # Defaults to the app imagePullSecrets.
+  #   image: "" # Full image reference. Defaults to the app image.
+  #   imagePullPolicy: ""
+  #   containerName: "" # Defaults to the key in kebab-case.
+  #   command: [node, scripts/schema-check.mjs]
+  #   args: []
+  #   env: []
+  #   envFrom: []
+  #   resources: {}
+  #   securityContext: {}
+  #   volumes: [] # Pod volumes, such as a ConfigMap with a script.
+  #   volumeMounts: []
 
 # The release namespace as an object of this release, for a namespace that the
 # release owns: Argo CD deletes it with the Application, and everything in it.
