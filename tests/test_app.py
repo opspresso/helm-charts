@@ -152,6 +152,25 @@ class AppTests(unittest.TestCase):
         with self.assertRaises(subprocess.CalledProcessError):
             render({'routing': {'httpRoute': {'enabled': True}, 'pathType': 'ImplementationSpecific'}})
 
+    def test_http_route_rules_default_to_the_app_path_and_service(self):
+        def rules(httpRoute, **routing):
+            docs = render({'service': {'port': 8081},
+                           'routing': {'path': '/api', **routing, 'httpRoute': {'enabled': True, **httpRoute}}})
+            return next(d for d in docs if d['kind'] == 'HTTPRoute')['spec']['rules']
+        app = [{'name': 'test-app', 'port': 8081}]
+        self.assertEqual(rules({}), [{'matches': [{'path': {'type': 'PathPrefix', 'value': '/api'}}], 'backendRefs': app}])
+        client = {'matches': [{'path': {'type': 'PathPrefix', 'value': '/v2'}}, {'path': {'type': 'PathPrefix', 'value': '/repository/'}}],
+                  'filters': [{'type': 'RequestHeaderModifier', 'requestHeaderModifier': {'remove': ['X-Auth-Request-User']}}],
+                  'timeouts': {'request': '300s'}}
+        other = {'name': 'other', 'port': 9000}
+        self.assertEqual(rules({'rules': [client, {}, {'matches': [], 'backendRefs': [other]}]}, pathType='Exact'), [
+            {**client, 'backendRefs': app},
+            {'matches': [{'path': {'type': 'Exact', 'value': '/api'}}], 'backendRefs': app},
+            {'matches': [], 'backendRefs': [other]}])
+        for invalid in (['/api'], {'api': {}}):
+            with self.assertRaises(subprocess.CalledProcessError):
+                rules({'rules': invalid})
+
     def test_connection_test_runs_unprivileged(self):
         pod = next(d for d in render({}) if d['kind'] == 'Pod')
         self.assertIs(pod['spec']['securityContext']['runAsNonRoot'], True)
