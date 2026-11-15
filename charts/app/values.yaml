@@ -512,6 +512,12 @@ workloads: {}
 networkPolicy:
   enabled: false
   policyTypes: [Ingress] # Ingress, Egress
+  # Who may reach the app port (service.targetPort, service.protocol). When any field is set, the
+  # chart renders this rule as the first ingress rule, before `ingress`.
+  appPort:
+    sameNamespace: false # Admits every Pod of the release namespace.
+    from: [] # NetworkPolicyPeer objects, such as a namespaceSelector.
+    namespaces: [] # Namespace names. Each becomes a namespaceSelector peer.
   ingress: []
     # - from:
     #     - namespaceSelector:
@@ -527,6 +533,17 @@ networkPolicy:
     #           kubernetes.io/metadata.name: kube-system
     #   ports:
     #     - {protocol: UDP, port: 53}
+
+# An image pull Secret for Amazon ECR. The External Secrets Operator
+# ECRAuthorizationToken generator issues the registry token, and the
+# ExternalSecret refreshes it as a kubernetes.io/dockerconfigjson Secret. List
+# the Secret in imagePullSecrets to use it.
+ecrPullSecret:
+  enabled: false
+  name: ecr-registry # Name of the Secret and the ExternalSecret.
+  generatorName: "" # Name of the ECRAuthorizationToken. Defaults to <fullname>-ecr.
+  region: "" # AWS region of the registry. Required when enabled.
+  refreshInterval: 1h
 
 # The release namespace as an object of this release, for a namespace that the
 # release owns: Argo CD deletes it with the Application, and everything in it.

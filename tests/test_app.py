@@ -251,6 +251,49 @@ class AppTests(unittest.TestCase):
             with self.assertRaises(subprocess.CalledProcessError):
                 render({'networkPolicy': {'enabled': True, **policy}})
 
+    def test_network_policy_app_port_rule_comes_first(self):
+        peers = [{'namespaceSelector': {'matchLabels': {'kubernetes.io/metadata.name': 'istio-system'}}}]
+        extra = [{'from': [{'namespaceSelector': {'matchLabels': {'kubernetes.io/metadata.name': 'monitoring'}}}],
+                  'ports': [{'protocol': 'TCP', 'port': 15090}]}]
+        values = {'service': {'targetPort': 3400}, 'networkPolicy': {
+            'enabled': True, 'appPort': {'sameNamespace': True, 'from': peers, 'namespaces': ['studio']}, 'ingress': extra}}
+        policy = next(d for d in render(values) if d['kind'] == 'NetworkPolicy')
+        studio = {'namespaceSelector': {'matchLabels': {'kubernetes.io/metadata.name': 'studio'}}}
+        self.assertEqual(policy['spec']['ingress'], [
+            {'from': [{'podSelector': {}}, *peers, studio], 'ports': [{'protocol': 'TCP', 'port': 3400}]}, *extra])
+        # The rule follows the Service protocol, like the container port.
+        udp = next(d for d in render({'service': {'targetPort': 3400, 'protocol': 'UDP'}, 'networkPolicy': {
+            'enabled': True, 'appPort': {'sameNamespace': True}}}) if d['kind'] == 'NetworkPolicy')
+        self.assertEqual(udp['spec']['ingress'], [{'from': [{'podSelector': {}}], 'ports': [{'protocol': 'UDP', 'port': 3400}]}])
+        # Unset, appPort adds no rule, so an existing policy keeps exactly its rules.
+        policy = next(d for d in render({'networkPolicy': {'enabled': True, 'ingress': extra}}) if d['kind'] == 'NetworkPolicy')
+        self.assertEqual(policy['spec']['ingress'], extra)
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'networkPolicy': {'enabled': True, 'policyTypes': ['Egress'], 'appPort': {'sameNamespace': True}}})
+
+    def test_ecr_pull_secret_writes_the_generator_token_as_a_docker_config(self):
+        self.assertFalse([d for d in render({}) if d['kind'] in {'ECRAuthorizationToken', 'ExternalSecret'}])
+        docs = render({'ecrPullSecret': {'enabled': True, 'region': 'ap-northeast-2'}})
+        generator = next(d for d in docs if d['kind'] == 'ECRAuthorizationToken')
+        secret = next(d for d in docs if d['kind'] == 'ExternalSecret')
+        self.assertEqual(generator['metadata']['name'], 'test-app-ecr')
+        self.assertEqual(generator['spec'], {'region': 'ap-northeast-2'})
+        self.assertEqual(secret['metadata']['name'], 'ecr-registry')
+        self.assertEqual(secret['spec']['target']['name'], 'ecr-registry')
+        self.assertEqual(secret['spec']['target']['template']['type'], 'kubernetes.io/dockerconfigjson')
+        # External Secrets, not Helm, fills the fields from the generator output.
+        config = secret['spec']['target']['template']['data']['.dockerconfigjson']
+        self.assertIn('"{{ .proxy_endpoint }}"', config)
+        self.assertIn('{{ printf "%s:%s" .username .password | b64enc }}', config)
+        self.assertEqual(secret['spec']['dataFrom'], [{'sourceRef': {'generatorRef': {
+            'apiVersion': 'generators.external-secrets.io/v1alpha1', 'kind': 'ECRAuthorizationToken', 'name': 'test-app-ecr'}}}])
+        self.assertEqual(generator['metadata']['annotations']['argocd.argoproj.io/sync-wave'], '-2')
+        self.assertEqual(secret['metadata']['annotations']['argocd.argoproj.io/sync-wave'], '-1')
+        named = render({'ecrPullSecret': {'enabled': True, 'region': 'us-east-1', 'generatorName': 'shared-ecr'}})
+        self.assertEqual(next(d for d in named if d['kind'] == 'ECRAuthorizationToken')['metadata']['name'], 'shared-ecr')
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'ecrPullSecret': {'enabled': True}})
+
     def test_namespace_is_rendered_only_when_the_release_owns_it(self):
         self.assertFalse([d for d in render({}) if d['kind'] == 'Namespace'])
         labels = {'opspresso.com/delivery-tenant': 'true', 'pod-security.kubernetes.io/enforce': 'baseline'}

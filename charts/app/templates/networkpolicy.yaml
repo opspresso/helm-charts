@@ -8,9 +8,31 @@
 {{- fail (printf "networkPolicy.policyTypes accepts Ingress and Egress, not %q." .) }}
 {{- end }}
 {{- end }}
+{{- $app := $policy.appPort | default dict }}
+{{- $ingress := list }}
+{{- if or $app.sameNamespace $app.from $app.namespaces }}
+{{- if not (has "Ingress" $policy.policyTypes) }}
+{{- fail "networkPolicy.appPort requires Ingress in networkPolicy.policyTypes." }}
+{{- end }}
+{{- if not .Values.service.targetPort }}
+{{- fail "networkPolicy.appPort requires service.targetPort." }}
+{{- end }}
+{{- $from := list }}
+{{- if $app.sameNamespace }}
+{{- $from = append $from (dict "podSelector" (dict)) }}
+{{- end }}
+{{- range $app.from }}
+{{- $from = append $from . }}
+{{- end }}
+{{- range $app.namespaces }}
+{{- $from = append $from (dict "namespaceSelector" (dict "matchLabels" (dict "kubernetes.io/metadata.name" .))) }}
+{{- end }}
+{{- $ingress = append $ingress (dict "from" $from "ports" (list (dict "protocol" (.Values.service.protocol | default "TCP") "port" .Values.service.targetPort))) }}
+{{- end }}
 {{- if and $policy.ingress (not (has "Ingress" $policy.policyTypes)) }}
 {{- fail "networkPolicy.ingress requires Ingress in networkPolicy.policyTypes." }}
 {{- end }}
+{{- $ingress = concat $ingress ($policy.ingress | default list) }}
 {{- if and $policy.egress (not (has "Egress" $policy.policyTypes)) }}
 {{- fail "networkPolicy.egress requires Egress in networkPolicy.policyTypes." }}
 {{- end }}
@@ -28,7 +50,7 @@ spec:
       app.kubernetes.io/instance: {{ .Release.Name | quote }}
   policyTypes:
     {{- toYaml $policy.policyTypes | nindent 4 }}
-  {{- with $policy.ingress }}
+  {{- with $ingress }}
   ingress:
     {{- toYaml . | nindent 4 }}
   {{- end }}
