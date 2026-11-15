@@ -403,6 +403,21 @@ workloadDefaults: &workloadDefaults
       parentRefs:
         - name: infra-gateway
           namespace: istio-system
+      # HTTPRoute rules, for example a path with its own filters before a
+      # catch-all rule. Empty renders one rule: routing.path to the app
+      # Service. A rule without matches gets the routing.path match, and one
+      # without backendRefs gets the app Service; `matches: []` matches every
+      # request. Other rule fields, such as filters and timeouts, pass through.
+      rules: []
+        # - matches:
+        #     - path:
+        #         type: PathPrefix
+        #         value: /api
+        #   filters:
+        #     - type: RequestHeaderModifier
+        #       requestHeaderModifier:
+        #         remove: [X-Auth-Request-User]
+        # - {}
 
     # Gateway API Gateway owned by this release.
     gateway:

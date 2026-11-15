@@ -59,6 +59,32 @@ The chart stops rendering with an error when values conflict. Examples:
 budgets, `rbac.create` without a ServiceAccount, or two workloads with the
 same fullname or the same object.
 
+## HTTPRoute rules
+
+By default the HTTPRoute has one rule: `routing.path` to the app Service.
+`routing.httpRoute.rules` replaces it with a list of rules, for example a path
+with its own filters before a catch-all rule. A rule without `matches` gets the
+`routing.path` match, and a rule without `backendRefs` gets the app Service.
+`matches: []` matches every request. Other rule fields, such as `filters` and
+`timeouts`, pass through unchanged. The Istio VirtualService and the Ingress
+ignore `rules` and keep the single `routing.path`.
+
+```yaml
+routing:
+  hosts: [nexus.example.com]
+  httpRoute:
+    enabled: true
+    rules:
+      # Clients sign in to the app itself: remove the header that the gateway sets.
+      - matches:
+          - path: {type: PathPrefix, value: /repository/}
+        filters:
+          - type: RequestHeaderModifier
+            requestHeaderModifier:
+              remove: [X-Auth-Request-Preferred-Username]
+      - {} # routing.path to the app Service
+```
+
 ## Configuration and secrets
 
 Each enabled source is added to the container `envFrom` in this order:
@@ -481,7 +507,7 @@ apply once per release.
 | `routing.pathType` | `"Prefix"` | `Prefix` or `Exact`. `Prefix` becomes `PathPrefix` in an HTTPRoute. |
 | `routing.ingress` | `{"enabled":false,"className":"","annotations":{},"tls":[]}` | Ingress. Deprecated: use `httpRoute`. |
 | `routing.istio` | `{"enabled":false,"annotations":{},"gateway":{"selector":{"istio":"default-ingress-gateway"}}}` | Istio Gateway and VirtualService. |
-| `routing.httpRoute` | `{"enabled":false,"annotations":{},"parentRefs":[{"name":"infra-gateway","namespace":"istio-system"}]}` | Gateway API HTTPRoute attached to `parentRefs`. |
+| `routing.httpRoute` | `{"enabled":false,"annotations":{},"parentRefs":[{"name":"infra-gateway","namespace":"istio-system"}],"rules":[]}` | Gateway API HTTPRoute attached to `parentRefs`. `rules` replaces the single `routing.path` rule; see [HTTPRoute rules](#httproute-rules). |
 | `routing.gateway` | `{"enabled":false,"annotations":{},"name":"","className":"traefik","listeners":[{"name":"https","protocol":"HTTPS","port":443,"tls":{"mode":"Terminate","certificateRefs":[]},"allowedRoutes":{"namespaces":{"from":"Same"}}}]}` | Gateway API Gateway owned by this release. |
 | `routing.backendTLSPolicy` | `{"enabled":false,"annotations":{},"targetRefs":[{"kind":"Service","name":"http","port":80}],"validation":{"trust":{"secret":{"name":"backend-tls-secret"}}}}` | Gateway API BackendTLSPolicy. Requires `httpRoute.enabled`. |
 | `destinationRule` | `{"enabled":false,"annotations":{},"trafficPolicy":{}}` | Istio DestinationRule for in-mesh callers. Requires `trafficPolicy`. Renders no TLS settings. |
