@@ -309,7 +309,8 @@ class AppTests(unittest.TestCase):
 
     def test_extra_external_secrets_write_their_own_secret(self):
         docs = render({'extraExternalSecrets': {
-            'test-metrics': {'data': [{'key': '/k8s/demo/metrics-token', 'name': 'token'}]},
+            'test-metrics': {'data': [{'key': '/k8s/demo/metrics-token', 'name': 'token'},
+                                      {'key': '2024', 'property': '0', 'name': '1'}]},
             'test-db': {'namespace': 'database', 'refreshInterval': '15m',
                         'target': {'creationPolicy': 'Merge', 'template': {'data': {'DSN': '{{ .password }}'}}},
                         'annotations': {'argocd.argoproj.io/sync-wave': '-2'},
@@ -323,7 +324,9 @@ class AppTests(unittest.TestCase):
         self.assertEqual(metrics['spec'], {
             'refreshInterval': '1h', 'secretStoreRef': {'kind': 'ClusterSecretStore', 'name': 'parameter-store'},
             'target': {'name': 'test-metrics', 'creationPolicy': 'Owner'},
-            'data': [{'secretKey': 'token', 'remoteRef': {'key': '/k8s/demo/metrics-token'}}]})
+            'data': [{'secretKey': 'token', 'remoteRef': {'key': '/k8s/demo/metrics-token'}},
+                     # Digit-only references stay strings, as the ExternalSecret API requires.
+                     {'secretKey': '1', 'remoteRef': {'key': '2024', 'property': '0'}}]})
         db = secrets['test-db']
         self.assertEqual(db['metadata']['namespace'], 'database')
         self.assertEqual(db['metadata']['annotations'], {'argocd.argoproj.io/sync-wave': '-2'})
@@ -383,6 +386,15 @@ class AppTests(unittest.TestCase):
         self.assertNotIn('volumes', pod['spec'])
         with self.assertRaises(subprocess.CalledProcessError):
             render({'jobs': {'empty': {'image': 'busybox'}}})
+        # Keys that render one Job name fail instead of overwriting each other.
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'jobs': {'dbInit': {'command': ['true']}, 'db-init': {'command': ['true']}}})
+        long_key = 'a' * 62
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'jobs': {long_key + 'b': {'command': ['true']}, long_key + 'c': {'command': ['true']}}})
+        job = next(d for d in render({'jobs': {'a' * 64: {'command': ['true']}}}) if d['kind'] == 'Job')
+        self.assertLessEqual(len(job['metadata']['name']), 63)
+        self.assertEqual(job['spec']['template']['spec']['containers'][0]['name'], 'a' * 63)
 
     def test_configmap_tpl_evaluates_strings_and_checksums_the_result(self):
         def rendered(capacity, tpl=True):

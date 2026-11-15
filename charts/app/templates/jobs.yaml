@@ -3,6 +3,7 @@ Jobs of this release, such as an Argo CD hook that checks a schema or creates a 
 <fullname>-<key in kebab-case>, and the container runs the app image unless the Job sets its own.
 */ -}}
 {{- $first := true }}
+{{- $names := dict }}
 {{- range $key, $job := .Values.jobs }}
 {{- if or (not (hasKey $job "enabled")) $job.enabled }}
 {{- if not (or $job.command $job.args) }}
@@ -14,11 +15,19 @@ Jobs of this release, such as an Argo CD hook that checks a schema or creates a 
 {{- $first = false }}
 {{- $base := include "app.fullname" $ }}
 {{- $suffix := kebabcase $key }}
+{{- $name := printf "%s-%s" ($base | trunc (max 1 (sub 62 (len $suffix)) | int) | trimSuffix "-") $suffix | trunc 63 | trimSuffix "-" }}
+{{- $namespace := $job.namespace | default (include "app.namespace" $) }}
+{{- /* Two keys can render one name: kebab-case joins keys such as dbInit and db-init, and truncation cuts long keys. */}}
+{{- $id := printf "%s/%s" $namespace $name }}
+{{- if hasKey $names $id }}
+{{- fail (printf "jobs.%s and jobs.%s render the same Job %s." (get $names $id) $key $id) }}
+{{- end }}
+{{- $_ := set $names $id $key }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ printf "%s-%s" ($base | trunc (max 1 (sub 62 (len $suffix)) | int) | trimSuffix "-") $suffix | trunc 63 | trimSuffix "-" }}
-  namespace: {{ $job.namespace | default (include "app.namespace" $) }}
+  name: {{ $name }}
+  namespace: {{ $namespace | quote }}
   labels:
     {{- include "app.labels" $ | nindent 4 }}
   {{- with $job.annotations }}
@@ -58,7 +67,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
-        - name: {{ $job.containerName | default $suffix }}
+        - name: {{ $job.containerName | default ($suffix | trunc 63 | trimSuffix "-") }}
           image: {{ $job.image | default (include "app.image" $) | quote }}
           {{- with $job.imagePullPolicy }}
           imagePullPolicy: {{ . }}
