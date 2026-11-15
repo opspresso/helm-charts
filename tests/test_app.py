@@ -167,8 +167,9 @@ class AppTests(unittest.TestCase):
             {**client, 'backendRefs': app},
             {'matches': [{'path': {'type': 'Exact', 'value': '/api'}}], 'backendRefs': app},
             {'matches': [], 'backendRefs': [other]}])
-        with self.assertRaises(subprocess.CalledProcessError):
-            rules({'rules': ['/api']})
+        for invalid in (['/api'], {'api': {}}):
+            with self.assertRaises(subprocess.CalledProcessError):
+                rules({'rules': invalid})
 
     def test_connection_test_runs_unprivileged(self):
         pod = next(d for d in render({}) if d['kind'] == 'Pod')

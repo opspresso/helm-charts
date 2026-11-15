@@ -24,6 +24,11 @@ spec:
   {{- $match := dict "path" (dict "type" (eq .Values.routing.pathType "Prefix" | ternary "PathPrefix" .Values.routing.pathType) "value" .Values.routing.path) }}
   {{- $backend := dict "name" $fullName "port" $servicePort }}
   {{- $rules := list }}
+  {{- with .Values.routing.httpRoute.rules }}
+  {{- if not (kindIs "slice" .) }}
+  {{- fail "routing.httpRoute.rules must be a list." }}
+  {{- end }}
+  {{- end }}
   {{- range $index, $rule := .Values.routing.httpRoute.rules | default (list dict) }}
   {{- if not (kindIs "map" $rule) }}
   {{- fail (printf "routing.httpRoute.rules[%d] must be a map." $index) }}
