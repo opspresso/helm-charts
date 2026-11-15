@@ -48,6 +48,7 @@ The release renders these objects once:
 | --- | --- |
 | Connection test Pod (Helm test hook) of the main app | `service.enabled` |
 | NetworkPolicy, ResourceQuota | `networkPolicy.enabled`, `resourceQuota.enabled` |
+| ECRAuthorizationToken and ExternalSecret of an ECR pull Secret | `ecrPullSecret.enabled` |
 | Namespace | `namespace.create` |
 | Other objects | `raw.enabled` |
 
@@ -97,6 +98,24 @@ externalSecrets:
 Argo CD sync waves order the objects: SecretStore `-2`, then ConfigMap, Secret
 and ExternalSecret `-1`, then the workload.
 
+## Amazon ECR pull Secret
+
+`ecrPullSecret` renders an External Secrets Operator `ECRAuthorizationToken`
+generator and an ExternalSecret that writes its token as the
+`kubernetes.io/dockerconfigjson` Secret `ecrPullSecret.name`. External Secrets
+refreshes the token every `refreshInterval`; an ECR token expires after 12 hours.
+The generator authenticates with the credentials of the External Secrets
+controller, so that identity needs `ecr:GetAuthorizationToken`. List the Secret
+in `imagePullSecrets`:
+
+```yaml
+ecrPullSecret:
+  enabled: true
+  region: ap-northeast-2
+imagePullSecrets:
+  - name: ecr-registry
+```
+
 ## Network and namespace policies
 
 `networkPolicy` selects every Pod of the release with the
@@ -124,6 +143,33 @@ networkPolicy:
       ports:
         - {protocol: UDP, port: 53}
         - {protocol: TCP, port: 53}
+```
+
+`networkPolicy.appPort` writes the common first rule: who may reach the app
+port `service.targetPort`. `sameNamespace` admits every Pod of the release
+namespace, `from` adds NetworkPolicyPeer objects, and `namespaces` adds one
+namespaceSelector per namespace name. When any of them is set, the chart renders
+this rule before the rules in `ingress`. A cluster values file can then replace
+only `from` and keep the other lists, because Helm replaces a list but merges a
+map.
+
+```yaml
+networkPolicy:
+  enabled: true
+  appPort:
+    sameNamespace: true
+    from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: istio-system
+    namespaces: [agent-studio, agent-forge]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: addon-prometheus
+      ports:
+        - {protocol: TCP, port: 15090}
 ```
 
 `resourceQuota` bounds the whole namespace. Kubernetes enforces every quota of
@@ -202,6 +248,8 @@ of YAML template strings evaluated against the main app values. A string can
 contain several documents and conditions. Empty documents are omitted, and
 malformed YAML stops the render. A wrapper chart therefore needs no templates
 of its own and keeps one image and configuration source.
+Declare an object that reads no values in `raw.resources`. Use
+`raw.parentTemplates` only for an object that reads the app values or helpers.
 
 `podAnnotations` is evaluated as a Helm template against the final app values.
 It can checksum inputs of `raw.parentTemplates`, so a change to those objects
@@ -398,8 +446,16 @@ apply once per release.
 | `workloads` | `{}` | Extra workloads, each with its own objects. See [Workers](#workers). |
 | `networkPolicy.enabled` | `false` | Renders a NetworkPolicy for every Pod of the release. |
 | `networkPolicy.policyTypes` | `["Ingress"]` | Directions to restrict: `Ingress`, `Egress`. |
-| `networkPolicy.ingress` | `[]` | Allowed ingress rules. |
+| `networkPolicy.appPort.sameNamespace` | `false` | Admits every Pod of the release namespace to `service.targetPort`. |
+| `networkPolicy.appPort.from` | `[]` | NetworkPolicyPeer objects admitted to `service.targetPort`. |
+| `networkPolicy.appPort.namespaces` | `[]` | Namespace names admitted to `service.targetPort`. |
+| `networkPolicy.ingress` | `[]` | Allowed ingress rules, after the `appPort` rule. |
 | `networkPolicy.egress` | `[]` | Allowed egress rules. |
+| `ecrPullSecret.enabled` | `false` | Renders an ECR pull Secret. See [Amazon ECR pull Secret](#amazon-ecr-pull-secret). |
+| `ecrPullSecret.name` | `ecr-registry` | Name of the Secret and the ExternalSecret. |
+| `ecrPullSecret.generatorName` | `""` | Name of the ECRAuthorizationToken. Defaults to `<fullname>-ecr`. |
+| `ecrPullSecret.region` | `""` | AWS region of the registry. Required when enabled. |
+| `ecrPullSecret.refreshInterval` | `1h` | Refresh interval of the ExternalSecret. |
 | `namespace.create` | `false` | Renders the release namespace as an object of this release. |
 | `namespace.labels` | `{}` | Labels of that namespace. |
 | `resourceQuota.enabled` | `false` | Renders a ResourceQuota for the namespace. |
