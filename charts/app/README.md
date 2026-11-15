@@ -49,6 +49,8 @@ The release renders these objects once:
 | Connection test Pod (Helm test hook) of the main app | `service.enabled` |
 | NetworkPolicy, ResourceQuota | `networkPolicy.enabled`, `resourceQuota.enabled` |
 | ECRAuthorizationToken and ExternalSecret of an ECR pull Secret | `ecrPullSecret.enabled` |
+| Other ExternalSecrets, each with its own Secret | `extraExternalSecrets` |
+| Jobs, such as an Argo CD hook | `jobs` |
 | Namespace | `namespace.create` |
 | Other objects | `raw.enabled` |
 
@@ -98,6 +100,35 @@ externalSecrets:
 Argo CD sync waves order the objects: SecretStore `-2`, then ConfigMap, Secret
 and ExternalSecret `-1`, then the workload.
 
+`configmap.tpl: true` evaluates each string value of `configmap.data` as a Helm
+template against the final values. Use it for a value derived from other
+values, such as the image of a companion Pod that the app starts.
+`checksum/config` then hashes the evaluated values. Without `tpl`, a value is
+written as given:
+
+```yaml
+configmap:
+  enabled: true
+  tpl: true
+  data:
+    SANDBOX_IMAGE: '{{ .Values.image.repository }}:sandbox-{{ .Values.image.tag }}'
+```
+
+`extraExternalSecrets` renders other ExternalSecrets. Each key names an
+ExternalSecret and the Secret it writes. The app does not read these Secrets
+through `envFrom`, and they do not restart the Pods: use them for a Secret that
+another component reads, such as a Prometheus scrape token, or for a Secret in
+another namespace. `data` entries take the fields of `externalSecrets.data`, and
+`secretStoreRef` defaults to `externalSecrets.secretStoreRef`:
+
+```yaml
+extraExternalSecrets:
+  my-app-metrics:
+    data:
+      - key: /k8s/demo/my-app/metrics-token
+        name: token
+```
+
 ## Amazon ECR pull Secret
 
 `ecrPullSecret` renders an External Secrets Operator `ECRAuthorizationToken`
@@ -114,6 +145,30 @@ ecrPullSecret:
   region: ap-northeast-2
 imagePullSecrets:
   - name: ecr-registry
+```
+
+`ecrPullSecret.namespaces` renders the same Secret in other namespaces, for
+example the namespace where the app starts its own Pods. Each namespace gets its
+own generator with the same name. `releaseNamespace: false` omits the copy in
+the release namespace.
+
+## Jobs
+
+`jobs` renders one Job per key, named `<fullname>-<key in kebab-case>`. The
+container runs the app image and the Pod uses the app `imagePullSecrets`, unless
+the Job sets `image` or `imagePullSecrets`. The Pod does not mount a
+ServiceAccount token, and `restartPolicy` defaults to `Never`. Argo CD hook
+annotations make a Job run at each sync; `enabled: false` omits a Job:
+
+```yaml
+jobs:
+  schema-check:
+    annotations:
+      argocd.argoproj.io/hook: PreSync
+      argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+    backoffLimit: 2
+    activeDeadlineSeconds: 300
+    command: [node, scripts/schema-check.mjs]
 ```
 
 ## Network and namespace policies
@@ -241,15 +296,18 @@ v2.0.0 changes these contracts:
 
 ## Other resources
 
-Use a chart setting when one exists. For other objects, set `raw.enabled: true`
+Use a chart setting when one exists: `networkPolicy`, `ecrPullSecret`,
+`extraExternalSecrets`, `jobs` and `configmap.tpl` cover objects that wrapper
+charts otherwise write by hand. For other objects, set `raw.enabled: true`
 to use the bundled opspresso/raw dependency (a copy of the archived incubator/raw). `raw.resources` and
 `raw.templates` keep their upstream behavior. `raw.parentTemplates` is a list
 of YAML template strings evaluated against the main app values. A string can
 contain several documents and conditions. Empty documents are omitted, and
 malformed YAML stops the render. A wrapper chart therefore needs no templates
 of its own and keeps one image and configuration source.
-Declare an object that reads no values in `raw.resources`. Use
-`raw.parentTemplates` only for an object that reads the app values or helpers.
+Declare an object that reads no values in `raw.resources`: an editor checks
+it as YAML. Use `raw.parentTemplates` only for an object that reads the app
+values or helpers and that no chart setting renders.
 
 `podAnnotations` is evaluated as a Helm template against the final app values.
 It can checksum inputs of `raw.parentTemplates`, so a change to those objects
@@ -343,7 +401,7 @@ apply once per release.
 
 | Key | Default | Description |
 | --- | --- | --- |
-| `configmap` | `{"enabled":false,"data":{}}` | ConfigMap `<fullname>`. A change restarts the Pods. |
+| `configmap` | `{"enabled":false,"data":{}}` | ConfigMap `<fullname>`. A change restarts the Pods. `tpl: true` evaluates string values as Helm templates. |
 | `secret` | `{"enabled":false,"data":{}}` | Secret `<fullname>` with base64 values. A change restarts the Pods. |
 | `additionalConfigmap` | `{"enabled":false,"names":[]}` | Existing ConfigMaps to add to `envFrom`. |
 | `additionalSecret` | `{"enabled":false,"names":[]}` | Existing Secrets to add to `envFrom`. |
@@ -456,6 +514,10 @@ apply once per release.
 | `ecrPullSecret.generatorName` | `""` | Name of the ECRAuthorizationToken. Defaults to `<fullname>-ecr`. |
 | `ecrPullSecret.region` | `""` | AWS region of the registry. Required when enabled. |
 | `ecrPullSecret.refreshInterval` | `1h` | Refresh interval of the ExternalSecret. |
+| `ecrPullSecret.releaseNamespace` | `true` | Renders the Secret in the release namespace. |
+| `ecrPullSecret.namespaces` | `[]` | Other namespaces that get the same Secret. |
+| `extraExternalSecrets` | `{}` | Other ExternalSecrets by name. See [Configuration and secrets](#configuration-and-secrets). |
+| `jobs` | `{}` | Jobs by key. See [Jobs](#jobs). |
 | `namespace.create` | `false` | Renders the release namespace as an object of this release. |
 | `namespace.labels` | `{}` | Labels of that namespace. |
 | `resourceQuota.enabled` | `false` | Renders a ResourceQuota for the namespace. |

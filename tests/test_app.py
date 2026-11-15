@@ -294,6 +294,104 @@ class AppTests(unittest.TestCase):
         with self.assertRaises(subprocess.CalledProcessError):
             render({'ecrPullSecret': {'enabled': True}})
 
+    def test_ecr_pull_secret_renders_in_each_listed_namespace(self):
+        def placed(values):
+            docs = render({'ecrPullSecret': {'enabled': True, 'region': 'ap-northeast-2', **values}})
+            return sorted((d['kind'], d['metadata']['namespace'], d['metadata']['name']) for d in docs
+                          if d['kind'] in {'ECRAuthorizationToken', 'ExternalSecret'})
+        self.assertEqual(placed({'namespaces': ['sandbox', 'default']}), [
+            ('ECRAuthorizationToken', 'default', 'test-app-ecr'), ('ECRAuthorizationToken', 'sandbox', 'test-app-ecr'),
+            ('ExternalSecret', 'default', 'ecr-registry'), ('ExternalSecret', 'sandbox', 'ecr-registry')])
+        self.assertEqual(placed({'releaseNamespace': False, 'namespaces': ['sandbox']}), [
+            ('ECRAuthorizationToken', 'sandbox', 'test-app-ecr'), ('ExternalSecret', 'sandbox', 'ecr-registry')])
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'ecrPullSecret': {'enabled': True, 'region': 'ap-northeast-2', 'releaseNamespace': False}})
+
+    def test_extra_external_secrets_write_their_own_secret(self):
+        docs = render({'extraExternalSecrets': {
+            'test-metrics': {'data': [{'key': '/k8s/demo/metrics-token', 'name': 'token'}]},
+            'test-db': {'namespace': 'database', 'refreshInterval': '15m',
+                        'annotations': {'argocd.argoproj.io/sync-wave': '-2'},
+                        'secretStoreRef': {'kind': 'SecretStore', 'name': 'local'},
+                        'data': [{'key': '/k8s/demo/db', 'property': 'password', 'name': 'password'}]}}})
+        secrets = {d['metadata']['name']: d for d in docs if d['kind'] == 'ExternalSecret'}
+        self.assertEqual(set(secrets), {'test-metrics', 'test-db'})
+        metrics = secrets['test-metrics']
+        self.assertEqual(metrics['metadata']['namespace'], 'default')
+        self.assertNotIn('annotations', metrics['metadata'])
+        self.assertEqual(metrics['spec'], {
+            'refreshInterval': '1h', 'secretStoreRef': {'kind': 'ClusterSecretStore', 'name': 'parameter-store'},
+            'target': {'name': 'test-metrics', 'creationPolicy': 'Owner'},
+            'data': [{'secretKey': 'token', 'remoteRef': {'key': '/k8s/demo/metrics-token'}}]})
+        db = secrets['test-db']
+        self.assertEqual(db['metadata']['namespace'], 'database')
+        self.assertEqual(db['metadata']['annotations'], {'argocd.argoproj.io/sync-wave': '-2'})
+        self.assertEqual(db['spec']['refreshInterval'], '15m')
+        self.assertEqual(db['spec']['secretStoreRef'], {'kind': 'SecretStore', 'name': 'local'})
+        self.assertEqual(db['spec']['data'], [{'secretKey': 'password', 'remoteRef': {'key': '/k8s/demo/db', 'property': 'password'}}])
+        # The app does not read these Secrets, so they do not restart its Pods.
+        deployment = next(d for d in docs if d['kind'] == 'Deployment')
+        self.assertNotIn('annotations', deployment['spec']['template']['metadata'])
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'extraExternalSecrets': {'empty': {'namespace': 'database'}}})
+
+    def test_jobs_run_the_app_image_with_the_app_pull_secrets(self):
+        hook = {'argocd.argoproj.io/hook': 'PreSync', 'argocd.argoproj.io/hook-delete-policy': 'BeforeHookCreation,HookSucceeded'}
+        docs = render({'image': {'repository': 'registry.example/app', 'tag': 'v1.2.3'},
+                       'imagePullSecrets': [{'name': 'ecr-registry'}],
+                       'jobs': {'schemaCheck': {'annotations': hook, 'backoffLimit': 0, 'activeDeadlineSeconds': 300,
+                                                'podLabels': {'sidecar.istio.io/inject': 'false'},
+                                                'command': ['node', 'scripts/schema-check.mjs'],
+                                                'env': [{'name': 'MODE', 'value': 'check'}],
+                                                'resources': {'requests': {'cpu': '25m'}}},
+                                'bootstrap': {'namespace': 'database', 'image': 'postgres:18', 'imagePullSecrets': [],
+                                              'restartPolicy': 'OnFailure', 'ttlSecondsAfterFinished': 3600,
+                                              'containerName': 'psql', 'command': ['sh', '-ec', 'true']},
+                                'skipped': {'enabled': False, 'command': ['true']}}})
+        jobs = {d['metadata']['name']: d for d in docs if d['kind'] == 'Job'}
+        self.assertEqual(set(jobs), {'test-app-schema-check', 'test-app-bootstrap'})
+        check = jobs['test-app-schema-check']
+        self.assertEqual(check['metadata']['namespace'], 'default')
+        self.assertEqual(check['metadata']['annotations'], hook)
+        self.assertEqual({k: check['spec'][k] for k in ('backoffLimit', 'activeDeadlineSeconds')}, {'backoffLimit': 0, 'activeDeadlineSeconds': 300})
+        self.assertNotIn('ttlSecondsAfterFinished', check['spec'])
+        pod = check['spec']['template']
+        self.assertEqual(pod['metadata'], {'labels': {'sidecar.istio.io/inject': 'false'}})
+        self.assertEqual(pod['spec']['restartPolicy'], 'Never')
+        self.assertIs(pod['spec']['automountServiceAccountToken'], False)
+        self.assertEqual(pod['spec']['imagePullSecrets'], [{'name': 'ecr-registry'}])
+        self.assertEqual(pod['spec']['containers'], [{
+            'name': 'schema-check', 'image': 'registry.example/app:v1.2.3',
+            'command': ['node', 'scripts/schema-check.mjs'], 'env': [{'name': 'MODE', 'value': 'check'}],
+            'resources': {'requests': {'cpu': '25m'}}}])
+        bootstrap = jobs['test-app-bootstrap']
+        self.assertEqual(bootstrap['metadata']['namespace'], 'database')
+        self.assertEqual(bootstrap['spec']['ttlSecondsAfterFinished'], 3600)
+        spec = bootstrap['spec']['template']['spec']
+        self.assertNotIn('metadata', bootstrap['spec']['template'])
+        self.assertNotIn('imagePullSecrets', spec)
+        self.assertEqual(spec['restartPolicy'], 'OnFailure')
+        self.assertEqual(spec['containers'], [{'name': 'psql', 'image': 'postgres:18', 'command': ['sh', '-ec', 'true']}])
+        with self.assertRaises(subprocess.CalledProcessError):
+            render({'jobs': {'empty': {'image': 'busybox'}}})
+
+    def test_configmap_tpl_evaluates_strings_and_checksums_the_result(self):
+        def rendered(capacity, tpl=True):
+            docs = render({'capacity': capacity, 'image': {'repository': 'registry.example/app', 'tag': 'v1'},
+                           'configmap': {'enabled': True, 'tpl': tpl, 'data': {
+                               'SANDBOX_IMAGE': '{{ .Values.image.repository }}:sandbox-{{ .Values.image.tag }}',
+                               'CAPACITY': '{{ .Values.capacity }}', 'PORT': 3104}}})
+            config = next(d for d in docs if d['kind'] == 'ConfigMap')['data']
+            checksum = next(d for d in docs if d['kind'] == 'Deployment')['spec']['template']['metadata']['annotations']['checksum/config']
+            return config, checksum
+        config, checksum = rendered(8)
+        self.assertEqual(config, {'SANDBOX_IMAGE': 'registry.example/app:sandbox-v1', 'CAPACITY': '8', 'PORT': '3104'})
+        # A change that only the template sees still restarts the Pods.
+        self.assertNotEqual(rendered(32)[1], checksum)
+        literal, plain = rendered(8, tpl=False)
+        self.assertEqual(literal['CAPACITY'], '{{ .Values.capacity }}')
+        self.assertEqual(plain, rendered(32, tpl=False)[1])
+
     def test_namespace_is_rendered_only_when_the_release_owns_it(self):
         self.assertFalse([d for d in render({}) if d['kind'] == 'Namespace'])
         labels = {'opspresso.com/delivery-tenant': 'true', 'pod-security.kubernetes.io/enforce': 'baseline'}
