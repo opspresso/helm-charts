@@ -53,13 +53,17 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- with $job.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ $job.containerName | default $suffix }}
           image: {{ $job.image | default (include "app.image" $) | quote }}
           {{- with $job.imagePullPolicy }}
           imagePullPolicy: {{ . }}
           {{- end }}
-          {{- range $field := list "command" "args" "env" "envFrom" "resources" "securityContext" }}
+          {{- range $field := list "command" "args" "env" "envFrom" "resources" "securityContext" "volumeMounts" }}
           {{- with index $job $field }}
           {{ $field }}:
             {{- toYaml . | nindent 12 }}

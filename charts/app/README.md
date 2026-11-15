@@ -118,8 +118,9 @@ configmap:
 ExternalSecret and the Secret it writes. The app does not read these Secrets
 through `envFrom`, and they do not restart the Pods: use them for a Secret that
 another component reads, such as a Prometheus scrape token, or for a Secret in
-another namespace. `data` entries take the fields of `externalSecrets.data`, and
-`secretStoreRef` defaults to `externalSecrets.secretStoreRef`:
+another namespace. `data` entries take the fields of `externalSecrets.data`,
+`secretStoreRef` defaults to `externalSecrets.secretStoreRef`, and `target` adds
+ExternalSecret `spec.target` fields such as a template:
 
 ```yaml
 extraExternalSecrets:
@@ -157,7 +158,8 @@ the release namespace.
 `jobs` renders one Job per key, named `<fullname>-<key in kebab-case>`. The
 container runs the app image and the Pod uses the app `imagePullSecrets`, unless
 the Job sets `image` or `imagePullSecrets`. The Pod does not mount a
-ServiceAccount token, and `restartPolicy` defaults to `Never`. Argo CD hook
+ServiceAccount token, and `restartPolicy` defaults to `Never`. `volumes` and
+`volumeMounts` mount, for example, a ConfigMap with a script. Argo CD hook
 annotations make a Job run at each sync; `enabled: false` omits a Job:
 
 ```yaml

@@ -311,6 +311,7 @@ class AppTests(unittest.TestCase):
         docs = render({'extraExternalSecrets': {
             'test-metrics': {'data': [{'key': '/k8s/demo/metrics-token', 'name': 'token'}]},
             'test-db': {'namespace': 'database', 'refreshInterval': '15m',
+                        'target': {'creationPolicy': 'Merge', 'template': {'data': {'DSN': '{{ .password }}'}}},
                         'annotations': {'argocd.argoproj.io/sync-wave': '-2'},
                         'secretStoreRef': {'kind': 'SecretStore', 'name': 'local'},
                         'data': [{'key': '/k8s/demo/db', 'property': 'password', 'name': 'password'}]}}})
@@ -328,6 +329,9 @@ class AppTests(unittest.TestCase):
         self.assertEqual(db['metadata']['annotations'], {'argocd.argoproj.io/sync-wave': '-2'})
         self.assertEqual(db['spec']['refreshInterval'], '15m')
         self.assertEqual(db['spec']['secretStoreRef'], {'kind': 'SecretStore', 'name': 'local'})
+        # External Secrets, not Helm, renders the target template.
+        self.assertEqual(db['spec']['target'], {'name': 'test-db', 'creationPolicy': 'Merge',
+                                                'template': {'data': {'DSN': '{{ .password }}'}}})
         self.assertEqual(db['spec']['data'], [{'secretKey': 'password', 'remoteRef': {'key': '/k8s/demo/db', 'property': 'password'}}])
         # The app does not read these Secrets, so they do not restart its Pods.
         deployment = next(d for d in docs if d['kind'] == 'Deployment')
@@ -346,7 +350,9 @@ class AppTests(unittest.TestCase):
                                                 'resources': {'requests': {'cpu': '25m'}}},
                                 'bootstrap': {'namespace': 'database', 'image': 'postgres:18', 'imagePullSecrets': [],
                                               'restartPolicy': 'OnFailure', 'ttlSecondsAfterFinished': 3600,
-                                              'containerName': 'psql', 'command': ['sh', '-ec', 'true']},
+                                              'containerName': 'psql', 'command': ['sh', '-ec', 'true'],
+                                              'volumes': [{'name': 'scripts', 'configMap': {'name': 'bootstrap'}}],
+                                              'volumeMounts': [{'name': 'scripts', 'mountPath': '/scripts'}]},
                                 'skipped': {'enabled': False, 'command': ['true']}}})
         jobs = {d['metadata']['name']: d for d in docs if d['kind'] == 'Job'}
         self.assertEqual(set(jobs), {'test-app-schema-check', 'test-app-bootstrap'})
@@ -371,7 +377,10 @@ class AppTests(unittest.TestCase):
         self.assertNotIn('metadata', bootstrap['spec']['template'])
         self.assertNotIn('imagePullSecrets', spec)
         self.assertEqual(spec['restartPolicy'], 'OnFailure')
-        self.assertEqual(spec['containers'], [{'name': 'psql', 'image': 'postgres:18', 'command': ['sh', '-ec', 'true']}])
+        self.assertEqual(spec['volumes'], [{'name': 'scripts', 'configMap': {'name': 'bootstrap'}}])
+        self.assertEqual(spec['containers'], [{'name': 'psql', 'image': 'postgres:18', 'command': ['sh', '-ec', 'true'],
+                                               'volumeMounts': [{'name': 'scripts', 'mountPath': '/scripts'}]}])
+        self.assertNotIn('volumes', pod['spec'])
         with self.assertRaises(subprocess.CalledProcessError):
             render({'jobs': {'empty': {'image': 'busybox'}}})
 

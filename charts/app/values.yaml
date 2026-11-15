@@ -560,6 +560,7 @@ extraExternalSecrets: {}
   #   annotations: {}
   #   refreshInterval: 1h
   #   secretStoreRef: {} # Defaults to externalSecrets.secretStoreRef.
+  #   target: {} # ExternalSecret spec.target, such as a template. name and creationPolicy: Owner are set.
   #   data:
   #     - key: /k8s/common/my-app/metrics-token
   #       name: token
@@ -593,6 +594,8 @@ jobs: {}
   #   envFrom: []
   #   resources: {}
   #   securityContext: {}
+  #   volumes: [] # Pod volumes, such as a ConfigMap with a script.
+  #   volumeMounts: []
 
 # The release namespace as an object of this release, for a namespace that the
 # release owns: Argo CD deletes it with the Application, and everything in it.
