@@ -464,7 +464,7 @@ template delimiters with Helm template syntax.
 
 `checksum/external-secrets` hashes `externalSecrets.data` and `dataFrom`, so an added, removed or moved
 variable restarts the Pods. Helm never sees the values: a value rotated in the store reaches the Pods only on their
-next restart. Upgrading to 2.7.0 restarts once every Pod that uses `externalSecrets`, because the annotation is new.
+next restart.
 
 `serviceMonitor.endpoints` keeps all supplied Prometheus Operator endpoint
 fields, including authorization, TLS settings and relabeling.
