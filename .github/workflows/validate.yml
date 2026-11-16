@@ -1,0 +1,48 @@
+name: Validate app chart
+
+on:
+  pull_request:
+    paths: ['charts/app/**', 'tests/**', '.github/workflows/validate.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  app:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+      - uses: azure/setup-helm@v4
+        with:
+          version: v4.3.2
+      - name: Install test dependencies
+        run: |
+          python -m pip install PyYAML==6.0.3
+          helm repo add opspresso https://opspresso.github.io/helm-charts/
+          helm dependency build charts/app
+      - name: Render and validate chart contracts
+        run: |
+          helm lint charts/app --strict
+          python -m unittest discover -s tests
+      - name: Install kind with checksum verification
+        run: |
+          cd "$RUNNER_TEMP"
+          curl -fsSLO https://github.com/kubernetes-sigs/kind/releases/download/v0.33.0/kind-linux-amd64
+          curl -fsSLO https://github.com/kubernetes-sigs/kind/releases/download/v0.33.0/kind-linux-amd64.sha256sum
+          sha256sum -c kind-linux-amd64.sha256sum
+          chmod +x kind-linux-amd64
+          sudo mv kind-linux-amd64 /usr/local/bin/kind
+      - name: Verify StatefulSet lifecycle on Kubernetes
+        env:
+          KUBECONFIG: ${{ runner.temp }}/app-statefulset-kubeconfig
+        run: |
+          kind create cluster --name app-statefulset-test --image kindest/node:v1.37.0 --kubeconfig "$KUBECONFIG" --wait 120s
+          python tests/statefulset_lifecycle.py
+      - name: Remove test cluster
+        if: always()
+        run: kind delete cluster --name app-statefulset-test
