@@ -8,9 +8,9 @@ The context is the release context with .Values set to the workload settings.
 {{- fail (printf "routing.pathType accepts Prefix or Exact, not %q." $routing.pathType) -}}
 {{- end -}}
 {{- $docs := list -}}
-{{- $templates := list "configmap" "secret" "external-secrets" "serviceaccount" "rbac" "pvc" "service" "hpa" "pdb" "service-monitor" "ingress" "httproute" "gateway" "backendtlspolicy" "istio-gateway" "istio-virtual-service" "destinationrule" -}}
+{{- $templates := list "configmap" "secret" "external-secrets" "serviceaccount" "rbac" "pvc" "headless-service" "service" "hpa" "pdb" "service-monitor" "ingress" "httproute" "gateway" "backendtlspolicy" "istio-gateway" "istio-virtual-service" "destinationrule" -}}
 {{- if .Values.controller.enabled -}}
-{{- $templates = append $templates "deployment" -}}
+{{- $templates = append $templates "controller" -}}
 {{- end -}}
 {{- range $templates -}}
 {{- $doc := include (printf "app.%s" .) $ | trim -}}

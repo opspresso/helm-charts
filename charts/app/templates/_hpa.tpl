@@ -20,7 +20,7 @@ spec:
     kind: Rollout
     {{- else }}
     apiVersion: apps/v1
-    kind: Deployment
+    kind: {{ .Values.controller.kind }}
     {{- end }}
     name: {{ include "app.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}

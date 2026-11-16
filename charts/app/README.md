@@ -1,8 +1,8 @@
 # app
 
-![Version: v2.3.0](https://img.shields.io/badge/Version-v2.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 2.7.0](https://img.shields.io/badge/Version-2.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
-One application on Kubernetes: a Deployment or Argo Rollout with its Service,
+One application on Kubernetes: a Deployment, StatefulSet or Argo Rollout with its Service,
 routing, scaling, configuration and policies. Each worker of the same release
 accepts the same settings and renders its own objects.
 
@@ -29,7 +29,7 @@ main app or one entry in `workloads`.
 
 | Object | Enabled by |
 | --- | --- |
-| Deployment or Rollout | `controller.enabled` (default `true`), `controller.kind` |
+| Deployment, StatefulSet or Rollout | `controller.enabled` (default `true`), `controller.kind` |
 | Service | `service.enabled` (default `true`) |
 | ServiceAccount | `serviceAccount.create` or `irsa.enabled` |
 | ClusterRole and ClusterRoleBinding, or Role and RoleBinding | `rbac.create`, `rbac.namespaced` |
@@ -39,7 +39,8 @@ main app or one entry in `workloads`.
 | Istio Gateway and VirtualService, DestinationRule | `routing.istio`, `destinationRule` |
 | Ingress (deprecated) | `routing.ingress` |
 | HorizontalPodAutoscaler, PodDisruptionBudget | `autoscaling.enabled`, `pdb.enabled` |
-| PersistentVolumeClaim | `persistence.enabled` without `existingClaim` |
+| PersistentVolumeClaim | `persistence.enabled`, `mode: shared`, without `existingClaim` |
+| Headless Service | StatefulSet with `controller.statefulSet.headlessService.enabled` |
 | ServiceMonitor | `serviceMonitor.enabled` and the `monitoring.coreos.com/v1` API |
 
 The release renders these objects once:
@@ -58,6 +59,125 @@ The chart stops rendering with an error when values conflict. Examples:
 `BlueGreen` with a Deployment, autoscaling without metrics, a PDB with both
 budgets, `rbac.create` without a ServiceAccount, or two workloads with the
 same fullname or the same object.
+
+## StatefulSet
+
+Set `controller.kind: StatefulSet` for stable Pod ordinals and storage identity.
+The same Pod template powers all three controllers, including probes, sidecars,
+secrets, scheduling and worker settings. Deployment remains the default.
+Unsupported controller names fail validation instead of rendering a Deployment.
+
+```yaml
+controller:
+  kind: StatefulSet
+  statefulSet:
+    podManagementPolicy: OrderedReady
+    updateStrategy:
+      type: RollingUpdate
+replicaCount: 3
+persistence:
+  enabled: true
+  mode: perReplica
+  size: 20Gi
+  storageClassName: gp3
+  mountPath: /data
+```
+
+This creates one `data-<fullname>-<ordinal>` PVC per Pod. The claims survive
+scale-down and StatefulSet deletion by default. The application must implement
+its own replication: setting three replicas does not turn a single-node database
+into a cluster. Backups remain an application and storage responsibility.
+
+The client Service keeps its existing name. A separate `<fullname>-headless`
+Service governs Pod DNS. Set `headlessService.publishNotReadyAddresses: true`
+only when peer discovery must work before readiness. With `service.enabled: false`,
+the governing Service still provides DNS and has no ports. To use an existing
+headless Service, set `serviceName` and `headlessService.enabled: false`; the caller
+must maintain its selectors and namespace.
+
+### Storage contracts
+
+| Mode | Behavior |
+| --- | --- |
+| `persistence.mode: shared` (default) | Preserves the existing standalone PVC or `existingClaim` behavior. |
+| `persistence.mode: perReplica` | StatefulSet only. Creates the `data` claim template using the existing size, class, access modes and selector settings. Requires persistence enabled and no existingClaim. |
+| `controller.statefulSet.volumeClaimTemplates` | Additional structured Kubernetes PVC templates. Mount their names with `extraVolumeMounts`; do not add the same names to `extraVolumes`. |
+
+Shared ReadWriteOnce or ReadWriteOncePod storage must use a single StatefulSet
+replica. For multiple replicas use per-replica claims, or explicitly configure
+storage that supports shared access and an application that can safely use it.
+Existing claim access modes must match the values: Helm cannot inspect the claim
+when rendering offline.
+
+`persistentVolumeClaimRetentionPolicy` accepts `whenDeleted` and `whenScaled`,
+each `Retain` or `Delete`. Empty values use Kubernetes' Retain defaults. This policy
+applies only to claim templates. The chart rejects a retention policy when there
+are no claim templates; it cannot manage an existing or chart-owned standalone PVC. Explicit retention policy requires Kubernetes support (stable in 1.32).
+`Delete` can delete both claims and their backing volumes; opt in only deliberately.
+
+### Updates and migration
+
+StatefulSet uses `controller.statefulSet.updateStrategy`, not Deployment's
+`controller.strategy`. `RollingUpdate` supports a non-negative `partition`;
+`OnDelete` changes the template but requires an operator to delete Pods to apply it.
+Do not carry `Recreate`, `BlueGreen` or `Canary` overrides into a StatefulSet.
+HPA targets the StatefulSet and owns replicas when enabled. Scaling does not imply
+application-level rebalance or safe membership changes.
+
+Changing a controller kind is a migration, not a rolling Helm upgrade. Before
+moving a single-instance Deployment to StatefulSet with its current PVC:
+
+1. Back up the application and record the PVC name, UID and reclaim policy.
+2. Disable autoscaling, set `replicaCount: 0`, apply it and wait for every old Pod
+   to terminate. Confirm no writer still mounts the volume.
+3. Keep the release name, namespace, fullname and `persistence.mode: shared`.
+   Preserve the existing PVC ownership: keep a chart-created PVC chart-created;
+   keep `existingClaim` if it was already external. Change the controller kind,
+   remove Deployment strategy overrides and restore one replica.
+4. Verify the same PVC UID, stored data, readiness and client Service routing.
+   A rollback also requires stopping the current controller before starting the old one.
+
+Switching `shared` to `perReplica` does **not** migrate data. It removes the
+standalone PVC from Helm's manifest and can delete that PVC and its volume.
+Do not switch storage mode in place. Use a separately planned backup/restore or
+copy migration. StatefulSet `serviceName`, `podManagementPolicy` and claim-template
+changes are immutable in normal upgrades. Expanding a claim template is not a PVC
+resize procedure; resize existing claims through the storage provider's supported
+procedure and plan any controller recreation separately. Do not use force upgrade
+or forced Pod deletion to bypass these boundaries.
+
+### StatefulSet options
+
+| Key under `controller.statefulSet` | Default | Meaning |
+| --- | --- | --- |
+| `serviceName` | empty | Generated governing Service name; explicit name for an external Service. |
+| `headlessService.enabled` | `true` | Render the governing Service. |
+| `headlessService.publishNotReadyAddresses` | `false` | Publish peer addresses before readiness. |
+| `headlessService.annotations` | `{}` | Governing Service annotations. |
+| `podManagementPolicy` | `OrderedReady` | `OrderedReady` or `Parallel`. |
+| `minReadySeconds` | `0` | Time a ready Pod must remain available. |
+| `updateStrategy` | `{type: RollingUpdate}` | `RollingUpdate` with optional partition, or `OnDelete`. |
+| `persistentVolumeClaimRetentionPolicy` | `{}` | Optional `whenDeleted`/`whenScaled`; defaults retain data. |
+| `volumeClaimTemplates` | `[]` | Additional per-Pod claims with metadata.name and PVC spec. |
+
+## Validation
+
+```sh
+helm dependency build charts/app
+python -m unittest discover -s tests
+helm lint charts/app --strict
+```
+
+The live lifecycle test uses only a disposable kind cluster named
+`app-statefulset-test`. Pass its dedicated kubeconfig:
+
+```sh
+KUBECONFIG=/path/to/kind-config python tests/statefulset_lifecycle.py
+```
+
+It checks ordinal DNS, distinct PVCs, persistence after Pod replacement and
+scale-down, partitioned updates, OnDelete, uninstall retention and a stopped
+Deployment-to-StatefulSet migration. CI runs the same test on pull requests.
 
 ## HTTPRoute rules
 
@@ -344,7 +464,7 @@ template delimiters with Helm template syntax.
 
 `checksum/external-secrets` hashes `externalSecrets.data` and `dataFrom`, so an added, removed or moved
 variable restarts the Pods. Helm never sees the values: a value rotated in the store reaches the Pods only on their
-next restart. Upgrading to v2.3.0 restarts once every Pod that uses `externalSecrets`, because the annotation is new.
+next restart.
 
 `serviceMonitor.endpoints` keeps all supplied Prometheus Operator endpoint
 fields, including authorization, TLS settings and relabeling.
@@ -381,9 +501,9 @@ apply once per release.
 
 | Key | Default | Description |
 | --- | --- | --- |
-| `controller.enabled` | `true` | Set `false` to omit only the Deployment or Rollout of this workload. |
-| `controller.annotations` | `{}` | Annotations of the Deployment or Rollout object. |
-| `controller.kind` | `"Deployment"` | `Deployment` or `Rollout` (Argo Rollouts). |
+| `controller.enabled` | `true` | Set `false` to omit only the controller of this workload. |
+| `controller.annotations` | `{}` | Annotations of the controller object. |
+| `controller.kind` | `"Deployment"` | `Deployment`, `StatefulSet` or `Rollout` (Argo Rollouts). |
 | `controller.strategy.type` | `"RollingUpdate"` | `RollingUpdate`. `BlueGreen` and `Canary` require kind `Rollout`. |
 | `controller.strategy.rollingUpdate` | `{"maxSurge":"25%","maxUnavailable":0}` | Rolling update limits. A Rollout uses them as its canary limits. |
 | `controller.strategy.blueGreen` | `{"autoPromotionEnabled":true,"autoPromotionSeconds":60}` | Rollout blue-green settings. The Service is the active Service. |

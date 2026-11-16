@@ -1,4 +1,4 @@
-# Values of one application: a Deployment or Argo Rollout with its Service,
+# Values of one application: a Deployment, StatefulSet or Argo Rollout with its Service,
 # routing, scaling, configuration and policies.
 #
 # workloadDefaults holds the settings of one workload. The YAML merge below
@@ -22,15 +22,34 @@ workloadDefaults: &workloadDefaults
     # team: backend
     # environment: production
 
-  ## Controller (Deployment / Rollout)
+  ## Controller (Deployment / StatefulSet / Rollout)
   controller:
-    # Set false to omit only the Deployment or Rollout of this workload, for
+    # Set false to omit only the controller of this workload, for
     # example when a parent chart renders it.
     enabled: true
-    # Annotations of the Deployment or Rollout object, not of its Pods.
+    # Annotations of the controller object, not of its Pods.
     annotations: {}
       # argocd.argoproj.io/sync-wave: "1"
-    kind: Deployment # Deployment or Rollout
+    kind: Deployment # Deployment, StatefulSet or Rollout
+
+    # StatefulSet settings do not reuse Deployment/Rollout strategy fields.
+    statefulSet:
+      # Empty selects <fullname>-headless. Set headlessService.enabled=false
+      # only when this names an existing headless Service with matching selectors.
+      serviceName: ""
+      headlessService:
+        enabled: true
+        publishNotReadyAddresses: false
+        annotations: {}
+      podManagementPolicy: OrderedReady # OrderedReady or Parallel
+      minReadySeconds: 0
+      updateStrategy:
+        type: RollingUpdate # RollingUpdate or OnDelete
+        # rollingUpdate: {partition: 0}
+      # Empty uses Kubernetes' Retain/Retain default. Delete is opt-in.
+      persistentVolumeClaimRetentionPolicy: {}
+      # Additional per-Pod claims. Mount them through extraVolumeMounts.
+      volumeClaimTemplates: []
 
     strategy:
       type: RollingUpdate # RollingUpdate; BlueGreen or Canary need kind Rollout
@@ -259,6 +278,9 @@ workloadDefaults: &workloadDefaults
 
   ## Storage
   persistence:
+    # shared preserves the existing standalone/existing PVC contract.
+    # perReplica creates a StatefulSet data claim for each ordinal.
+    mode: shared # shared or perReplica
     enabled: false
     # storageClassName: default
     accessModes:

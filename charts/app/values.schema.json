@@ -1,0 +1,193 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "allOf": [
+    {
+      "$ref": "#/definitions/workload"
+    }
+  ],
+  "properties": {
+    "workloads": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/workload"
+      }
+    }
+  },
+  "definitions": {
+    "workload": {
+      "type": "object",
+      "properties": {
+        "controller": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "Deployment",
+                "Rollout",
+                "StatefulSet"
+              ]
+            },
+            "statefulSet": {
+              "$ref": "#/definitions/statefulSet"
+            }
+          }
+        },
+        "persistence": {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "enum": [
+                "shared",
+                "perReplica"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "statefulSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "serviceName": {
+          "type": "string"
+        },
+        "headlessService": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "publishNotReadyAddresses": {
+              "type": "boolean"
+            },
+            "annotations": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "podManagementPolicy": {
+          "enum": [
+            "OrderedReady",
+            "Parallel"
+          ]
+        },
+        "minReadySeconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "updateStrategy": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "enum": [
+                "RollingUpdate",
+                "OnDelete"
+              ]
+            },
+            "rollingUpdate": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "partition": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        },
+        "persistentVolumeClaimRetentionPolicy": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "whenDeleted": {
+              "enum": [
+                "Retain",
+                "Delete"
+              ]
+            },
+            "whenScaled": {
+              "enum": [
+                "Retain",
+                "Delete"
+              ]
+            }
+          }
+        },
+        "volumeClaimTemplates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "metadata",
+              "spec"
+            ],
+            "properties": {
+              "metadata": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+                    "maxLength": 63
+                  }
+                }
+              },
+              "spec": {
+                "type": "object",
+                "required": [
+                  "accessModes",
+                  "resources"
+                ],
+                "properties": {
+                  "accessModes": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "enum": [
+                        "ReadWriteOnce",
+                        "ReadOnlyMany",
+                        "ReadWriteMany",
+                        "ReadWriteOncePod"
+                      ]
+                    }
+                  },
+                  "resources": {
+                    "type": "object",
+                    "required": [
+                      "requests"
+                    ],
+                    "properties": {
+                      "requests": {
+                        "type": "object",
+                        "required": [
+                          "storage"
+                        ],
+                        "properties": {
+                          "storage": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
