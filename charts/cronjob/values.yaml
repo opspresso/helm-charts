@@ -119,7 +119,7 @@ externalSecrets:
   refreshInterval: 1h
   secretStoreRef:
     kind: ClusterSecretStore
-    name: parameter-store
+    name: secrets-manager
   data: []
     # - key: /k8s/common/demo
     #   name: admin-password

@@ -1,6 +1,6 @@
 # app
 
-![Version: 2.7.0](https://img.shields.io/badge/Version-2.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: 2.8.0](https://img.shields.io/badge/Version-2.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 One application on Kubernetes: a Deployment, StatefulSet or Argo Rollout with its Service,
 routing, scaling, configuration and policies. Each worker of the same release
@@ -227,12 +227,12 @@ externalSecrets:
     enabled: true
     provider:
       aws:
-        service: ParameterStore
+        service: SecretsManager
         region: ap-northeast-2
         role: '{{ .Values.secretsRoleArn }}'
   dataFrom:
     - find:
-        path: '{{ printf "/apps/%s" .Release.Namespace }}'
+        path: '{{ printf "/apps/%s/" .Release.Namespace }}'
         name:
           regexp: ".*"
       rewrite:
@@ -442,6 +442,20 @@ v2.0.0 changes these contracts:
 - The Istio VirtualService matches `routing.path`. `Prefix` matches whole path
   elements: `/api` matches `/api` and `/api/...`, not `/apix`.
 
+## Upgrade to v2.8.0
+
+v2.8.0 changes the default `externalSecrets.secretStoreRef` from the
+`parameter-store` ClusterSecretStore to `secrets-manager`.
+
+1. Before the upgrade, make sure each remote key exists in AWS Secrets Manager
+   under the same name, or set `externalSecrets.secretStoreRef` explicitly.
+2. After the upgrade, wait until the ExternalSecret is `Ready` with the new
+   store.
+3. Restart the workloads that read the Secret. The Pod checksum covers only
+   `externalSecrets.data` and `externalSecrets.dataFrom`, so a store change
+   alone does not restart running Pods, and they keep the values they loaded
+   from the earlier store.
+
 ## Other resources
 
 Use a chart setting when one exists: `networkPolicy`, `ecrPullSecret`,
@@ -557,7 +571,7 @@ apply once per release.
 | `externalSecrets.name` | `""` | ExternalSecret and target Secret name. Defaults to `<fullname>-external`. |
 | `externalSecrets.refreshInterval` | `"1h"` | Refresh interval. |
 | `externalSecrets.annotations` | `{}` | ExternalSecret annotations. Change `force-sync` to refresh the Secret immediately. |
-| `externalSecrets.secretStoreRef` | `{"kind":"ClusterSecretStore","name":"parameter-store"}` | Store to read when `secretStore.enabled` is `false`. |
+| `externalSecrets.secretStoreRef` | `{"kind":"ClusterSecretStore","name":"secrets-manager"}` | Store to read when `secretStore.enabled` is `false`. |
 | `externalSecrets.secretStore.enabled` | `false` | Renders a namespaced SecretStore and reads from it. |
 | `externalSecrets.secretStore.name` | `""` | SecretStore name. Defaults to the fullname. |
 | `externalSecrets.secretStore.provider` | `{}` | SecretStore `spec.provider`. Evaluated as a template. Required when enabled. |
