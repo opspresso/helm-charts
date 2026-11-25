@@ -205,7 +205,7 @@ class AppTests(unittest.TestCase):
         values = {'path': '/apps/demo', 'externalSecrets': {
             'enabled': True, 'name': 'app-env', 'optional': True, 'refreshInterval': '5m',
             'secretStore': {'enabled': True, 'name': 'tenant', 'provider': {
-                'aws': {'service': 'ParameterStore', 'region': '{{ .Values.region }}'}}},
+                'aws': {'service': 'SecretsManager', 'region': '{{ .Values.region }}'}}},
             'dataFrom': [{'find': {'path': '{{ .Values.path }}', 'name': {'regexp': '.*'}}}]}, 'region': 'us-east-1'}
         docs = render(values)
         store = next(d for d in docs if d['kind'] == 'SecretStore')
@@ -243,7 +243,7 @@ class AppTests(unittest.TestCase):
         self.assertNotIn('SecretStore', {d['kind'] for d in docs})
         secret = next(d for d in docs if d['kind'] == 'ExternalSecret')
         self.assertEqual(secret['metadata']['name'], 'test-app-external')
-        self.assertEqual(secret['spec']['secretStoreRef'], {'kind': 'ClusterSecretStore', 'name': 'parameter-store'})
+        self.assertEqual(secret['spec']['secretStoreRef'], {'kind': 'ClusterSecretStore', 'name': 'secrets-manager'})
         self.assertEqual(secret['spec']['data'], [{'remoteRef': {'key': '/k8s/demo'}, 'secretKey': 'TOKEN'}])
         container = next(d for d in docs if d['kind'] == 'Deployment')['spec']['template']['spec']['containers'][0]
         self.assertEqual(container['envFrom'], [{'secretRef': {'name': 'test-app-external'}}])
@@ -341,7 +341,7 @@ class AppTests(unittest.TestCase):
         self.assertEqual(metrics['metadata']['namespace'], 'default')
         self.assertNotIn('annotations', metrics['metadata'])
         self.assertEqual(metrics['spec'], {
-            'refreshInterval': '1h', 'secretStoreRef': {'kind': 'ClusterSecretStore', 'name': 'parameter-store'},
+            'refreshInterval': '1h', 'secretStoreRef': {'kind': 'ClusterSecretStore', 'name': 'secrets-manager'},
             'target': {'name': 'test-metrics', 'creationPolicy': 'Owner'},
             'data': [{'secretKey': 'token', 'remoteRef': {'key': '/k8s/demo/metrics-token'}},
                      # Digit-only references stay strings, as the ExternalSecret API requires.
@@ -499,7 +499,7 @@ class AppTests(unittest.TestCase):
     def test_external_secret_entries_roll_the_pods(self):
         def template(values):
             return next(d for d in render(values) if d['kind'] == 'Deployment')['spec']['template']
-        store = {'kind': 'ClusterSecretStore', 'name': 'parameter-store'}
+        store = {'kind': 'ClusterSecretStore', 'name': 'secrets-manager'}
         base = {'externalSecrets': {'enabled': True, 'secretStoreRef': store,
                                     'data': [{'key': '/app/db-url', 'name': 'DATABASE_URL'}]}}
         before = template(base)['metadata']['annotations']['checksum/external-secrets']

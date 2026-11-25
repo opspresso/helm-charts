@@ -213,7 +213,7 @@ workloadDefaults: &workloadDefaults
     annotations: {}
     secretStoreRef:
       kind: ClusterSecretStore
-      name: parameter-store
+      name: secrets-manager
     # A namespaced SecretStore owned by this release. When enabled, the
     # ExternalSecret reads from it and secretStoreRef is not used.
     secretStore:
@@ -223,7 +223,7 @@ workloadDefaults: &workloadDefaults
       # SecretStore spec.provider, evaluated as a Helm template.
       provider: {}
         # aws:
-        #   service: ParameterStore
+        #   service: SecretsManager
         #   region: ap-northeast-2
         #   role: arn:aws:iam::123456789012:role/my-app-secrets
     # One Secret key per remote value.

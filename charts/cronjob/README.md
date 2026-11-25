@@ -1,6 +1,6 @@
 # cronjob
 
-![Version: v1.1.2](https://img.shields.io/badge/Version-v1.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
+![Version: v1.2.0](https://img.shields.io/badge/Version-v1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: latest](https://img.shields.io/badge/AppVersion-latest-informational?style=flat-square)
 
 A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 
@@ -52,7 +52,7 @@ A Helm chart for Kubernetes CronJob and Argo Workflows CronWorkflow
 | externalSecrets.enabled | bool | `false` |  |
 | externalSecrets.refreshInterval | string | `"1h"` |  |
 | externalSecrets.secretStoreRef.kind | string | `"ClusterSecretStore"` |  |
-| externalSecrets.secretStoreRef.name | string | `"parameter-store"` |  |
+| externalSecrets.secretStoreRef.name | string | `"secrets-manager"` |  |
 | failedJobsHistoryLimit | int | `3` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"amazon/aws-cli"` |  |
