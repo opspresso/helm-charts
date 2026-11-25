@@ -442,6 +442,20 @@ v2.0.0 changes these contracts:
 - The Istio VirtualService matches `routing.path`. `Prefix` matches whole path
   elements: `/api` matches `/api` and `/api/...`, not `/apix`.
 
+## Upgrade to v2.8.0
+
+v2.8.0 changes the default `externalSecrets.secretStoreRef` from the
+`parameter-store` ClusterSecretStore to `secrets-manager`.
+
+1. Before the upgrade, make sure each remote key exists in AWS Secrets Manager
+   under the same name, or set `externalSecrets.secretStoreRef` explicitly.
+2. After the upgrade, wait until the ExternalSecret is `Ready` with the new
+   store.
+3. Restart the workloads that read the Secret. The Pod checksum covers only
+   `externalSecrets.data` and `externalSecrets.dataFrom`, so a store change
+   alone does not restart running Pods, and they keep the values they loaded
+   from the earlier store.
+
 ## Other resources
 
 Use a chart setting when one exists: `networkPolicy`, `ecrPullSecret`,
